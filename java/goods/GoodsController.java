@@ -214,15 +214,6 @@ public class GoodsController
 	@ResponseBody
 	public Map purchase(Model model,@RequestParam("checked") int[] value, @SessionAttribute(value = "uid", required = false) Integer uid)
 	{	
-		/*  데이터 검증용
-		System.out.println("value cnt : "+value.length);
-		for(int i=0;i<value.length;i++)
-		{
-			System.out.println("Ctl_purchase_codes : " + value[i]  );
-		}
-		System.out.println("Ctl_purchase_uid : " + uid  );
-		*/
-		
 		
 		int userno = uid;
 		boolean purchase = SVC.purchase(userno, value);
