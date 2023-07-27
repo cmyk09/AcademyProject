@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.ezen.goods.GoodsMgtSVC;
+import com.ezen.goods.GoodsVO;
+
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
