@@ -274,6 +274,7 @@
 			SELECT g.Goodsno, g.GoodsName, img.ImgFileFakeName1, GoodsSalePrice, GoodsPrice
  			FROM goods g left outer join goods_img_list img
    			on g.Goodsno = img.Goodsno
+   			where goodsStatus = 'S'
  			ORDER BY RAND() limit 8
 	</select>
 	
@@ -283,7 +284,7 @@
 			SELECT g.Goodsno, g.GoodsName, img.ImgFileFakeName1, GoodsSalePrice, GoodsPrice, g.GoodsRegistryDay
 			FROM goods g left outer join goods_img_list img
 			on g.Goodsno = img.Goodsno
-			where g.GoodsStatus = 'I'
+			where g.GoodsStatus = 'S'
 			  and g.GoodsName like #{keyword}
 			ORDER BY g.GoodsRegistryDay desc
 	</select>
@@ -294,7 +295,7 @@
 			SELECT g.Goodsno, g.GoodsName, img.ImgFileFakeName1, GoodsSalePrice, GoodsPrice, g.GoodsRegistryDay
 			  FROM (select * 
 					from goods
-					where GoodsStatus = 'I'
+					where GoodsStatus = 'S'
 					and categorycode in (  
 										select code_third
 										from goods_category_list
@@ -313,13 +314,25 @@
 	<select id="goodsList" 
 			parameterType="Integer"
 			resultType="Map">
-			select *
-			from (SELECT o.orderNo, o.memberNo, o.goodsNo, g.GoodsName, o.goodsSalePrice, o.goodsSaleQty, o.orderRegistryDay, o.orderStatus
-					FROM orderlist o left outer join goods g 
-					  on o.goodsNo = g.Goodsno
-					where o.sellerNo = #{sellerno}
-				) d left outer join member_main m
-			  on d.memberNo = m.mnum
+			SELECT * 
+			FROM goods 
+			where GoodsStatus in ('I', 'S', 'E')
+			  and SellerCode =  #{sellercode}
+			order by goodsno
 	</select>
+	
+	<update id="endSale"
+			parameterType="Integer">
+			UPDATE  goods
+			   SET  goodsStatus = 'E'
+	 		 WHERE  Goodsno = #{goodsNo}
+	</update>
+	
+	<update id="startSale"
+			parameterType="Integer">
+			UPDATE  goods
+			   SET  goodsStatus = 'S'
+	 		 WHERE  Goodsno = #{goodsNo}
+	</update>
 	
 </mapper>

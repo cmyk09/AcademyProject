@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="utf-8">
 <title>판매자 매니저 페이지</title>
@@ -42,29 +43,85 @@
         #clr {clear: left}
         
     </style>
-<script>
-function logout()
-{
-	location.href="/account/login";
-}
-</script>
-<script>
-        function collapse(element) {
-            var before = document.getElementsByClassName("active")[0]               // 기존에 활성화된 버튼
-            if (before && document.getElementsByClassName("active")[0] != element) {  // 자신 이외에 이미 활성화된 버튼이 있으면
-                before.nextElementSibling.style.maxHeight = null;   // 기존에 펼쳐진 내용 접고
-                before.classList.remove("active");                  // 버튼 비활성화
-            }
-            element.classList.toggle("active");         // 활성화 여부 toggle
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+	<script>
+	function logout()
+	{
+		location.href="/account/login";
+	}
+	</script>
+	<script>
+	        function collapse(element) {
+	            var before = document.getElementsByClassName("active")[0]               // 기존에 활성화된 버튼
+	            if (before && document.getElementsByClassName("active")[0] != element) {  // 자신 이외에 이미 활성화된 버튼이 있으면
+	                before.nextElementSibling.style.maxHeight = null;   // 기존에 펼쳐진 내용 접고
+	                before.classList.remove("active");                  // 버튼 비활성화
+	            }
+	            element.classList.toggle("active");         // 활성화 여부 toggle
+	
+	            var content = element.nextElementSibling;
+	            if (content.style.maxHeight != 0) {         // 버튼 다음 요소가 펼쳐져 있으면
+	                content.style.maxHeight = null;         // 접기
+	            } else {
+	                content.style.maxHeight = content.scrollHeight + "px";  // 접혀있는 경우 펼치기
+	            }
+	        }
+	</script>
 
-            var content = element.nextElementSibling;
-            if (content.style.maxHeight != 0) {         // 버튼 다음 요소가 펼쳐져 있으면
-                content.style.maxHeight = null;         // 접기
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";  // 접혀있는 경우 펼치기
-            }
-        }
-</script>
+	<script type="text/javascript">
+		function endSale(goodsno, sellerno)
+		{
+			if (!confirm("상품 판매를 중단 하시겠습니까?")) return;		
+			
+			$.ajax({ 
+				url : '/ezen/goods/endSale',
+				method  :'post',     // get , post
+				data    : {'goodsno' : goodsno},		
+				cache   : false,      //브라우저가 지금 내용은 기억하지 말라고 하는 명령
+				dataType:'json',  // text, json, html, xml
+				success:function(res)
+				{
+					alert(res.endSale ? "변경 성공" : "변경 실패");
+					location.href = "/ezen/goods/goodsList/" + sellerno;					
+				},
+				 error:function(xhr, status, err )
+				 {
+					 alert('에러:'+ status+'/'+ err);
+				 }
+			});
+			
+			
+		}
+		
+		function startSale(goodsno, sellerno)
+		{
+			if (!confirm("상품 판매를 재개 하시겠습니까?")) return;		
+			
+			$.ajax({ 
+				url : '/ezen/goods/startSale',
+				method  :'post',     // get , post
+				data    : {'goodsno' : goodsno},		
+				cache   : false,      //브라우저가 지금 내용은 기억하지 말라고 하는 명령
+				dataType:'json',  // text, json, html, xml
+				success:function(res)
+				{
+					alert(res.startSale ? "변경 성공" : "변경 실패");
+					location.href = "/ezen/goods/goodsList/" + sellerno;					
+				},
+				 error:function(xhr, status, err )
+				 {
+					 alert('에러:'+ status+'/'+ err);
+				 }
+			});
+		}
+		
+		function updateGoods(goodsno, sellerno)
+		{
+			if (!confirm("상품정보 수정를 수정 하시겠습니까?")) return;
+			
+			location.href="/ezen/goods/updateGoodsForm/" + goodsno + "/" + sellerno;
+		}
+	</script>
 </head>
 <body>
 <main>
@@ -76,7 +133,7 @@ function logout()
 		<h6><button type="button" onclick="logout()">로그아웃</button></h6>
 		<button type="button" class="collapsible" onclick="collapse(this);">상품관리</button>
 	    <div class="content">
-	        <p><a th:href="@{'/ezen/goods/goodsOrderList/' + ${sellernum}}">상품 목록/수정</a></p>
+	        <p><a th:href="@{'/ezen/goods/goodsList/' + ${sellernum}}">상품 목록/수정</a></p>
 	        <p><a th:href="@{'/ezen/goods/addGoodsForm/' + ${sellernum}}">상품 등록</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">주문관리</button>
@@ -108,17 +165,24 @@ function logout()
 			<h3>등록된 상품 리스트</h3>
 			<table>
 				<tr>
-					<th>오더번호</th><th>상품명</th><th>수량</th><th>금액</th><th>구매일</th><th>상태</th>
+					<th>상품번호</th><th>상품명</th><th>재고수량</th><th>판매단가</th><th>등록일</th><th colspan="3">상태</th>
 				</tr>
 				
-				<span th:each="order : ${orderList}">
+				<span th:each="goods : ${goodsList}">
 					<tr>
-						<td th:text="${order.orderNo}"></td>
-						<td th:text="${order.GoodsName}"></td>
-						<td th:text="${order.goodsSaleQty}"></td>
-						<td th:text="${order.goodsSalePrice}"></td>
-						<td th:text="${order.orderRegistryDay}"></td>
-						<td th:text="${order.orderStatus}"></td>
+						<td th:text="${goods.Goodsno}"></td>
+						<td th:text="${goods.GoodsName}"></td>
+						<td th:text="${goods.GoodsSaleQty}"></td>
+						<td th:text="${goods.GoodsSalePrice}"></td>
+						<td th:text="${goods.GoodsRegistryDay}"></td>
+						
+											
+						<span th:switch="${goods.GoodsStatus}">
+						    <span th:case="I"><td>상품승인심사중<td><td></td></span>
+						    <span th:case="S"><td>상품판매</td><td><button type="button" th:onclick="'endSale('+${goods.Goodsno} + ','+ ${sellernum} + ');'">판매중지</button></td>   <td><button type="button" th:onclick="'updateGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">상품정보수정</button></td></span>
+						    <span th:case="E"><td>판매중지</td><td><button type="button" th:onclick="'startSale('+${goods.Goodsno} + ',' + ${sellernum} + ');'">판매시작</button></td><td><button type="button" th:onclick="'updateGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">상품정보수정</button></td></span>
+						</span>
+											
 					</tr>
 				</span>
 						

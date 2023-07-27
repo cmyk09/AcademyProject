@@ -146,4 +146,14 @@ public class GoodsMgtDAO
 		return mapper.goodsList(sellernum);
 	}
 
+	public boolean endSale(int goodsno) 
+	{
+		return mapper.endSale(goodsno) ;
+	}
+
+	public boolean startSale(int goodsno) 
+	{
+		return mapper.startSale(goodsno);
+	}
+
 }

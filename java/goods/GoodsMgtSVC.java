@@ -486,4 +486,14 @@ public class GoodsMgtSVC
 		return DAO.goodsList(sellernum);
 	}
 
+	public boolean endSale(int goodsno) 
+	{
+		return DAO.endSale(goodsno);
+	}
+
+	public boolean startSale(int goodsno) 
+	{
+		return DAO.startSale( goodsno) ;
+	}
+
 }

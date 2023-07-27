@@ -57,4 +57,8 @@ public interface GoodsMgtMapper
 
 	List<Map> goodsList(int sellernum);
 
+	boolean endSale(int goodsno);
+
+	boolean startSale(int goodsno);
+
 }

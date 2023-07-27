@@ -9,8 +9,8 @@
 	<meta charset="utf-8">
 	<title>Insert title here</title>	
 	<style type="text/css">
-
-		header { height: 100px; border: 1px solid black;}
+		#header { height: 100px; border: 1px solid black;}
+		
 		footer {
 		  position: fixed;
 		  bottom: 0;
@@ -176,9 +176,8 @@
 
 	<main>
 	
-	<header>
-
-	 	header
+	<div id="hearder">
+	
 	 	    <div> 
 	 	    	[<a href="/ezen/goods/main">main</a>]
 	 	    </div>
@@ -295,8 +294,7 @@
 
 			</div>
 
-	 	</header>
-	 	
+	 	</div>
 	 	<div id="main">
 	 		
 	 	 	

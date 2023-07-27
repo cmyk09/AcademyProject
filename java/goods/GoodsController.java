@@ -145,16 +145,16 @@ public class GoodsController
 	}
 	
 	// 상품 업데이트 폼 호출
-	@GetMapping("/updateGoodsForm/{goodsno}")
-	public String updateGoodsForm(Model model, @PathVariable int goodsno)
+	@GetMapping("/updateGoodsForm/{goodsno}/{sellerno}")
+	public String updateGoodsForm(Model model, @PathVariable("goodsno") int goodsno , @PathVariable("sellerno") int sellernum)
 	{
-		//System.out.println("userid" + model.getAttribute("userid"));
 		Map map = SVC.updateGoodsForm(goodsno);
 		List<Map> list1 = SVC.getGoodsCategoryList1();	
 			
 		System.out.println("업데이트 폼 로드 : "+ map);
 		model.addAttribute("map", map);
 		model.addAttribute("list1", list1);
+		model.addAttribute("sellernum", sellernum);
 		return "ezen/goods/updateGoodsForm";
 	}
 	
@@ -179,7 +179,7 @@ public class GoodsController
 		return map;
 	}
 	 
-	// 상품 업데이트 폼의 업데이트 버튼 클릭시
+	// 상품 업데이트 폼의 파일삭제 버튼 클릭시
 	@PostMapping("/deleteGoodsImg")
 	@ResponseBody
 	public Map deleteGoodsImg(Model model,
@@ -282,6 +282,35 @@ public class GoodsController
 		System.out.println("Ctl_goodsList_goods" +goodsList);
 		model.addAttribute("goodsList", goodsList);
 		return "ezen/goods/goodsList";
+	}
+	
+	// 상품 리스트에서 판매중지 클릭
+	@PostMapping("/endSale")
+	@ResponseBody
+	public Map endSale(Model model,@RequestParam("goodsno") int goodsno, 
+			@SessionAttribute(value = "sellerno", required = false) Integer sellerno,
+			@SessionAttribute(value = "uid", required = false) Integer uid)
+	{	
+		boolean endSale = SVC.endSale(goodsno);
+		
+		Map map = new HashMap<>();
+		map.put("endSale", endSale);
+		return map;
+	}
+	
+	// 상품 리스트에서 판매 재개 클릭
+	@PostMapping("/startSale")
+	@ResponseBody
+	public Map startSale(Model model,@RequestParam("goodsno") int goodsno, 
+			@SessionAttribute(value = "sellerno", required = false) Integer sellerno,
+			@SessionAttribute(value = "uid", required = false) Integer uid)
+	{	
+		
+		boolean startSale = SVC.startSale(goodsno);
+		
+		Map map = new HashMap<>();
+		map.put("startSale", startSale);
+		return map;
 	}
 }
 

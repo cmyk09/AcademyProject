@@ -10,7 +10,7 @@
 	<title>Insert title here</title>	
 	<style type="text/css">
 
-		header {height: 100px; background-color: yellow;}
+		#header {height: 100px; background-color: yellow;}
 		footer {height: 100px; background-color: blue;}
 		#icon {text-align: right;}
 		#info {height: 100px; text-align: right;}
@@ -201,8 +201,7 @@
 
 	<main>
 	
-	<header>
-
+	<div id="hearder">
 	 	header
 	 	    <div> 
 	 	    	[<a href="/ezen/goods/main">main</a>]
@@ -322,7 +321,7 @@
 
 			</div>
 
-	 	</header>
+	 	</div>
 	 	
 	 	<div id="main">
 	 		
