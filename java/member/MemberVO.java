@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(exclude = {"mnum", "mname", "memail", "mphone", "maddress", "mstatus"})
+@EqualsAndHashCode(exclude = {"memail", "maddress", "mstatus"})
 public class MemberVO 
 {
 	private int mnum;

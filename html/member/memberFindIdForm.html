@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>아이디 찾기</title>
+<style type="text/css">
+/* Reset some default browser styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+/* Apply styles to the main container */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+#content {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 100px;
+  
+  display: flex; flex-direction: column;
+  align-items: center;
+}
+/* Header styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 98%;
+  height: 100px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  padding-right: 20px;
+}
+/* Content styles */
+h2 {
+  margin-top: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+  padding-left: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  
+  display: inline-block;
+  text-align: right;
+  width: 30%;
+}
+
+input {
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  
+  display: inline-block;
+  width: 65%;
+}
+
+button[type="reset"] { 
+  margin-right: 10px; background-color: gray; color: white; width: 60px;
+  padding: 10px; border: none; border-radius: 5px; cursor: pointer;
+  transition: background-color .3s ease-in-out; }
+button[type="submit"] { 
+  background-color: gray; color: white;
+  padding: 10px; border: none; border-radius: 5px; cursor: pointer;
+  transition: background-color .3s ease-in-out; }
+button[type="reset"]:hover { background-color: darkgray; }
+button[type="submit"]:hover { background-color: darkgray; }
+
+#btnDiv {
+  margin-top: 10px;
+}
+/* Footer styles */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 98%;
+  padding: 10px;
+  height: 50px;
+  background-color: #f0f0f0;
+  border-top: 1px solid #ccc; 
+}
+/* Clear styles */
+#clr { clear: both; }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function findId() 
+{
+	var formdata = $('#findIdForm').serialize();
+	
+	$.ajax({
+		url:'/ezen/member/findId',
+		data:formdata,
+		method:'post',
+		cache:false,
+		dataType:'json',
+		success:function(res){
+			if(res.mid) {
+				alert('검색된 아이디 = '+ res.mid);
+				location.href="/ezen/member/loginForm";
+			} else {
+				alert('검색된 아이디 없음');
+			}
+		},
+		error:function(xhr,status,err){
+			alert(status +'/'+err);
+		}
+	});
+	return false;
+}
+
+function goHome()
+{
+	location.href="/ezen/goods/main";
+}
+</script>
+</head>
+<body>
+<main>
+	<header>
+			header
+			<div> 
+	 		|<a href="/ezen/goods/main">홈페이지</a>|
+	 		</div>
+	</header>
+	<div id="content">
+	<h2>아이디 찾기</h2>
+		<form id="findIdForm" onsubmit="return findId();">
+	
+			<div>
+				<label for="mname">이름</label>
+				<input type="text" name="mname" id="mname" placeholder="이름 입력">
+			</div>
+			<div>
+				<label for="mphone">전화번호</label>
+				<input type="text" name="mphone" id="mphone" placeholder="전화번호 입력">
+			</div>
+			<div id="btnDiv" style="display: flex; justify-content: flex-start;">
+				<button type="reset" style="margin-left: 4rem; margin-right: 0.7rem;" onclick="return goHome();">취소</button>
+				<button type="submit">아이디 찾기</button>
+			</div>
+			
+			<div>
+			<br>
+			[<a href="/ezen/member/findIdForm">아이디 찾기</a>]
+			[<a href="#">비밀번호 찾기</a>]
+			</div>
+		</form>
+	</div>
+	<br>
+	<div id="clr"></div>
+	<footer>
+			footer
+	</footer>
+</main>
+</body>
+</html>

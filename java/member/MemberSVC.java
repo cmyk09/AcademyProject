@@ -99,5 +99,20 @@ public class MemberSVC
 		return memberDao.updateStatus(member);
 	}
 
+	public String findId(MemberVO member) 
+	{
+		String mname = member.getMname();
+		String mphone = member.getMphone();
+		
+		MemberVO mem = memberDao.findId(mname, mphone);
+		
+		
+		
+		//int mnum = mem.getMnum();
+		String mid = mem.getMid();
+		
+		return mid;
+	}
+
 	
 }

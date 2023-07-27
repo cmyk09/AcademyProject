@@ -4,48 +4,18 @@
 <meta charset="utf-8">
 <title>회원 로그인</title>
 <style type="text/css">
-/* Reset some default browser styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background-color: #fff;
+#cc {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
 }
-/* Apply styles to the main container */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-}
-#content {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-top: 100px;
-  
-  display: flex; flex-direction: column;
-  align-items: center;
-}
-/* Header styles */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 98%;
-  height: 100px;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border-bottom: 1px solid #ccc;
-  padding-right: 20px;
-}
-/* Content styles */
-h2 {
-  margin-top: 5px;
-  margin-bottom: 20px;
-  text-align: center;
-  padding-left: 15px;
+.container {
+	max-width: 350px;
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+	display: flex; flex-direction: column;
 }
 
 label {
@@ -57,30 +27,55 @@ label {
   width: 30%;
 }
 
-input {
-  padding: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  
-  display: inline-block;
-  width: 65%;
+.tabs {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	border-bottom: 1px solid #ccc;
+	display: flex;
+	justify-content: center;
+}
+.tab-link {
+	margin-right: 10px;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #666;
+	border: none;
+	cursor: pointer;
+	transition: 0.3s;
+}
+.tab-link.current {
+	color: #000;
+	border-bottom: 2px solid #000;
+}
+.tab-content {
+	display: none;
+	padding: 20px;
+	background-color: #f5f5f5;
+	border: 1px solid #ccc;
+	width: 100%;
+	box-sizing: border-box;
+}
+.tab-content.current {
+	display: block;
 }
 
-button[type="reset"] { 
-  margin-right: 10px; background-color: gray; color: white; width: 60px;
-  padding: 10px; border: none; border-radius: 5px; cursor: pointer;
-  transition: background-color .3s ease-in-out; }
-button[type="submit"] { 
-  background-color: gray; color: white;
-  padding: 10px; border: none; border-radius: 5px; cursor: pointer;
-  transition: background-color .3s ease-in-out; }
-button[type="reset"]:hover { background-color: darkgray; }
-button[type="submit"]:hover { background-color: darkgray; }
+button { margin-top: 10px; }
 
-#btnDiv {
-  margin-top: 10px;
-}
+
+/* Header styles */
+ header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 98%;
+  height: 100px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  padding-right: 20px;
+} 
 /* Footer styles */
 footer {
   position: fixed;
@@ -90,12 +85,29 @@ footer {
   height: 50px;
   background-color: #f0f0f0;
   border-top: 1px solid #ccc; 
-}
+} 
 /* Clear styles */
 #clr { clear: both; }
 </style>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$('ul.tabs li').click(function(){
+			var tab_id = $(this).attr('data-tab');
+
+			$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+
+			$(this).addClass('current');
+			$("#"+tab_id).addClass('current');
+		})
+
+	});
+</script>
+
 <script type="text/javascript">
 function login() 
 {
@@ -133,28 +145,68 @@ function goHome()
 	<header>
 			header
 			<div> 
-	 		[<a href="/ezen/goods/main">main</a>]
+	 		|<a href="/ezen/goods/main">홈페이지</a>|
 	 		</div>
 	</header>
-	<div id="content">
-	<h2>회원 로그인</h2>
-		<form id="loginForm" onsubmit="return login();">
 	
-			<div>
-				<label for="mid">아이디</label>
-				<input type="text" name="mid" id="mid" placeholder="아이디 입력">
-			</div>
-			<div>
-				<label for="mpwd">비밀번호</label>
-				<input type="password" name="mpwd" id="mpwd" placeholder="비밀번호 입력">
-			</div>
-			<div id="btnDiv" style="display: flex; justify-content: flex-start;">
-				<button type="reset" style="margin-left: 4rem; margin-right: 0.7rem;" onclick="return goHome();">취소</button>
-				<button type="submit">로그인</button>
-			</div>
-		</form>
+	<div id="cc">
+	<div class="container">
+		<ul class="tabs">
+			<li class="tab-link current" data-tab="tab-1">회원(구매자)</li>
+			<li class="tab-link" data-tab="tab-2">판매자</li>
+		</ul>
+		
+		<div id="tab-1" class="tab-content current">
+			<h2>회원 로그인</h2>
+				<form id="loginForm" onsubmit="return login();">
+			
+					<div>
+						<label for="mid">아이디</label>
+						<input type="text" name="mid" id="mid" placeholder="아이디 입력">
+					</div>
+					<div>
+						<label for="mpwd">비밀번호</label>
+						<input type="password" name="mpwd" id="mpwd" placeholder="비밀번호 입력">
+					</div>
+					<div id="btnDiv" style="display: flex; justify-content: flex-start;">
+						<button type="reset" style="margin-left: 4rem; margin-right: 0.7rem;" onclick="return goHome();">취소</button>
+						<button type="submit">로그인</button>
+					</div>
+					
+					<div>
+					<br>
+					[<a href="/ezen/member/findIdForm">아이디 찾기</a>]
+					[<a href="#">비밀번호 찾기</a>]
+					</div>
+				</form>
+		</div>
+		<div id="tab-2" class="tab-content">
+			<h2>판매자 로그인</h2>
+				<form id="loginForm" onsubmit="return login();">
+			
+					<div>
+						<label for="mid">아이디</label>
+						<input type="text" name="mid" id="mid" placeholder="아이디 입력">
+					</div>
+					<div>
+						<label for="mpwd">비밀번호</label>
+						<input type="password" name="mpwd" id="mpwd" placeholder="비밀번호 입력">
+					</div>
+					<div id="btnDiv" style="display: flex; justify-content: flex-start;">
+						<button type="reset" style="margin-left: 4rem; margin-right: 0.7rem;" onclick="return goHome();">취소</button>
+						<button type="submit">로그인</button>
+					</div>
+					
+					<div>
+					<br>
+					[<a href="/ezen/member/findIdForm">아이디 찾기</a>]
+					[<a href="#">비밀번호 찾기</a>]
+					</div>
+				</form>
+		</div>
 	</div>
-	<br>
+	</div>
+	
 	<div id="clr"></div>
 	<footer>
 			footer

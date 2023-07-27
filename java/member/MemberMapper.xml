@@ -34,4 +34,8 @@
 		UPDATE member_main SET mstatus=#{mstatus} WHERE mid=#{mid}
 	</update>
 	
+	<select id="findId" parameterType="String" resultType="com.ezen.member.MemberVO" >
+		SELECT mnum, mid FROM member_main WHERE mname=#{mname} AND mphone=#{mphone}
+	</select>
+	
 </mapper>

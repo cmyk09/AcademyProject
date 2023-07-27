@@ -220,4 +220,23 @@ public class MemberController
 		return map;
 	}
 	
+	@GetMapping("/findIdForm")
+	public String findIdForm()
+	{
+		return "ezen/member/memberFindIdForm";
+	}
+	
+	
+	@PostMapping("/findId")
+	@ResponseBody
+	public Map findId(MemberVO member)
+	{
+		Map map = new HashMap<>();
+		String mid = memberSvc.findId(member);
+		map.put("mid", mid);
+		System.out.println("아이디="+mid);
+		return map;
+	}
+	
+	
 }
