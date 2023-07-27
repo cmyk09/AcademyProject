@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>내정보 보기</title>
+<style type="text/css">
+/* Header styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 98%;
+  height: 100px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  padding-right: 20px;
+}
+/* Footer styles */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 98%;
+  padding: 10px;
+  height: 50px;
+  background-color: #f0f0f0;
+  border-top: 1px solid #ccc; 
+}
+/* Clear styles */
+#clr { clear: both; }
+
+aside {width: 200px; float: left; padding-top: 100px; padding-left: 30px;}	
+
+.content { padding: 20px; margin: 0; }
+
+h3 { font-size: 1.5rem; margin-bottom: 10px; }
+
+table { width: 80%; border-collapse: collapse; margin: 20px 0; 
+		border: 1px solid #ddd; border-radius: 5px; 
+		box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.3); }
+
+th { font-weight: bold; width: 20%; padding: 10px;
+  		text-align: left; border-bottom: 1px solid #ddd; }
+
+td { padding: 10px; border-bottom: 1px solid #ddd; }
+
+tr:nth-child(even) { background-color: #f2f2f2; }
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function mlogout()
+{
+	if(!confirm('로그아웃하시겠습니까?')) return;
+	
+	$.ajax({
+		url:'/ezen/member/logout',
+		method:'get',
+		cache:false,
+		dataType:'json',
+		success:function(res){
+			if(res.isLogout) {
+				alert('로그아웃 성공');
+				location.href="/ezen/goods/main";
+			}
+		},
+		error:function(xhr,status,err){
+			alert(status +'/'+err);
+		}
+	});
+	return false;
+}
+</script>
+</head>
+<body>
+<main>
+	<header>
+			header
+			<div> 
+	 		|<a href="/ezen/goods/main">홈페이지</a>|
+	 		<br>
+			|<a href="/ezen/member/memberInfo">[[${uid}]] 고객님</a>|<a href="javascript:mlogout()">로그아웃</a>
+	 		</div>
+	</header>
+	
+	<aside>
+			<a href="/ezen/member/updateForm">내정보 수정</a><br>
+			<a href="/ezen/member/pwdCheckForm">비밀번호 변경</a><br>
+				<br>
+			<a th:href="@{'/ezen/goods/orderList/'+${uid}}">주문정보</a><br>
+			<a th:href="@{'/ezen/goods/cartList/'+${uid}}">장바구니</a><br>
+				<br>		
+			찜리스트<br>
+			1:1문의<br>
+				<br>
+			<a href="/ezen/member/mWithdrawForm">회원탈퇴</a>
+	</aside>
+	
+	<div class="content">
+	<h3>내정보 보기</h3>
+		<table>
+			<tr><th>아이디</th><td colspan="5" th:text="${member.mid}"></td></tr>
+			<tr><th>비밀번호</th><td colspan="5"><a href="/ezen/member/pwdCheckForm">비밀번호 변경</a></td></tr>
+			<tr><th>이름</th><td colspan="5" th:text="${member.mname}"></td></tr>
+			<tr><th>이메일</th><td colspan="5" th:text="${member.memail}"></td></tr>
+			<tr><th>전화번호</th><td colspan="5" th:text="${member.mphone}"></td></tr>
+			<tr><th>주소</th><td colspan="5" th:text="${member.maddress}"></td></tr>
+			
+			<tr><th></th><td></td></tr>
+		</table>
+	</div>
+	<div id="clr"></div>
+	<footer>
+			footer
+	</footer>
+</main>
+</body>
+</html>

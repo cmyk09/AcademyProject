@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ezen.account.AccountMapper">
+
+	<select id="loginMap" parameterType="com.ezen.account.Seller" resultType="com.ezen.account.Seller">
+	    SELECT adminId, adminpass 
+	    FROM seller 
+	    WHERE adminId = #{adminId} AND adminpass = #{adminpass}
+	</select>
+	
+	<insert id="signinMap" parameterType="com.ezen.account.Seller">
+		INSERT INTO SELLER VALUES(NULL, #{officeName}, #{sellerName}, #{offRegiNum}, #{officeAdd}, #{busnessNum}, #{busnessOcc}, #{busnessCate}, #{officeEmail}, #{officePhone}, #{officeFax}, #{adminId}, #{adminpass}, #{sellerNick}, #{picName}, #{picEmail}, #{pictel}, #{picphone}, #{csPhone}, #{bankName}, #{accountholder}, #{accountadd})
+	</insert>
+	
+	<select id="idDuplicate" parameterType="String" resultType="com.ezen.account.Seller" >
+		SELECT * FROM seller WHERE adminid=#{adminid}
+	</select>
+</mapper>

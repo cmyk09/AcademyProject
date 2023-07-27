@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>구매 내역</title>
+	<style type="text/css">
+		header {height: 100px; border: 1px solid black;}
+		aside {width: 200px; float: left;}	
+		#clr {clear: left;}
+		footer {height: 100px; background-color: green;}
+		
+	</style>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		function mlogout()
+		{
+			if(!confirm('로그아웃하시겠습니까?')) return;
+			
+			$.ajax({
+				url:'/ezen/member/logout',
+				method:'get',
+				cache:false,
+				dataType:'json',
+				success:function(res){
+					if(res.isLogout) {
+						alert('로그아웃 성공');
+						location.href="/ezen/member/index";
+					}
+				},
+				error:function(xhr,status,err){
+					alert(status +'/'+err);
+				}
+			});
+			return false;
+		}
+		
+	</script>	
+</head>
+<body>
+<div><p><a href="/ezen/goods/">index</a></div>
+	<main>
+		<h3>구매내역</h3>
+		
+		<div>
+		<header>
+		header
+		<div> 
+	 	    	[<a href="/ezen/goods/main">main</a>]
+	 	</div>
+	 		<div id="info">
+				[[${uid}]]
+
+						|<a href="/ezen/member/memberInfo">홍길동님</a>|<a href="javascript:mlogout()">로그아웃</a>|<a href="javascript:test();">고객센터</a>|	
+
+	 			
+
+	 			
+
+	 		</div>
+		</header>
+		
+		<aside>
+			<ul>
+				<li><a href="/ezen/member/loginForm">로그인</a>/<a href="javascript:mlogout()">로그아웃</a></li>
+				<li><a href="/ezen/member/signup">회원가입</a></li>
+				<li><a href="/ezen/member/memberInfo">MyPage</a></li>
+					<ul>
+						<li><a th:href="@{'/ezen/goods/orderList/'+${uid}}">주문정보</li>
+						<li><a href="/ezen/member/updateForm">내정보수정</a></li>
+						<li><a href="/ezen/member/pwdCheckForm">비밀번호 변경</a></li>
+						<li>찜리스트</li>
+						<li>1:1문의</li>
+						<li><a href="/ezen/member/mWithdrawForm">회원탈퇴</a></li>
+					</ul>
+				<li><a th:href="@{'/ezen/goods/cartList/'+${uid}}">장바구니</a></li>
+				
+			</ul>
+		</aside>
+		
+		<div id="content">
+		
+			<form id="formdata" action="" >
+				<table>
+					<tr>
+						<th>주문일</th><th>상품명</th><th>상품가격</th><th>수량</th><th>금액</th><th>상태</th>
+					</tr>
+					<span th:each="order : ${orderList}">
+						<tr>
+							<td th:text="${order.orderRegistryDay}"></td>
+							<td th:text="${order.GoodsName}"></td>
+							<td><input type="text" th:value="${order.goodsSalePrice}"> </td>
+							<td><input type="number" id="goodsSaleQty" name="goodsSaleQty" th:value="${order.goodsSaleQty}">
+							</td>
+							<td th:text="${order.goodsSalePrice} * ${order.goodsSaleQty}"></td>
+							<td th:text="${order.OrderStatus}"></td>
+						</tr>
+					</span>
+					
+				</table>
+
+			</form>
+		</div>
+		
+		<div id="clr"></div>
+		<footer>
+		footer
+		</footer>
+		
+	</main>
+</body>
+</html>

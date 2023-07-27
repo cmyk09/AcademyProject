@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>판매자 로그인 폼</title>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function login()
+{
+	var formdata = $('#loginForm').serialize();
+	$.ajax({
+		url:'/account/login',
+		method: 'post',
+		data: formdata,
+		cache: false,
+		dataType: 'json',
+		success: function (res) {
+			alert(res.logined==2 ? '로그인 성공.':'로그인 실패.');
+			if(res.logined==2) location.href='/sellerManager/';
+		},
+		error:function(xhr,status,err){
+			alert('에러:' + err);
+		}
+	});
+    return false;
+ }
+</script>
+<script>
+function backToPage()
+{
+	location.href="/account/"
+}
+</script>
+</head>
+<body>
+<main>
+	<h3>로그인</h3>
+	<form id="loginForm" action="login" method="post" onsubmit="return login();">
+		<div>
+			<label for="adminId">사업자 ID</label>
+			<input type="text" id="adminId" name="adminId" required>
+		</div>
+		<div>
+			<label for="adminpass">사업자 비밀번호</label>
+			<input type="password" id="adminpass" name="adminpass" required>
+		</div>
+		<div>
+			<button type="button" onclick="backToPage()">취소</button>
+			<button type="submit" >로그인</button>
+		</div>
+	</form>
+</main>
+</body>
+</html>
