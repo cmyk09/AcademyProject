@@ -2,40 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ezen.seller.SellerMapper">
-	<select id="getGoodsCategoryList1" 
-			resultType="Map">
-			SELECT distinct fstcode as code, fstname as name 
-			  FROM list
-			  order by 1
-	</select>
-	
-	<select id="getGoodsCategoryList2" 
-			parameterType="String"
-			resultType="Map">
-			SELECT distinct sstcode as code, sstname as name 
-			  FROM list 
-			 where fstcode = #{key} 
-			 order by 1
-	</select>
-	
-	<select id="getGoodsCategoryList3" 
-			parameterType="String"
-			resultType="Map">
-			SELECT distinct tstcode as code, tstname as name 
-			  FROM list 
-			 where sstcode = #{key} 
-			 order by 1
-	</select>
-	
-	<select id="getBoard" resultType="Map" parameterType="Integer">
-	SELECT
-		FROM Seller officeName, sellerName, offRegiNum, officeAdd, busnessNum, busnessOcc, busnessCate, officeEmail, officePhone, officeFax
-		WHERE sellernum=#{sellernum}
-		ORDER BY sellernum
+	<select id="getSeller" resultType="com.ezen.account.Seller" parameterType="Integer">
+	SELECT sellernum, officeName, sellerName, offRegiNum, officeAdd, busnessNum, busnessOcc, busnessCate, officeEmail, officePhone, officeFax, sellerNick, picName, picEmail, pictel, csPhone  
+		FROM Seller 
+		WHERE sellernum=#{sellernum} 
 	</select>
 	<update id="update"
 		parameterType="com.ezen.account.Seller">
-		UPDATE Seller SET officeName=#{officeName}, sellerName=#{sellerName}, offRegiNum=#{offRegiNum}, officeAdd=#{officeAdd}, busnessNum=#{busnessNum}, busnessOcc=#{busnessOcc}, busnessCate=#{busnessCate}, officeEmail=#{officeEmail}, officePhone=#{officePhone}, officeFax=#{officeFax}
-		WHERE sellernum=#{sellernum}
+		    UPDATE Seller 
+    SET officeName=#{officeName}, sellerName=#{sellerName}, offRegiNum=#{offRegiNum}, officeAdd=#{officeAdd},
+        busnessNum=#{busnessNum}, busnessOcc=#{busnessOcc}, busnessCate=#{busnessCate},
+        officeEmail=#{officeEmail}, officePhone=#{officePhone}, officeFax=#{officeFax},
+        sellerNick=#{sellerNick}, picName=#{picName}, picEmail=#{picEmail}, pictel=#{pictel}, csPhone=#{csPhone} 
+    WHERE sellernum=#{sellernum}
 	</update>
-</mapper>
+	<update id="pwdChange"
+		parameterType="com.ezen.account.Seller">
+		    UPDATE Seller SET adminpass=#{adminpass} WHERE sellernum=#{sellernum}
+	</update>
+	<insert id="lastRequest" parameterType="com.ezen.seller.withdrawalform">
+		INSERT INTO withdrawalform VALUES(NULL, #{adminID}, #{adminpass}, #{withres}, #{opinion} )
+	</insert>
+	<delete id="withdrawal" parameterType="com.ezen.account.Seller">
+		DELETE FROM SELLER WHERE sellernum=#{sellernum}
+	</delete>
+</mapper> 

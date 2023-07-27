@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper
-public interface AccountMapper
+public interface AccountMapper 
 {
 	
 	public Seller loginMap(Seller seller);
@@ -14,4 +14,8 @@ public interface AccountMapper
 	public int signinMap(Seller seller);
 
 	public List<Seller> idDuplicate(String adminId);
+
+	public int getsellernum(Seller seller);
+
+	public String getadminId(Seller seller);
 }

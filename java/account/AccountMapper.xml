@@ -5,7 +5,19 @@
 <mapper namespace="com.ezen.account.AccountMapper">
 
 	<select id="loginMap" parameterType="com.ezen.account.Seller" resultType="com.ezen.account.Seller">
-	    SELECT adminId, adminpass 
+	    SELECT sellernum, adminId, adminpass 
+	    FROM seller 
+	    WHERE adminId = #{adminId} AND adminpass = #{adminpass}
+	</select>
+	
+	<select id="getsellernum" parameterType="com.ezen.account.Seller" resultType="Integer">
+	    SELECT sellernum
+	    FROM seller 
+	    WHERE adminId = #{adminId} AND adminpass = #{adminpass}
+	</select>
+	
+	<select id="getadminId" parameterType="com.ezen.account.Seller" resultType="String">
+	    SELECT adminId
 	    FROM seller 
 	    WHERE adminId = #{adminId} AND adminpass = #{adminpass}
 	</select>
@@ -17,4 +29,4 @@
 	<select id="idDuplicate" parameterType="String" resultType="com.ezen.account.Seller" >
 		SELECT * FROM seller WHERE adminid=#{adminid}
 	</select>
-</mapper>
+</mapper> 

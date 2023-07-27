@@ -10,7 +10,7 @@
 	<title>Insert title here</title>	
 	<style type="text/css">
 
-		header {height: 100px; border: 1px solid black;}
+		header { height: 100px; border: 1px solid black;}
 		footer {
 		  position: fixed;
 		  bottom: 0;

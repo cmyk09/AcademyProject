@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>판매자 계정 정보 수정</title>
+<style type="text/css">
+.updateform { display: flex; align-items: center; }
+.required { color:#FF0000 }
+</style>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script type="text/javascript" th:inline="javascript">
+function sellerUpdate()
+{
+	var sellernum = document.getElementById('sellernum');
+
+	if(!confirm("작성하신 정보로 수정하시겠습니까?")) return false;
+	var formdata = $('#sellerUpdateForm').serialize();
+	$.ajax({
+		url:'/sellerManager/sellerinfo/selinfo',
+		method: 'post',
+		data: formdata,
+		cache: false,
+		dataType: 'json',
+		success: function (res) {
+			alert(res.updated ? '회원정보 수정 성공.':'회원정보 수정에 실패하였습니다.');
+			if(res.updated) location.href='/sellerManager/'+sellernum.value;
+		},
+		error:function(xhr,status,err){
+			alert('에러:' + err);
+		}
+	});
+	return false;
+}
+</script>
+<script type="text/javascript" th:inline="javascript">
+function passwordUpdate()
+{
+	var adminpass = document.getElementById('adminpass');
+	var adminpassagain = document.getElementById('adminpassagain');
+	var sellernum = document.getElementById('sellernum');
+	
+	if(adminpass.value != adminpassagain.value)
+	{
+		alert("비밀번호가 일치하지 않습니다."); return false;
+	}
+
+	if(!confirm("작성하신 정보로 수정하시겠습니까?")) return false;
+	var formdata = $('#passwordUpdate').serialize();
+	$.ajax({
+		url:'/sellerManager/sellerinfo/pwdChange',
+		method: 'post',
+		data: formdata,
+		cache: false,
+		dataType: 'json',
+		success: function (res) {
+			alert(res.changing ? '비밀번호 변경 성공.':'비밀번호 변경 실패');
+			if(res.changing) location.href='/sellerManager/'+sellernum.value;
+		},
+		error:function(xhr,status,err){
+			alert('에러:' + err);
+		}
+	});
+	return false;
+}
+</script>
+<script type="text/javascript" th:inline="javascript">
+function backToMain()
+{
+	var sellernum = document.getElementById('sellernum');
+	
+	if(!confirm('해당 페이지를 벗어나시겠습니까?')) return;
+	location.href = '/sellerManager/'+sellernum.value;
+}
+</script>
+</head>
+<body>
+<main class="updateform">
+	<form id="sellerUpdateForm" th:onsubmit="return sellerUpdate();">
+		<h2>회원 정보 수정</h2>
+		<input type="hidden" name="cmd" value="selinfo">
+		<input type="hidden" id="sellernum" name="sellernum" th:value="${seller.sellernum}">
+		<div>
+			<label><span class="required">*</span>표시는 필수로 입력해야할 항목입니다.</label>
+		</div>
+		<HR>
+		<h3>대표자 정보</h3>
+		<div>
+			<label for="officeName">상호명 <span class="required">*</span></label>
+			<input type="text" name="officeName" id="officeName" th:value="${seller.officeName}" required>
+		</div>
+		<div>
+			<label for="sellerName">대표자명 <span class="required">*</span></label>
+			<input type="text" name="sellerName" id="sellerName" th:value="${seller.sellerName}" required>
+		</div>
+		<div>
+			<label for="offRegiNum">사업자 등록번호 <span class="required">*</span></label>
+			<input type="text" name="offRegiNum" id="offRegiNum" th:value="${seller.offRegiNum}" required>
+		</div>
+		<div>
+			<label for="officeAdd">본사주소 <span class="required">*</span></label>
+			<input type="text" name="officeAdd" id="officeAdd" th:value="${seller.officeAdd}" required>
+		</div>
+		<div>
+			<label for="busnessNum">통신판매업 신고번호<span class="required">*</span></label>
+			<input type="text" name="busnessNum" id="busnessNum" th:value="${seller.busnessNum}" required>
+		</div>
+		<div>
+			<label for="busnessOcc">업태 <span class="required">*</span></label>
+			<input type="text" name="busnessOcc" id="busnessOcc" th:value="${seller.busnessOcc}" required>
+		</div>
+		<div>
+			<label for="busnessCate">종목 <span class="required">*</span></label>
+			<input type="text" name="busnessCate" id="busnessCate" th:value="${seller.busnessCate}" required>
+		</div>
+		<h4>대표자 연락사항</h4>
+		<div>
+			<label for="officeEmail">대표 이메일 <span class="required">*</span></label>
+			<input type="text" name="officeEmail" id="officeEmail" th:value="${seller.officeEmail}" required>
+		</div>
+		<div>
+			<label for="officePhone">대표 전화번호 <span class="required">*</span></label>
+			<input type="text" name="officePhone" id="officePhone" th:value="${seller.officePhone}" required>
+		</div>
+		<div>
+			<label for="officeFax">대표 팩스번호</label>
+			<input type="text" name="officeFax" id="officeFax" th:value="${seller.officeFax}">
+		</div>
+		<h4>판매 실무담당자 정보</h4>
+		<div>
+			<label for="sellerNick">판매자 닉네임 <span class="required">*</span></label>
+			<input type="text" name="sellerNick" id="sellerNick" th:value="${seller.sellerNick}" required>
+		</div>
+		<div>
+			<label for="picName">담당자명 <span class="required">*</span></label>
+			<input type="text" name="picName" id="picName" th:value="${seller.picName}" required>
+		</div>
+		<div>
+			<label for="picEmail">담당자 이메일</label>
+			<input type="text" name="picEmail" th:value="${seller.picEmail}" id="picEmail">
+		</div>
+		<div>
+			<label for="pictel">담당자 전화번호</label>
+			<input type="text" name="pictel" th:value="${seller.pictel}" id="pictel">
+		</div>
+		<div>
+			<label for="csPhone">CS 연락처 <span class="required">*</span></label>
+			<input type="text" name="csPhone" id="csPhone" th:value="${seller.csPhone}" required>
+		</div>
+		<HR>
+		<div>
+			<button type="button" onclick="backToMain()">뒤로가기</button>
+			<button type="reset">입력 초기화</button>
+			<button type="submit">정보 수정</button>
+		</div>
+		</form>
+	<form id="passwordUpdate" th:onsubmit="return passwordUpdate();">
+		<input type="hidden" id="sellernum" name="sellernum" th:value="${seller.sellernum}" >
+		<h4>비밀번호 변경</h4>
+		<h5>미 입력시 기존의 비밀번호를 유지합니다.</h5>
+		<div>
+			<label for="adminpass">비밀번호 입력</label>
+			<input type="text" name="adminpass" id="adminpass">
+		</div>
+				<div>
+			<label for="adminpassagain">비밀번호 재입력</label>
+			<input type="text" name="adminpassagain" id="adminpassagain">
+		</div>
+		<HR>
+		<div>
+			<button type="button" onclick="backToMain()">뒤로가기</button>
+			<button type="reset">입력 초기화</button>
+			<button type="submit">비밀번호 변경</button>
+		</div>
+	</form>
+</main>
+</body>
+</html>

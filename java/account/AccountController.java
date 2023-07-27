@@ -15,8 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequestMapping("/account")
-@SessionAttributes("sellernum")
-public class AccountController
+public class AccountController 
 {
 	@Autowired
 	private AccountSvc accsvc;
@@ -35,15 +34,18 @@ public class AccountController
 	
 	@PostMapping("/login")
 	@ResponseBody
-	public Map<String, Integer> sellerLoginPost(Seller seller, HttpSession session)
+	public Map<String, Integer> sellerLoginPost(Seller seller, Model model, HttpSession session)
 	{
 		int logined = accsvc.loginSvc(seller);
+		String adminId = accsvc.getadminId(seller);
+		int selnum = accsvc.getSellernum(seller);
 		if(logined==2)
 		{
-			session.setAttribute("adminId", seller.getAdminId());
+			model.addAttribute("sellernum", selnum);
 		}
 		Map<String, Integer> map = new HashMap<>();
 		map.put("logined", logined);
+		map.put("sellernum", selnum);
 		
 		return map;
 	}

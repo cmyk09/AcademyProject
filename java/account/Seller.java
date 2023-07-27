@@ -7,8 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-public class Seller //판매자 정보 VO 페이지.
+@Data 
+public class Seller //판매자 정보 VO 페이지. 
 {
 	
 	private int sellernum;//가입자 번호(index용)
@@ -37,4 +37,6 @@ public class Seller //판매자 정보 VO 페이지.
 	private String bankName; //판매대금 은행명
 	private String accountholder; //예금주명
 	private String accountadd; //예금주 계좌번호
+	
+	private boolean activeAcc; //회원탈퇴 여부
 }

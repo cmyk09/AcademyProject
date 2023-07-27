@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>판매 계정 탈퇴 페이지</title>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script type="text/javascript" th:inline="javascript">
+function backToMain()
+{
+	if(!confirm('해당 페이지를 벗어나시겠습니까?')) return;
+	location.href = '/sellerManager/'+sellernum.value;
+}
+</script>
+<script type="text/javascript" th:inline="javascript">
+function lastRequest()
+{
+	var adminId = document.getElementById('adminId');
+	var adminIdReconfirm = document.getElementById('adminIdReconfirm');
+	
+	var adminpass = document.getElementById('adminpass');
+	var adminpassReconfirm = document.getElementById('adminpassReconfirm');
+	
+	var sellernum = document.getElementById('sellernum');
+	
+	if(adminId.value != adminIdReconfirm.value)
+	{
+		alert("아이디가 일치하지 않습니다."); return false;
+	}
+	if(adminpass.value != adminpassagain.value)
+	{
+		alert("비밀번호가 일치하지 않습니다."); return false;
+	}
+	if(!confirm("정말 회원탈퇴를 하시겠습니까?")) return false;
+	var formdata = $('#withdrawalAcc').serialize();
+	$.ajax({
+		url:'/sellerinfo/lastRequest',
+		method: 'post',
+		data: formdata,
+		cache: false,
+		dataType: 'json',
+		success: res.lastRequesting ? withdrawal : alert('회원 탈퇴 과정에 문제가 발생하였습니다, 에러코드:001'),
+		error:function(xhr,status,err){
+			alert('에러:' + err);
+		}
+	});
+	return false;
+}
+
+function withdrawal()
+{
+	var formdata = $('#withdrawalAcc').serialize();
+	$.ajax({
+		url:'/sellerinfo/wirhdrawal',
+		method: 'post',
+		data: formdata,
+		cache: false,
+		dataType: 'json',
+		success: function (res) {
+			alert(res.withdrawaled ? '회원 탈퇴 처리되었습니다.':'회원 탈퇴 과정에 문제가 발생하였습니다, 에러코드:002');
+			if(res.withdrawaled) location.href='/account/';
+		},
+		error:function(xhr,status,err){
+			alert('에러:' + err);
+		}
+	});
+	return false;
+}
+</script>
+</head>
+<body>
+<main>
+<form id="withdrawalAcc" th:action="@{/sellerinfo/withdrawal}" th:onsubmit="return withdrawal();">
+	<input type="hidden" id="sellernum" name="sellernum" th:value="${seller.sellernum}" >
+	<input type="hidden" id="adminId" name="adminId" th:value="${seller.adminId}" >
+	<input type="hidden" id="adminpass" name="adminpass" th:value="${seller.adminpass}" >
+		<h2>판매자 회원 탈퇴</h2>
+		<HR>
+		<h3>판매자 ID 정보 재확인</h3>
+		<div>
+			<label for="adminIdReconfirm">아이디</label>
+			<input type="text" name="adminIdReconfirm" id="adminIdReconfirm" required>
+		</div>
+		<div>
+			<label for="adminpass">비밀번호</label>
+			<input type="password" name="adminpassReconfirm" id="adminpassReconfirm" required>
+		</div>
+		<HR>
+		<h4>탈퇴 사유</h4>
+		<div>
+			<input type="radio" name="withres" id="withres" th:value="circumstances">개인 또는 내부사정
+			<input type="radio" name="withres" id="withres" th:value="sluggish">해당 사이트에서의 판매부진
+			<input type="radio" name="withres" id="withres" th:value="TooMuchFee">과다한 수수료로 인한 수익성 악화
+			<input type="radio" name="withres" id="withres" th:value="inconvenience">판매시스템 사용의 불편함
+			<input type="radio" name="withres" id="withres" th:value="infoleak">사업자 정보 유출
+			<input type="radio" name="withres" id="withres" th:value="elsereason">기타
+		</div>
+		<div>
+		<h4>추가 및 개선사항 의견</h4>
+		<textarea rows="7" cols="25" name="improvements" id="improvements" required>
+		</textarea>
+		</div>
+		<div>
+			<button type="submit">탈퇴 신청</button>
+			<button type="button" onclick="backToMain()">취소</button>
+		</div>
+</form>
+</main>
+</body>
+</html>

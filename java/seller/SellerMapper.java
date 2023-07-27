@@ -12,14 +12,14 @@ import com.ezen.account.Seller;
 @Mapper
 public interface SellerMapper
 {
-	List<Map> getGoodsCategoryList1();
-
-	List<Map> getGoodsCategoryList2(String code);
-
-	List<Map> getGoodsCategoryList3(String code);
-	
-	public List<Map> getSeller(int sellernum);
+	public Seller getSeller(int sellernum);
 
 	public int update(Seller seller);
+
+	public int withdrawal(Seller seller);
+
+	public int pwdChange(Seller seller);
+
+	public int lastRequest(withdrawalform wdf);
 
 }

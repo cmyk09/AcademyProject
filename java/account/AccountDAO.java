@@ -9,7 +9,7 @@ import java.util.*;
 
 @Repository("accountdao")
 @Slf4j
-public class AccountDAO
+public class AccountDAO 
 {
 	@Autowired
 	private AccountMapper amap;
@@ -31,5 +31,14 @@ public class AccountDAO
 		
 		if(list.isEmpty()) return true;
 		else return false;
+	}
+
+	public int getsellernum(Seller seller) {
+		
+		return amap.getsellernum(seller);
+	}
+
+	public String getadminId(Seller seller) {
+		return amap.getadminId(seller);
 	}
 }

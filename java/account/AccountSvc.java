@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.ezen.member.MemberSVC;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class AccountSvc
+public class AccountSvc 
 {
 	@Autowired
 	@Qualifier("accountdao") 
@@ -20,6 +18,7 @@ public class AccountSvc
 	{
 		String adid = seller.getAdminId();
 		String adpw = seller.getAdminpass();
+		
 		
 		Seller sel = accdao.logindao(seller);
 		
@@ -45,5 +44,14 @@ public class AccountSvc
 	public boolean idDuplicate(String adminId) {
 		boolean idDuplicate = accdao.idDuplicate(adminId);
 		return idDuplicate;
+	}
+
+	public int getSellernum(Seller seller)
+	{
+		return accdao.getsellernum(seller);
+	}
+
+	public String getadminId(Seller seller) {
+		return accdao.getadminId(seller);
 	}
 }
