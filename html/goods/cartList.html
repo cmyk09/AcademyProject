@@ -2,13 +2,54 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Insert title here</title>
+	<title>장바구니</title>
 	<style type="text/css">
-		header {height: 100px; border: 1px solid black;}
-		aside {width: 200px; float: left;}	
+		/* Header styles */
+		header {
+		  display: flex;
+		  justify-content: space-between;
+		  align-items: center;
+		  width: 98%;
+		  height: 100px;
+		  padding: 10px;
+		  background-color: #f0f0f0;
+		  border-bottom: 1px solid #ccc;
+		  padding-right: 20px;
+		}
+		/* Footer styles */
+		footer {
+		  position: fixed;
+		  bottom: 0;
+		  width: 98%;
+		  padding: 10px;
+		  height: 50px;
+		  background-color: #f0f0f0;
+		  border-top: 1px solid #ccc; 
+		}
+		aside {width: 200px; float: left; margin-top: 40px; padding-left: 30px;}	
 		#clr {clear: left;}
-		footer {height: 100px; background-color: green;}
-		#img1 {width: 20px; height: 20px;}
+		#img1 {width: 20px; height: 20px;}	
+		
+		div#content table {
+			width: 60%;
+			border-collapse: collapse;
+			margin-top: 40px;
+		}
+		div#content th, div#content td {
+			padding: 10px;
+			border: 1px solid #ccc;
+			text-align: center;
+		}
+		div#content th { background-color: #f0f0f0; }
+
+		div#content td input[type="text"], div#content td input[type="number"] {
+  			text-align: right;
+  			width: 80px;
+		}
+		div#content td input[type="checkbox"] { margin-right: 10px; }
+
+		div#content button[type="submit"] { float: left; margin-top: 10px; }
+		
 	</style>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 	<script type="text/javascript">
@@ -36,8 +77,6 @@
 					 alert('에러:'+ status+'/'+ err);
 				 }
 			});
-				
-
 			return false;
 		}
 	</script>
@@ -54,7 +93,7 @@
 				success:function(res){
 					if(res.isLogout) {
 						alert('로그아웃 성공');
-						location.href="/ezen/member/index";
+						location.href="/ezen/goods/main";
 					}
 				},
 				error:function(xhr,status,err){
@@ -67,43 +106,33 @@
 	</script>
 </head>
 <body>
-<div><p><a href="/ezen/goods/">index</a></div>
-	<main>
+<main>
 		<h3>카트</h3>
-		
 		<header>
-		header
-		<div> 
-	 	    	[<a href="/ezen/goods/main">main</a>]
-	 	</div>
+			header
+			<div>
+				<a href="/ezen/goods/">index</a>|
+				<a href="/ezen/goods/main">홈페이지</a>|
+			</div>
 	 		<div id="info">
-				[[${uid}]]
-
-						|<a href="/ezen/member/memberInfo">홍길동님</a>|<a href="javascript:mlogout()">로그아웃</a>|<a href="javascript:test();">고객센터</a>|	
-
-	 			
-
-	 			
-
-	 		</div>
+				<a href="/ezen/member/memberInfo">[[${uid}]] 고객님</a>|
+				<a href="javascript:mlogout()">로그아웃</a>|
+				<a href="javascript:test();">고객센터</a>|
+			</div>
 		</header>
 		
 		<aside>
-			<ul>
-				<li><a href="/ezen/member/loginForm">로그인</a>/<a href="javascript:mlogout()">로그아웃</a></li>
-				<li><a href="/ezen/member/signup">회원가입</a></li>
-				<li><a href="/ezen/member/memberInfo">MyPage</a></li>
-					<ul>
-						<li><a th:href="@{'/ezen/goods/orderList/'+${uid}}">주문정보</li>
-						<li><a href="/ezen/member/updateForm">내정보수정</a></li>
-						<li><a href="/ezen/member/pwdCheckForm">비밀번호 변경</a></li>
-						<li>찜리스트</li>
-						<li>1:1문의</li>
-						<li><a href="/ezen/member/mWithdrawForm">회원탈퇴</a></li>
-					</ul>
-				<li><a th:href="@{'/ezen/goods/cartList/'+${uid}}">장바구니</a></li>
-				
-			</ul>
+			<a href="/ezen/member/memberInfo">내정보 보기</a><br>
+			<a href="/ezen/member/updateForm">내정보 수정</a><br>
+			<a href="/ezen/member/pwdCheckForm">비밀번호 변경</a><br>
+				<br>
+			<a th:href="@{'/ezen/goods/orderList/'+${uid}}">주문정보</li><br>
+			<a th:href="@{'/ezen/goods/cartList/'+${uid}}">장바구니</a><br>
+				<br>		
+			찜리스트<br>
+			1:1문의<br>
+			<br>
+			<a href="/ezen/member/mWithdrawForm">회원탈퇴</a><br>
 		</aside>
 		
 		<div id="content">
@@ -133,13 +162,11 @@
 				</form>
 			</div>
 		</div>
-		
+		<br>
 		<div id="clr"></div>
 		<footer>
 		footer
 		</footer>
-		
-	
 	</main>
 </body>
 </html>
