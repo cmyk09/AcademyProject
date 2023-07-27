@@ -166,7 +166,6 @@
 		function addGoods()
 		{			
 			var ck = checker();
-			alert(ck);
 			
 			if (ck != "ok")
 			{
@@ -214,6 +213,14 @@
 			{
 				return "상품명";		
 			}
+			if (document.getElementById('files1').value == "")
+			{
+				return "이미지1 파일";		
+			}
+			if (document.getElementById('files6').value == "")
+			{
+				return "이미지6 파일";		
+			}
 			return "ok";
 		}
 		
@@ -223,6 +230,8 @@
 	<main>
 	<div><p><a href="/ezen/goods/">index</a></div>
 		<form id="dataForm" name="dataForm" action="/ezen/goods/addGoods" enctype="multipart/form-data" >
+		
+		<input type="hidden" name = "SellerCode" th:value="${sellernum}">
 			<div id="GoodsDivInfo">
 				<div>
 					<h3>상품 분류 정보</h3>
@@ -340,7 +349,7 @@
 							</tr>
 							<tr>
 								<td>
-									<input type="file" name="files1"  onchange="preview(event,1);">
+									<input type="file" id="files1"  name="files1"  onchange="preview(event,1);">
 								</td>
 							</tr>
 						</table>
@@ -383,7 +392,7 @@
 					상품 상세 페이지는 반드시 이미지 파일로 가로넓이 900px 크기로 작성하여 등록하세요
 					<br><br>			
 					<div id = "thumbnail_view6"></div>
-					<input type="file" name="files6" onchange="preview(event,6);">
+					<input type="file" id="files6" name="files6" onchange="preview(event,6);">
 					<br><br>
 					<button type="button" id="registerGoods" onclick="javascript:addGoods();" >상품 등록</button>
 					<br><br>

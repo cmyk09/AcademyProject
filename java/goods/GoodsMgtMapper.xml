@@ -310,5 +310,16 @@
 	 		 WHERE  Goodsno = #{goodsNo}
 	</update>
 
+	<select id="goodsList" 
+			parameterType="Integer"
+			resultType="Map">
+			select *
+			from (SELECT o.orderNo, o.memberNo, o.goodsNo, g.GoodsName, o.goodsSalePrice, o.goodsSaleQty, o.orderRegistryDay, o.orderStatus
+					FROM orderlist o left outer join goods g 
+					  on o.goodsNo = g.Goodsno
+					where o.sellerNo = #{sellerno}
+				) d left outer join member_main m
+			  on d.memberNo = m.mnum
+	</select>
 	
 </mapper>

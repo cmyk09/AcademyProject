@@ -141,4 +141,9 @@ public class GoodsMgtDAO
 		return mapper.updateGoodsQty(map);
 	}
 
+	public List<Map> goodsList(int sellernum) 
+	{
+		return mapper.goodsList(sellernum);
+	}
+
 }

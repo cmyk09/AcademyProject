@@ -64,7 +64,7 @@ public class GoodsMgtSVC
 		
 		goods.setGoodsRegistryDay(inDate);
 		
-		goods.setSellerCode(1);
+		System.out.println("SVC_addGoods_ellerCode : " + goods.getSellerCode());
 		
 		// 2-1. goods 테이블에 저장
 		int r1 = DAO.addGoods(goods);
@@ -479,6 +479,11 @@ public class GoodsMgtSVC
 		}
 		
 		return pageInfo;
+	}
+
+	public List<Map> goodsList(int sellernum) 
+	{
+		return DAO.goodsList(sellernum);
 	}
 
 }

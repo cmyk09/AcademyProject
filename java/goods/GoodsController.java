@@ -44,13 +44,14 @@ public class GoodsController
 	}
 	
 	// 상품추가 폼 호출
-	@GetMapping("/addGoodsForm")
-	public String addGoodsForm(Model model)
+	@GetMapping("/addGoodsForm/{sellernum}")
+	public String addGoodsForm(Model model, @PathVariable int sellernum)
 	{
 		List<Map> list1 = SVC.getGoodsCategoryList1();
 		
 		System.out.println("userid" + model.getAttribute("userid"));
 		model.addAttribute("list1", list1);
+		model.addAttribute("sellernum", sellernum);
 		return "ezen/goods/addGoodsForm";
 	}
 	
@@ -270,6 +271,17 @@ public class GoodsController
 		model.addAttribute("lvl", lvl);
 		model.addAttribute("code", code);
 		return "search";
+	}
+	
+	// 상품 리스트 폼 호출
+	@GetMapping("/goodsList/{sellernum}")
+	public String goodsList(Model model, @PathVariable int sellernum)
+	{
+		List<Map> goodsList = SVC.goodsList(sellernum);
+		
+		System.out.println("Ctl_goodsList_goods" +goodsList);
+		model.addAttribute("goodsList", goodsList);
+		return "ezen/goods/goodsList";
 	}
 }
 

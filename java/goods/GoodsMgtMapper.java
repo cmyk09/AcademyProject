@@ -55,4 +55,6 @@ public interface GoodsMgtMapper
 
 	int updateGoodsQty(Map map);
 
+	List<Map> goodsList(int sellernum);
+
 }
