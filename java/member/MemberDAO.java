@@ -60,9 +60,14 @@ public class MemberDAO
 		return memberMapper.updateStatus(member) > 0;
 	}
 
-	public MemberVO findId(String mname, String mphone) 
+	public String findId(String mname, String mphone) 
 	{
 		return memberMapper.findId(mname, mphone);
+	}
+
+	public String findPwd(String mid, String mname) 
+	{
+		return memberMapper.findPwd(mid, mname);
 	}
 
 	

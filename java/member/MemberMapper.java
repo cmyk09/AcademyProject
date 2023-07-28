@@ -25,6 +25,8 @@ public interface MemberMapper
 
 	public int updateStatus(MemberVO member);
 
-	public MemberVO findId(String mname, String mphone);
+	public String findId(String mname, String mphone);
+
+	public String findPwd(String mid, String mname);
 
 }

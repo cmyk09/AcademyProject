@@ -104,14 +104,19 @@ public class MemberSVC
 		String mname = member.getMname();
 		String mphone = member.getMphone();
 		
-		MemberVO mem = memberDao.findId(mname, mphone);
-		
-		
-		
-		//int mnum = mem.getMnum();
-		String mid = mem.getMid();
-		
+		String mid = memberDao.findId(mname, mphone);
+		if(mid==null) {
+			mid = "검색된 아이디 없음";
+		}
 		return mid;
+	}
+
+	public String findPwd(MemberVO member) 
+	{
+		String mid = member.getMid();
+		String mname = member.getMname();
+		String mpwd = memberDao.findPwd(mid, mname);
+		return mpwd;
 	}
 
 	

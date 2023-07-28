@@ -226,7 +226,6 @@ public class MemberController
 		return "ezen/member/memberFindIdForm";
 	}
 	
-	
 	@PostMapping("/findId")
 	@ResponseBody
 	public Map findId(MemberVO member)
@@ -234,9 +233,24 @@ public class MemberController
 		Map map = new HashMap<>();
 		String mid = memberSvc.findId(member);
 		map.put("mid", mid);
-		System.out.println("아이디="+mid);
+		
 		return map;
 	}
 	
+	@GetMapping("/findPwdForm")
+	public String findPwdForm()
+	{
+		return "ezen/member/memberFindPwdForm";
+	}
 	
+	@PostMapping("/findPwd")
+	@ResponseBody
+	public Map findPwd(MemberVO member)
+	{
+		Map map = new HashMap<>();
+		String mpwd = memberSvc.findPwd(member);
+		map.put("mpwd", mpwd);
+		
+		return map;
+	}
 }
