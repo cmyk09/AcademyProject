@@ -171,7 +171,7 @@ function backToMain()
 		<h6><button type="button" onclick="logout()">로그아웃</button></h6>
 		<button type="button" class="collapsible" onclick="collapse(this);">상품관리</button>
 	    <div class="content">
-	        <p><a th:href="@{'/ezen/goods/goodsList/' + ${sellernum}}">상품 목록/수정</a></p>
+	        <p><a th:href="@{'/ezen/goods/goodsOrderList/' + ${sellernum}}">상품 목록/수정</a></p>
 	        <p><a th:href="@{'/ezen/goods/addGoodsForm/' + ${sellernum}}">상품 등록</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">주문관리</button>

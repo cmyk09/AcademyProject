@@ -76,13 +76,13 @@ function logout()
 		<h6><button type="button" onclick="logout()">로그아웃</button></h6>
 		<button type="button" class="collapsible" onclick="collapse(this);">상품관리</button>
 	    <div class="content">
-	        <p><a th:href="@{'/ezen/goods/goodsList/' + ${sellernum}}">상품 목록/수정</a></p>
+	        <p><a th:href="@{'/ezen/goods/goodsOrderList/' + ${sellernum}}">상품 목록/수정</a></p>
 	        <p><a th:href="@{'/ezen/goods/addGoodsForm/' + ${sellernum}}">상품 등록</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">주문관리</button>
 	    <div class="content"> 
-	        <!-- <p><a th:href="@{'/ezen/goods/goodsOrderList/' + ${sellernum}}">주문 목록</a></p> 팀장님이 저번에 해두신거, 임시 주석화-->
-	        <p><a th:href="@{'/ezen/sellerManager/order/orderList/' + ${sellernum}}">주문 목록</a></p>
+	        <p><a th:href="@{'/ezen/goods/goodsOrderList/' + ${sellernum}}">주문 목록</a></p>
+	        <!-- <p><a th:href="@{'/ezen/sellerManager/order/orderList/' + ${sellernum}}">주문 목록</a></p> -->
 	        <p><a th:href="@{'/ezen/sellerManager/order/shipping/' + ${sellernum}}">발송 관리</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">정산관리</button>

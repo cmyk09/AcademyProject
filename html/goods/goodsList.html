@@ -47,7 +47,7 @@
 	<script>
 	function logout()
 	{
-		location.href="/ezen/goods/main";
+		location.href="/account/login";
 	}
 	</script>
 	<script>
@@ -138,24 +138,23 @@
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">주문관리</button>
 	    <div class="content"> 
-	        <!-- <p><a th:href="@{'/ezen/goods/goodsOrderList/' + ${sellernum}}">주문 목록</a></p> 팀장님이 저번에 해두신거, 임시 주석화-->
-	        <p><a th:href="@{'/ezen/sellerManager/order/orderList/' + ${sellernum}}">주문 목록</a></p>
-	        <p><a th:href="@{'/ezen/sellerManager/order/shipping/' + ${sellernum}}">발송 관리</a></p>
+	        <p><a th:href="@{'/ezen/goods/goodsOrderList/' + ${sellernum}}">주문 목록</a></p>
+	        <p><a th:href="@{'/sellerManager/order/shipping/' + ${sellernum}}">발송 관리</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">정산관리</button>
 	    <div class="content">
-	        <p><a th:href="@{'/ezen/sellerManager/calculate/incomechart/' + ${sellernum}}">수익 통계</a></p>
-	        <p><a th:href="@{'/ezen/sellerManager/calculate/incomelist/' + ${sellernum}}">입금 내역</a></p>
+	        <p><a th:href="@{'/sellerManager/calculate/incomechart/' + ${sellernum}}">수익 통계</a></p>
+	        <p><a th:href="@{'/sellerManager/calculate/incomelist/' + ${sellernum}}">입금 내역</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">고객관리</button>
 	    <div class="content">
-	        <p><a th:href="@{'/ezen/sellerManager/custom/QnAList/' + ${sellernum}}">상품문의 목록</a></p>
-	        <p><a th:href="@{'/ezen/sellerManager/custom/reviewlist/' + ${sellernum}}">리뷰 관리</a></p>
+	        <p><a th:href="@{'/sellerManager/custom/QnAList/' + ${sellernum}}">상품문의 목록</a></p>
+	        <p><a th:href="@{'/sellerManager/custom/reviewlist/' + ${sellernum}}">리뷰 관리</a></p>
 	    </div>
 	   	<button type="button" class="collapsible" onclick="collapse(this);">판매자 관리</button>
 	    <div class="content">
-	        <p><a th:href="@{'/ezen/sellerManager/sellerinfo/selinfo/' + ${sellernum}}">판매자 정보 수정</a></p>
-	        <p><a th:href="@{'/ezen/sellerManager/sellerinfo/withdrawal/' + ${sellernum}}">판매자 계정 탈퇴</a></p>
+	        <p><a th:href="@{'/sellerManager/sellerinfo/selinfo/' + ${sellernum}}">판매자 정보 수정</a></p>
+	        <p><a th:href="@{'/sellerManager/sellerinfo/withdrawal/' + ${sellernum}}">판매자 계정 탈퇴</a></p>
 	    </div>
 	</aside>
 	
