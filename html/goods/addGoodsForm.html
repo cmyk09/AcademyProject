@@ -206,7 +206,7 @@
 	</script>
 	
 	<script type="text/javascript">
-		function addGoods()
+		function addGoods(sellerno)
 		{			
 			var ck = checker();
 			
@@ -234,7 +234,7 @@
 				success:function(res)
 				{
 						alert(res.added ? "저장 성공" : "저장 실패");
-						//location.href = "/mb2/board/detail/"+res.added;					
+						location.href = "/ezen/goods/goodsList/" + sellerno;					
 				},
 				 error:function(xhr, status, err )
 				 {
@@ -473,7 +473,7 @@
 						<div id = "thumbnail_view6"></div>
 						<input type="file" id="files6" name="files6" onchange="preview(event,6);">
 						<br><br>
-						<button type="button" id="registerGoods" onclick="javascript:addGoods();" >상품 등록</button>
+						<button type="button" id="registerGoods" th:onclick="'addGoods(' + ${sellernum} + ');'" >상품 등록</button>
 						<br><br>
 					</div>			
 				</div>

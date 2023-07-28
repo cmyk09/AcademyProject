@@ -496,4 +496,15 @@ public class GoodsMgtSVC
 		return DAO.startSale( goodsno) ;
 	}
 
+	public boolean changeSaleQty(int cartno, int qty) 
+	{
+		boolean changeSaleQty = false;
+		Map map = new HashMap<>();
+		map.put("cartno", cartno);
+		map.put("goodsSaleQty", qty);
+		int r = DAO.changeSaleQty(map);
+		if ( r > 0 ) changeSaleQty = true;
+		return  changeSaleQty ;
+	}
+
 }

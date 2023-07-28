@@ -335,4 +335,10 @@
 	 		 WHERE  Goodsno = #{goodsNo}
 	</update>
 	
+	<update id="changeSaleQty"
+			parameterType="Map">
+			UPDATE  cart
+			   SET  goodsSaleQty = #{goodsSaleQty}
+	 		 WHERE  cartno = #{cartno}
+	</update>
 </mapper>

@@ -156,4 +156,9 @@ public class GoodsMgtDAO
 		return mapper.startSale(goodsno);
 	}
 
+	public int changeSaleQty(Map map) 
+	{
+		return mapper.changeSaleQty(map);
+	}
+
 }

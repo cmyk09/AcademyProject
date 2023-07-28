@@ -312,6 +312,21 @@ public class GoodsController
 		map.put("startSale", startSale);
 		return map;
 	}
+	
+	// 상품 리스트에서 판매 재개 클릭
+	@PostMapping("/changeSaleQty")
+	@ResponseBody
+	public Map changeSaleQty(Model model, @RequestParam("cartno") int cartno, @RequestParam("qty") int qty,
+			@SessionAttribute(value = "sellerno", required = false) Integer sellerno,
+			@SessionAttribute(value = "uid", required = false) Integer uid)
+	{	
+		System.out.println("Ctrl_changeSaleQty_변수 : " + cartno + " / "+qty);
+		boolean changeSaleQty = SVC.changeSaleQty(cartno, qty);
+		
+		Map map = new HashMap<>();
+		map.put("changeSaleQty", true);
+		return map;
+	}
 }
 
 

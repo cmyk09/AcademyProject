@@ -61,4 +61,6 @@ public interface GoodsMgtMapper
 
 	boolean startSale(int goodsno);
 
+	int changeSaleQty(Map map);
+
 }

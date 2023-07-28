@@ -103,6 +103,35 @@
 		}
 		
 	</script>
+	
+	<script type="text/javascript">
+		function changeSaleQty(cartno, num, uid)
+		{
+			var name = "goodsSaleQty" + num;
+			var qtys = document.getElementById(name).value;
+			
+			if(!confirm('변경된 수량을 적용 하시겠습니까?')) return;
+			
+			//var formdata = $('#formdata').serialize();
+			
+			$.ajax({
+				url:'/ezen/goods/changeSaleQty',
+				method:'post',
+				data : {'cartno' : cartno, 'qty' : qtys},
+				cache:false,
+				dataType:'json',
+				success:function(res){
+						alert(res.changeSaleQty ? "수량 변경 성공" : "수량 변경 실패");
+						location.href="/ezen/goods/cartList/" + uid;
+				},
+				error:function(xhr,status,err){
+					alert(status +'/'+err);
+				}
+			});
+		}
+		
+	</script>
+	
 </head>
 <body>
 <main>
@@ -143,14 +172,14 @@
 							<th></th><th colspan="2">상품명</th><th>상품가격</th><th>수량</th><th>금액</th>
 						</tr>
 						
-						<span th:each="cart : ${cart}">
+						<span th:each="cart, iStat : ${cart}">
 							<tr>
 								<td><input type="checkbox" id="checked" name="checked" th:value="${cart.cartno}"></td>
 								<td><img id="img1" alt="" th:src="@{'/images/goods/' + ${cart.imgFileFakeName1}}">  </td>
 								<td>[[${cart.GoodsName}]]</td>
 								<td><input type="text" th:value="${cart.goodsSalePrice}"> </td>
-								<td><input type="number" id="goodsSaleQty" name="goodsSaleQty" th:value="${cart.goodsSaleQty}">
-									<button type="button">수량변경</button>
+								<td><input type="number" th:id="'goodsSaleQty' + ${iStat.index+1}" name="goodsSaleQty" th:value="${cart.goodsSaleQty}" >
+									<button type="button" th:onclick="'changeSaleQty('+${cart.cartno}+','+${iStat.index +1}+','+${uid}+');'">수량변경</button>
 								</td>
 								<td th:text="${cart.goodsSalePrice} * ${cart.goodsSaleQty}"></td>
 							</tr>
