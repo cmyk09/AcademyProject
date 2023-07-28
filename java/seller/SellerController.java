@@ -20,13 +20,11 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.ezen.account.Seller;
-
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/sellerManager")
+@RequestMapping("/ezen/sellerManager")
 @SessionAttributes("sellernum")
 public class SellerController
 {
@@ -58,61 +56,76 @@ public class SellerController
 
 	//주문 관리-------------------------------------------------------------
 	@GetMapping("/order/orderList/{sellernum}")
-	public String orderList(@SessionAttribute(value = "sellernum", required = false) int logininfo)//주문 목록/수정
+	public String orderList(Model model, @PathVariable int sellernum)
 	{
+		List<Map> goods = svc.orderList(sellernum);
+		
+		System.out.println("Ctl_goodsList_goods" +goods);
+		model.addAttribute("goods", goods);
+		return "ezen/seller/order/orderlist";
+	}
 	
-		return "ezen/order/orderList";
-		
-	}
+	
 	@GetMapping("/order/shipping/{sellernum}")
-	public String shipping(@SessionAttribute(value = "sellernum", required = false) int logininfo)//발송 관리
+	public String shipping(Model model, @PathVariable int sellernum)//발송 관리
 	{
-
-		return "ezen/order/shipping";
+		List<Map> goods = svc.orderList(sellernum);
 		
+		System.out.println("Ctl_goodsList_goods" +goods);
+		model.addAttribute("goods", goods);
+		return "ezen/seller/order/shipping";		
 	}
+	
+	@PostMapping("/order/shipping")
+	@ResponseBody
+	public Map shippingPost(@RequestParam Map shipInfo)
+	{
+		Map map = svc.shipping(shipInfo);
+		return map;
+	}
+	
 	//정산 관리-------------------------------------------------------------
 	@GetMapping("/calculate/incomechart/{sellernum}")
-	public String incomechart(@SessionAttribute(value = "sellernum", required = false) int logininfo)//수익 통계
+	public String incomechart(Model model, @PathVariable int sellernum)//수익 통계
 	{
 	
-		return "ezen/calculate/incomechart";
+		return "ezen/seller/calculate/incomechart";
 		
 	}
 	@GetMapping("/calculate/incomelist/{sellernum}")
-	public String incomelist(@SessionAttribute(value = "sellernum", required = false) int logininfo)//입금 내역
+	public String incomelist(Model model, @PathVariable int sellernum)//입금 내역
 	{
 		
-		return "ezen/calculate/incomelist";
+		return "ezen/seller/calculate/incomelist";
 	
 	}
 	//고객 관리-------------------------------------------------------------
 	@GetMapping("/customer/QnAList/{sellernum}")
-	public String QnAList(@SessionAttribute(value = "sellernum", required = false) int logininfo)//상품문의 목록
+	public String QnAList(Model model, @PathVariable int sellernum)//상품문의 목록
 	{
 		
-		return "ezen/customer/QnAList";
+		return "ezen/seller/customer/QnAList";
 		
 	}
 	@GetMapping("/customer/reviewlist/{sellernum}")
-	public String reviewlist(@SessionAttribute(value = "sellernum", required = false) int logininfo)//리뷰 관리
+	public String reviewlist(Model model, @PathVariable int sellernum)//리뷰 관리
 	{
 		
-		return "ezen/customer/reviewlist";
+		return "ezen/seller/customer/reviewlist";
 		
 	}
 	//판매자 관리------------------------------------------------------------
     @GetMapping("/sellerinfo/selinfo/{sellernum}")
     public String selinfo(@PathVariable int sellernum, Model model)
     {
-            Seller seller = svc.getSeller(sellernum);
+            SellerVO seller = svc.getSeller(sellernum);
             model.addAttribute("seller", seller);
             return "ezen/seller/sellerinfo/selinfo";
     }
 
     @PostMapping("/sellerinfo/selinfo")
     @ResponseBody
-    public Map<String, Object> updateInfo(@ModelAttribute Seller seller)
+    public Map<String, Object> updateInfo(@ModelAttribute SellerVO seller)
     {
     	System.out.println(seller.getSellernum());
     	boolean updated = svc.update(seller);
@@ -123,7 +136,7 @@ public class SellerController
     
     @PostMapping("/sellerinfo/pwdChange")
     @ResponseBody
-    public Map pwdChange(@ModelAttribute Seller seller)
+    public Map pwdChange(@ModelAttribute SellerVO seller)
     {
     	boolean changing = svc.pwdChange(seller);
         Map<String, Object> map = new HashMap<>();
@@ -133,7 +146,7 @@ public class SellerController
 	
     @GetMapping("/sellerinfo/withdrawal/{sellernum}")
 	public String withdrawal(@PathVariable int sellernum, Model model) {
-	    Seller seller = svc.getSeller(sellernum);
+	    SellerVO seller = svc.getSeller(sellernum);
 	    model.addAttribute("seller", seller);
 	    return "ezen/seller/sellerinfo/withdrawal";
 	}
@@ -147,9 +160,9 @@ public class SellerController
 		 return map;
 	 }
 	
-	@PostMapping("/sellerinfo/withdrawal/")
+	@PostMapping("/sellerinfo/withdrawal")
 	@ResponseBody
-	public Map withdrawalPost(Seller seller)
+	public Map withdrawalPost(SellerVO seller)
 	{
 		boolean withdrawaled = svc.withdrawal(seller);
 		Map map = new HashMap<>();

@@ -1,8 +1,12 @@
 package com.ezen.account;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import com.ezen.seller.SellerVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,44 +18,54 @@ public class AccountSvc
 	@Qualifier("accountdao") 
 	private AccountDAO accdao;
 	
-	public int loginSvc(Seller seller)
+
+	public boolean sellerIdDuplicate(String adminId)
 	{
-		String adid = seller.getAdminId();
-		String adpw = seller.getAdminpass();
+		boolean sellerIdDuplicate = accdao.sellerIdDuplicate(adminId);
+		return sellerIdDuplicate;
+	}
+
+	public int sellerLogin(SellerVO seller) {
+		String adminId = seller.getAdminId();
+		String adminpass = seller.getAdminpass();
 		
+		SellerVO sel = accdao.sellerLogin(seller);
 		
-		Seller sel = accdao.logindao(seller);
-		
-		if(sel==null)
-		{
-			return 1;
-		}else if(sel.getAdminpass().equals(adpw))
-		{
-			return 2;
-		}else
-		{
-			return 3;
+		if(sel==null) {
+			return 1;	// 아이디 없음
+		}else {
+			String sstatus = sel.getSstatus();
+			boolean isActive = sstatus.equals("inactive");
+			
+			if(isActive) {
+				return 1;
+			}else {
+				if(sel.getAdminpass().equals(adminpass)) {
+					return 3;	// 아이디 비밀번호 일치
+				}else {
+					return 2;	// 비밀번호 불일치
+				}
+			}	
 		}
 	}
 
-	public boolean signinsvc(Seller seller) {
+	public int getsellernumByID(String adminId) {
+		return accdao.getsellernumByID(adminId);
+	}
+
+	public boolean sellerSignup(SellerVO seller) {
+		java.sql.Date signUpDate = new java.sql.Date(new Date().getTime());
+		seller.setSignUpDate(signUpDate);
 		
-		boolean signined = accdao.signindao(seller);
-
-		return signined;
+		String active = "active";
+		seller.setSstatus(active);
+		
+		boolean signedUp = accdao.sellerSignup(seller);
+		return signedUp;
 	}
 
-	public boolean idDuplicate(String adminId) {
-		boolean idDuplicate = accdao.idDuplicate(adminId);
-		return idDuplicate;
+	public int sellernumGet(SellerVO seller) {
+		return accdao.sellernumGet(seller);
 	}
 
-	public int getSellernum(Seller seller)
-	{
-		return accdao.getsellernum(seller);
-	}
-
-	public String getadminId(Seller seller) {
-		return accdao.getadminId(seller);
-	}
 }

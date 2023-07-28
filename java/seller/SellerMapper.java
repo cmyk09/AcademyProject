@@ -6,20 +6,21 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
-import com.ezen.account.Seller;
-
 @Component("selmapper")
 @Mapper
 public interface SellerMapper
 {
-	public Seller getSeller(int sellernum);
+	public SellerVO getSeller(int sellernum);
 
-	public int update(Seller seller);
+	public int update(SellerVO seller);
 
-	public int withdrawal(Seller seller);
+	public int withdrawal(SellerVO seller);
 
-	public int pwdChange(Seller seller);
+	public int pwdChange(SellerVO seller);
 
 	public int lastRequest(withdrawalform wdf);
 
+	public List<Map> orderList(int sellernum);
+
+	public Map shipping(Map shipInfo);
 }

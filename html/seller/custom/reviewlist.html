@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
-<title>판매자 매니저 페이지</title>
+<title>리뷰 관리 페이지</title>
     <style>
         .collapsible {
             background-color: #777;
@@ -42,6 +42,7 @@
         #clr {clear: left}
         
     </style>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script>
 function logout()
 {
@@ -81,8 +82,8 @@ function logout()
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">주문관리</button>
 	    <div class="content"> 
-	        <p><a th:href="@{'/ezen/goods/goodsOrderList/' + ${sellernum}}">주문 목록</a></p>
-	        <!-- <p><a th:href="@{'/ezen/sellerManager/order/orderList/' + ${sellernum}}">주문 목록</a></p> -->
+	       	<!-- <p><a th:href="@{'/ezen/goods/goodsOrderList/' + ${sellernum}}">주문 목록</a></p> 팀장님이 저번에 해두신거, 임시 주석화-->
+	        <p><a th:href="@{'/ezen/sellerManager/order/orderList/' + ${sellernum}}">주문 목록</a></p>
 	        <p><a th:href="@{'/ezen/sellerManager/order/shipping/' + ${sellernum}}">발송 관리</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">정산관리</button>
@@ -106,7 +107,7 @@ function logout()
 	
 	<div id="main">
 		<div>
-			<h2> 판매자 매니저 사이트에 오신것을 환영합니다.</h2>
+			<h2> 현재 준비중인 메뉴입니다.</h2>
 		</div>
 	</div>
 	

@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.ezen.account.Seller;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -19,21 +17,21 @@ public class SellerSvc
 	@Qualifier("selldao")
 	private SellerDAO dao;
 	
-	public Seller getSeller(int sellernum) {
+	public SellerVO getSeller(int sellernum) {
 		
-		Seller seller = dao.getSeller(sellernum);
+		SellerVO seller = dao.getSeller(sellernum);
 		return seller;
 	}
 
-	public boolean withdrawal(Seller seller) { 
+	public boolean withdrawal(SellerVO seller) { 
 		return dao.withdrawal(seller);
 	}
 
-	public boolean update(Seller seller) {
+	public boolean update(SellerVO seller) {
 		return dao.update(seller);
 	}
 
-	public boolean pwdChange(Seller seller)
+	public boolean pwdChange(SellerVO seller)
 	{
 		return dao.pwdChange(seller);
 	}
@@ -42,6 +40,16 @@ public class SellerSvc
 	 public boolean lastRequest(withdrawalform wdf)
 	 {
 		 return dao.lastRequest(wdf);
+	 }
+	 
+	 public List<Map> orderList(int sellernum) 
+	 {
+		 return dao.orderList(sellernum);
+	 }
+
+	 public Map shipping(Map shipInfo)
+	 {
+		 return dao.shipping(shipInfo);
 	 }
 
 }

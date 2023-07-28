@@ -9,71 +9,60 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.ezen.seller.SellerVO;
+
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/account")
+@SessionAttributes("sellernum")
+@RequestMapping("/ezen/account")
 public class AccountController 
 {
 	@Autowired
 	private AccountSvc accsvc;
-	
-	@GetMapping("/")
-	public String index() //판매자 매니저 페이지(가장 기본 index) 페이지로 이동
-	{
-		return "ezen/account/index";
-	}
-	
-	@GetMapping("/login")
-	public String sellerLogin() //판매자 정보 수정(seller 정보에 대한 edit(Update) 기능)
-	{
-		return "ezen/account/seller/sellerlogin";
-	}
-	
-	@PostMapping("/login")
+
+	@PostMapping("/sellerLogin")
 	@ResponseBody
-	public Map<String, Integer> sellerLoginPost(Seller seller, Model model, HttpSession session)
+	public Map sellerLogin(SellerVO seller, HttpSession session, Model model)
 	{
-		int logined = accsvc.loginSvc(seller);
-		String adminId = accsvc.getadminId(seller);
-		int selnum = accsvc.getSellernum(seller);
-		if(logined==2)
-		{
-			model.addAttribute("sellernum", selnum);
+		Map map = new HashMap<>();
+		int sellernumAdress = accsvc.sellernumGet(seller);
+		int isLogin = accsvc.sellerLogin(seller);
+		map.put("isLogin", isLogin);
+		if(isLogin==3) {
+			int sellernum = accsvc.getsellernumByID(seller.getAdminId());
+			session.setAttribute("sellernum", sellernum);
 		}
-		Map<String, Integer> map = new HashMap<>();
-		map.put("logined", logined);
-		map.put("sellernum", selnum);
+		map.put("sellernum", sellernumAdress);
+		return map;
+	}
+	
 		
+	@GetMapping("/sellerSignUp")
+	public String sellerSignUpForm()
+	{
+		return "ezen/account/seller/sellerSignUp";
+	}
+	
+	@PostMapping("/signup/sellerIdDuplicate")
+	@ResponseBody
+	public Map sellerIdDuplicate(@RequestParam("adminId") String adminId)
+	{
+		Map map = new HashMap<>();
+		boolean sellerIdDuplicate = accsvc.sellerIdDuplicate(adminId);
+		map.put("sellerIdDuplicate", sellerIdDuplicate);
 		return map;
 	}
 	
-	@GetMapping("/signin")
-	public String sellerSignin()
-	{
-		return "ezen/account/seller/sellersignin";
-	}
-	
-	@PostMapping("/signin")
+	@PostMapping("/sellerSignup")
 	@ResponseBody
-	public Map sellerSigninPost(Seller seller)
+	public Map sellerSignup(SellerVO seller)
 	{
 		Map map = new HashMap<>();
-		boolean signin = accsvc.signinsvc(seller);
-		map.put("signin", signin);
-		return map;
-	}
-	
-	@PostMapping("/signin/idDuplicate")
-	@ResponseBody
-	public Map idDuplicate(@RequestParam("adminId") String adminId)
-	{
-		System.out.println("id: "+adminId);
-		Map map = new HashMap<>();
-		boolean isDuplicate = accsvc.idDuplicate(adminId);
-		map.put("isDuplicate", isDuplicate);
+		boolean signedUp = accsvc.sellerSignup(seller);
+		map.put("signedUp", signedUp);
 		return map;
 	}
 }

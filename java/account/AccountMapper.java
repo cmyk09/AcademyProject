@@ -4,18 +4,21 @@ import java.util.*;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
+import com.ezen.seller.SellerVO;
+
 @Component
 @Mapper
 public interface AccountMapper 
 {
-	
-	public Seller loginMap(Seller seller);
 
-	public int signinMap(Seller seller);
+	public List<SellerVO> sellerIdDuplicate(String adminId);
 
-	public List<Seller> idDuplicate(String adminId);
+	public SellerVO sellerLogin(SellerVO seller);
 
-	public int getsellernum(Seller seller);
+	public int getsellernumByID(String adminId);
 
-	public String getadminId(Seller seller);
+	public int sellerSignup(SellerVO seller);
+
+	public int sellernumGet(SellerVO seller);
+
 }
