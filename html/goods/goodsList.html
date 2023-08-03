@@ -121,6 +121,28 @@
 			
 			location.href="/ezen/goods/updateGoodsForm/" + goodsno + "/" + sellerno;
 		}
+		
+		function deleteGoods(goodsno, sellerno)
+		{
+			if (!confirm("등록 상품을 삭제 하시겠습니까?")) return;		
+			
+			$.ajax({ 
+				url : '/ezen/goods/deleteGoods',
+				method  :'post',     // get , post
+				data    : {'goodsno' : goodsno, 'sellerno' : sellerno},		
+				cache   : false,      //브라우저가 지금 내용은 기억하지 말라고 하는 명령
+				dataType:'json',  // text, json, html, xml
+				success:function(res)
+				{
+					alert(res.deleteGoods ? "삭제 성공" : "삭제 실패");
+					location.href = "/ezen/goods/goodsList/" + sellerno;					
+				},
+				 error:function(xhr, status, err )
+				 {
+					 alert('에러:'+ status+'/'+ err);
+				 }
+			});
+		}
 	</script>
 </head>
 <body>
@@ -166,7 +188,7 @@
 			<h3>등록된 상품 리스트</h3>
 			<table>
 				<tr>
-					<th>상품번호</th><th>상품명</th><th>재고수량</th><th>판매단가</th><th>등록일</th><th colspan="3">상태</th>
+					<th>상품번호</th><th>상품명</th><th>재고수량</th><th>판매단가</th><th>등록일</th><th colspan="4">상태</th>
 				</tr>
 				
 				<span th:each="goods : ${goodsList}">
@@ -179,9 +201,23 @@
 						
 											
 						<span th:switch="${goods.GoodsStatus}">
-						    <span th:case="I"><td>상품승인심사중<td><td></td></span>
-						    <span th:case="S"><td>상품판매</td><td><button type="button" th:onclick="'endSale('+${goods.Goodsno} + ','+ ${sellernum} + ');'">판매중지</button></td>   <td><button type="button" th:onclick="'updateGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">상품정보수정</button></td></span>
-						    <span th:case="E"><td>판매중지</td><td><button type="button" th:onclick="'startSale('+${goods.Goodsno} + ',' + ${sellernum} + ');'">판매시작</button></td><td><button type="button" th:onclick="'updateGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">상품정보수정</button></td></span>
+						    <span th:case="I">
+						    	<td>상품승인심사중</td>
+						    	<td></td>
+						    	<td></td>							    
+						    </span>
+						    <span th:case="S">
+						    	<td>상품판매</td>
+						    	<td><button type="button" th:onclick="'endSale('+${goods.Goodsno} + ','+ ${sellernum} + ');'">판매중지</button></td>
+								<td><button type="button" th:onclick="'updateGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">상품정보수정</button></td>
+								<td><button type="button" th:onclick="'deleteGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">등록상품삭제</button></td>
+							</span>
+						    <span th:case="E">
+						    	<td>판매중지</td>
+						    	<td><button type="button" th:onclick="'startSale('+${goods.Goodsno} + ',' + ${sellernum} + ');'">판매시작</button></td>
+						    	<td><button type="button" th:onclick="'updateGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">상품정보수정</button></td>
+						    	<td><button type="button" th:onclick="'deleteGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">등록상품삭제</button></td>
+						    </span>
 						</span>
 											
 					</tr>

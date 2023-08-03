@@ -324,7 +324,22 @@ public class GoodsController
 		boolean changeSaleQty = SVC.changeSaleQty(cartno, qty);
 		
 		Map map = new HashMap<>();
-		map.put("changeSaleQty", true);
+		map.put("changeSaleQty", changeSaleQty);
+		return map;
+	}
+	
+	// 등록 상품 삭제 클릭
+	@PostMapping("/deleteGoods")
+	@ResponseBody
+	public Map deleteGoods(Model model, @RequestParam("goodsno") int goodsno, @RequestParam("sellerno") int sno,
+			@SessionAttribute(value = "sellerno", required = false) Integer sellerno,
+			@SessionAttribute(value = "uid", required = false) Integer uid)
+	{	
+		System.out.println("Ctrl_changeSaleQty_변수 : " + goodsno + " / "+sno);
+		boolean deleteGoods = SVC.deleteGoods(goodsno, sno);
+		
+		Map map = new HashMap<>();
+		map.put("deleteGoods", deleteGoods);
 		return map;
 	}
 }

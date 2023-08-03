@@ -161,4 +161,9 @@ public class GoodsMgtDAO
 		return mapper.changeSaleQty(map);
 	}
 
+	public int deleteGoods(Map map)
+	{
+		return  mapper.deleteGoods(map) ;
+	}
+
 }

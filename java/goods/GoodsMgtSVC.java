@@ -507,4 +507,22 @@ public class GoodsMgtSVC
 		return  changeSaleQty ;
 	}
 
+	public boolean deleteGoods(int goodsno, int sno) 
+	{
+		boolean deleteGoods = false;
+		
+		Date d = new Date();
+		long dt = d.getTime();
+		java.sql.Date delDate = new java.sql.Date(dt);
+		
+		Map map = new HashMap<>();
+		map.put("goodsno", goodsno);
+		map.put("goodsno", goodsno);
+		map.put("deleteDay", delDate);
+		
+		int r = DAO.deleteGoods(map);
+		if ( r > 0 ) deleteGoods = true;
+		return  deleteGoods ;
+	}
+
 }

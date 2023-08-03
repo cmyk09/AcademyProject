@@ -341,4 +341,12 @@
 			   SET  goodsSaleQty = #{goodsSaleQty}
 	 		 WHERE  cartno = #{cartno}
 	</update>
+	
+	<update id="deleteGoods"
+			parameterType="Map">
+			UPDATE  goods
+			   SET  GoodsStatus = 'D',
+			   		GoodsDeleteDay = #{deleteDay} 
+	 		 WHERE Goodsno = #{goodsno}
+	</update>
 </mapper>

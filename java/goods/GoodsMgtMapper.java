@@ -63,4 +63,6 @@ public interface GoodsMgtMapper
 
 	int changeSaleQty(Map map);
 
+	int deleteGoods(Map map);
+
 }
