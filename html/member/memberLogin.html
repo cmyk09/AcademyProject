@@ -152,7 +152,7 @@ function sellerLogin()
 		dataType: 'json',
 		success: function (res) {
 			alert(res.isLogin==3 ? '로그인 성공.':'로그인 실패.');
-			if(res.isLogin==3) location.href='/ezen/sellerManager/'+res.sellernum;
+			if(res.isLogin==3) location.href='/ezen/sellerManager/';
 		},
 		error:function(xhr,status,err){
 			alert('에러:' + err);

@@ -42,9 +42,12 @@ public class SellerController
 	
 	
 	//메인 인덱스 화면--------------------------------------------------------
-	@GetMapping("/{sellernum}")
-	public String index(@PathVariable int sellernum, Model model) //판매자 매니저 페이지(가장 기본 index) 페이지로 이동
+	@GetMapping("/")
+	public String index(Model model, HttpSession session) //판매자 매니저 페이지(가장 기본 index) 페이지로 이동
 	{
+		SellerVO seller = svc.getSeller(Integer.parseInt(session.getAttribute("sellernum").toString()));
+	    model.addAttribute("seller", seller);
+	    
 		return "ezen/seller/sellerManager";
 	}
 
