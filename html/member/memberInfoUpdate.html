@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>회원정보 수정</title>
+<style type="text/css">
+/* Header styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 98%;
+  height: 100px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  padding-right: 20px;
+}
+/* Footer styles */
+footer {
+  
+  bottom: 0;
+  width: 98%;
+  padding: 10px;
+  height: 50px;
+  background-color: #f0f0f0;
+  border-top: 1px solid #ccc; 
+}
+/* Clear styles */
+#clr { clear: both; }
+
+aside {width: 200px; float: left; padding-top: 100px; padding-left: 30px;}	
+
+.content { padding: 20px; margin: 20px;  }
+
+h2 { font-size: 1.5rem; margin-bottom: 10px; }
+
+table { width: 80%; border-collapse: collapse; margin: 0 0;
+		border: 1px solid #ddd; border-radius: 5px; 
+		box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.3); }
+
+th { font-weight: bold; width: 20%; padding: 10px;
+  		text-align: left; border-bottom: 1px solid #ddd; }
+
+td { padding: 10px; border-bottom: 1px solid #ddd; }
+
+tr:nth-child(even) { background-color: #f2f2f2; }
+
+button[type="reset"] { margin-top: 20px; margin-left: 190px; 
+		margin-right: 10px; background-color: gray; color: white;
+  		padding: 10px; border: none; border-radius: 5px; cursor: pointer;
+  		transition: background-color .3s ease-in-out; }
+
+button[type="submit"] { background-color: gray; color: white;
+  		padding: 10px; border: none; border-radius: 5px; cursor: pointer;
+  		transition: background-color .3s ease-in-out; }
+
+button[type="reset"]:hover { background-color: darkgray; }
+button[type="submit"]:hover { background-color: darkgray; }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function updateInfo() 
+{
+	if(!confirm('회원정보를 수정하시겠습니까?')) return;
+	
+	var formdata = $('#memberInfoUpdateForm').serialize();
+	
+	$.ajax({
+		url:'/ezen/member/update',
+		method:'post',
+		data:formdata,
+		cache:false,
+		dataType:'json',
+		success:function(res) {
+			if(res.updated)
+			{
+				alert("수정 성공");
+				location.href="/ezen/member/memberInfo";
+			}
+			else 
+			{
+				alert("수정 실패");
+				location.href="/ezen/member/index";
+			}
+		},
+		error:function(xhr,status,err){
+			alert('에러:' + err);
+		}
+	});
+	return false;
+}
+
+function goMyInfo()
+{
+	location.href="/ezen/member/memberInfo";
+}
+</script>
+</head>
+<body>
+
+<main>
+<header>
+			header
+			<div> 
+	 		|<a href="/ezen/goods/main">홈페이지</a>|
+	 		<br>
+			|<a href="/ezen/member/memberInfo">[[${uid}]] 고객님</a>|<a href="javascript:mlogout()">로그아웃</a>
+	 		</div>
+	</header>
+	
+	<aside>
+			<a href="/ezen/member/memberInfo">내정보 보기</a><br>
+			<a href="/ezen/member/pwdCheckForm">비밀번호 변경</a><br>
+				<br>
+			<a th:href="@{'/ezen/goods/orderList/'+${uid}}">주문정보</a><br>
+			<a th:href="@{'/ezen/goods/cartList/'+${uid}}">장바구니</a><br>
+				<br>		
+			찜리스트<br>
+			1:1문의<br>
+				<br>
+			<a href="/ezen/member/mWithdrawForm">회원탈퇴</a>
+	</aside>
+	
+	<div class="content">
+
+	<h2>내정보 수정</h2>
+	<form id="memberInfoUpdateForm" onsubmit="return updateInfo();">
+		<table>
+			<tr><th>아이디</th><td colspan="5" id="mid">[[${member.mid}]]
+			<input id="mid" name="mid" type="hidden" th:value="${member.mid}"></td></tr>
+			
+			<tr><th>비밀번호</th><td name="mpwd" colspan="5"><a href="/ezen/member/pwdCheckForm">비밀번호 변경</a></td></tr>
+			
+			<tr><th>이름</th><td colspan="5" id="mname">[[${member.mname}]]
+			<input id="mname" name="mname" type="hidden" th:value="${member.mname}"></td></tr>
+			
+			<tr><th>이메일</th><td colspan="5" id="memail">
+			<input type="text" name="memail" id="memail" th:value="${member.memail}"></td></tr>
+			
+			<tr><th>전화번호</th><td colspan="5" id="mphone">
+			<input type="text" name="mphone" id="mphone" th:value="${member.mphone}"></td></tr>
+			
+			<tr><th>주소</th><td colspan="5" id="maddress">
+			<input type="text" name="maddress" id="maddress" th:value="${member.maddress}"></td></tr>
+		</table>
+			<div>
+	            <button type="reset" onclick="return goMyInfo();">취소</button>
+	            <button type="submit">수정</button>
+	        </div>
+	     
+    </form>
+    </div>
+	<div id="clr"></div>
+	<footer>
+			footer
+	</footer>
+		
+</main>
+</body>
+</html>

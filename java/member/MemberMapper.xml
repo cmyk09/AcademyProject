@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ezen.member.MemberMapper">
+	<select id="idDuplicate" parameterType="String" resultType="com.ezen.member.MemberVO" >
+		SELECT * FROM member_main WHERE mid=#{mid}
+	</select>
+	
+	<insert id="memberSignUp" parameterType="com.ezen.member.MemberVO">
+		INSERT INTO member_main VALUES(NULL, #{mid}, #{mpwd}, #{mname}, #{memail}, #{mphone}, #{maddress}, #{mrdate}, #{mstatus})
+	</insert>
+	
+	<select id="memberLogin" parameterType="com.ezen.member.MemberVO" resultType="com.ezen.member.MemberVO" >
+		SELECT mnum, mid, mpwd, mstatus From member_main WHERE mid=#{mid}
+	</select>
+	
+	<select id="getMember" parameterType="Integer" resultType="com.ezen.member.MemberVO" >
+		SELECT * FROM member_main WHERE mnum=#{mnum}
+	</select>
+	
+	<select id="getMnumByID" parameterType="String" resultType="Integer" >
+		SELECT mnum FROM member_main WHERE mid=#{mid}
+	</select>
+	
+	<update id="updateMember" parameterType="com.ezen.member.MemberVO">
+		UPDATE member_main SET memail=#{memail}, mphone=#{mphone}, maddress=#{maddress} WHERE mid=#{mid}
+	</update>
+	
+	<update id="pwdUpdate" parameterType="com.ezen.member.MemberVO">
+		UPDATE member_main SET mpwd=#{mpwd} WHERE mid=#{mid}
+	</update>
+	
+	<update id="updateStatus" parameterType="com.ezen.member.MemberVO">
+		UPDATE member_main SET mstatus=#{mstatus} WHERE mid=#{mid}
+	</update>
+	
+	<select id="findId" parameterType="String" resultType="String">
+		SELECT mid FROM member_main WHERE mname=#{mname} AND mphone=#{mphone}
+	</select>
+	
+	<select id="findPwd" parameterType="String" resultType="String">
+		SELECT mpwd FROM member_main WHERE mid=#{mid} AND mname=#{mname}
+	</select>
+	
+</mapper>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>회원 로그인</title>
+<style type="text/css">
+#cc {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+}
+.container {
+	max-width: 350px;
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+	display: flex; flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  
+  display: inline-block;
+  text-align: right;
+  width: 30%;
+}
+
+.tabs {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	border-bottom: 1px solid #ccc;
+	display: flex;
+	justify-content: center;
+}
+.tab-link {
+	margin-right: 10px;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #666;
+	border: none;
+	cursor: pointer;
+	transition: 0.3s;
+}
+.tab-link.current {
+	color: #000;
+	border-bottom: 2px solid #000;
+}
+.tab-content {
+	display: none;
+	padding: 20px;
+	background-color: #f5f5f5;
+	border: 1px solid #ccc;
+	width: 100%;
+	box-sizing: border-box;
+}
+.tab-content.current {
+	display: block;
+}
+
+button { margin-top: 10px; }
+
+
+/* Header styles */
+ header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 98%;
+  height: 100px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  padding-right: 20px;
+} 
+/* Footer styles */
+footer {
+  
+  bottom: 0;
+  width: 98%;
+  padding: 10px;
+  height: 50px;
+  background-color: #f0f0f0;
+  border-top: 1px solid #ccc; 
+} 
+/* Clear styles */
+#clr { clear: both; }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$('ul.tabs li').click(function(){
+			var tab_id = $(this).attr('data-tab');
+
+			$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+
+			$(this).addClass('current');
+			$("#"+tab_id).addClass('current');
+		})
+
+	});
+</script>
+
+<script type="text/javascript">
+function login() 
+{
+	var formdata = $('#loginForm').serialize();
+	//alert(formdata);
+	$.ajax({
+		url:'/ezen/member/login',
+		data:formdata,
+		method:'post',
+		cache:false,
+		dataType:'json',
+		success:function(res){
+			if(res.isLogin==1) alert('없는 아이디입니다');
+			if(res.isLogin==2) alert('비밀번호가 일치하지 않습니다');
+			if(res.isLogin==3) {
+				alert('로그인 성공');
+				location.href="/ezen/goods/main";
+			}
+		},
+		error:function(xhr,status,err){
+			alert(status +'/'+err);
+		}
+	});
+	return false;
+}
+
+function goHome()
+{
+	location.href="/ezen/goods/main";
+}
+</script>
+
+<script type="text/javascript">
+function sellerLogin()
+{
+	var formdata = $('#sloginForm').serialize();
+	$.ajax({
+		url:'/ezen/account/sellerLogin',
+		method: 'post',
+		data: formdata,
+		cache: false,
+		dataType: 'json',
+		success: function (res) {
+			alert(res.isLogin==3 ? '로그인 성공.':'로그인 실패.');
+			if(res.isLogin==3) location.href='/ezen/sellerManager/'+res.sellernum;
+		},
+		error:function(xhr,status,err){
+			alert('에러:' + err);
+		}
+	});
+    return false;
+ }
+</script>
+
+</head>
+<body>
+<main>
+	<header>
+			header
+			<div> 
+	 		|<a href="/ezen/goods/main">홈페이지</a>|
+	 		</div>
+	</header>
+	
+	<div id="cc">
+	<div class="container">
+		<ul class="tabs">
+			<li class="tab-link current" data-tab="tab-1">회원(구매자)</li>
+			<li class="tab-link" data-tab="tab-2">판매자</li>
+		</ul>
+		
+		<div id="tab-1" class="tab-content current">
+			<h2>회원 로그인</h2>
+				<form id="loginForm" onsubmit="return login();">
+			
+					<div>
+						<label for="mid">아이디</label>
+						<input type="text" name="mid" id="mid" placeholder="아이디 입력">
+					</div>
+					<div>
+						<label for="mpwd">비밀번호</label>
+						<input type="password" name="mpwd" id="mpwd" placeholder="비밀번호 입력">
+					</div>
+					<div id="btnDiv" style="display: flex; justify-content: flex-start;">
+						<button type="reset" style="margin-left: 4rem; margin-right: 0.7rem;" onclick="return goHome();">취소</button>
+						<button type="submit">로그인</button>
+					</div>
+					
+					<div>
+					<br>
+					[<a href="/ezen/member/findIdForm">아이디 찾기</a>]
+					[<a href="/ezen/member/findPwdForm">비밀번호 찾기</a>]
+					</div>
+				</form>
+		</div>
+		<div id="tab-2" class="tab-content">
+			<h2>판매자 로그인</h2>
+				<form id="sloginForm" onsubmit="return sellerLogin();">
+			
+					<div>
+						<label for="adminId">아이디</label>
+						<input type="text" name="adminId" id="adminId" placeholder="아이디 입력">
+					</div>
+					<div>
+						<label for="adminpass">비밀번호</label>
+						<input type="password" name="adminpass" id="adminpass" placeholder="비밀번호 입력">
+					</div>
+					<div id="btnDiv" style="display: flex; justify-content: flex-start;">
+						<button type="reset" style="margin-left: 4rem; margin-right: 0.7rem;" onclick="return goHome();">취소</button>
+						<button type="submit">로그인</button>
+					</div>
+					
+					<div>
+					<br>
+					[<a href="">아이디 찾기</a>]
+					[<a href="">비밀번호 찾기</a>]
+					<br>
+					[<a href="">판매자 회원가입</a>]
+					</div>
+				</form>
+		</div>
+	</div>
+	</div>
+	
+	<div id="clr"></div>
+	<footer>
+			footer
+	</footer>
+</main>
+</body>
+</html>

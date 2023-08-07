@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ezen.account.AccountMapper">
+
+<!-- 	<select id="loginMap" parameterType="com.ezen.seller.SellerVO" resultType="com.ezen.seller.SellerVO">
+	    SELECT sellernum, adminId, adminpass 
+	    FROM seller 
+	    WHERE adminId = #{adminId} AND adminpass = #{adminpass}
+	</select>
+	
+	<select id="getsellernum" parameterType="com.ezen.seller.SellerVO" resultType="Integer">
+	     SELECT IFNULL(max(sellernum), '0') sellernum from seller where adminid=#{adminId} and adminpass=#{adminpass};
+	</select>
+	
+	<select id="getadminId" parameterType="com.ezen.seller.SellerVO" resultType="String">
+	    SELECT adminId
+	    FROM seller 
+	    WHERE adminId = #{adminId} AND adminpass = #{adminpass}
+	</select>
+	
+	<insert id="signinMap" parameterType="com.ezen.seller.SellerVO">
+		INSERT INTO SELLER VALUES(NULL, #{officeName}, #{sellerName}, #{offRegiNum}, #{officeAdd}, #{busnessNum}, #{busnessOcc}, #{busnessCate}, #{officeEmail}, #{officePhone}, #{officeFax}, #{adminId}, #{adminpass}, #{sellerNick}, #{picName}, #{picEmail}, #{pictel}, #{picphone}, #{csPhone}, #{bankName}, #{accountholder}, #{accountadd}, 'signin')
+	</insert>
+	
+	<select id="idDuplicate" parameterType="String" resultType="com.ezen.seller.SellerVO" >
+		SELECT * FROM seller WHERE adminid=#{adminid}
+	</select> -->
+	
+		<select id="sellerLogin" parameterType="com.ezen.seller.SellerVO" resultType="com.ezen.seller.SellerVO" >
+		SELECT sellernum, adminId, adminpass, sstatus From seller WHERE adminId=#{adminId}
+	</select>
+	<select id="getsellernumByID" parameterType="String" resultType="Integer" >
+		SELECT sellernum FROM seller WHERE adminId=#{adminId}
+	</select>
+	<insert id="sellerSignup" parameterType="com.ezen.seller.SellerVO">
+		INSERT INTO SELLER VALUES(NULL, #{officeName}, #{sellerName}, #{offRegiNum}, #{officeAdd}, #{busnessNum}, #{busnessOcc}, #{busnessCate}, #{officeEmail}, #{officePhone}, #{officeFax}, #{adminId}, #{adminpass}, #{sellerNick}, #{picName}, #{picEmail}, #{pictel}, #{picphone}, #{csPhone}, #{bankName}, #{accountholder}, #{accountadd}, 'signin', #{signUpDate})
+	</insert>
+	<select id="sellerIdDuplicate" parameterType="String" resultType="com.ezen.seller.SellerVO" >
+			SELECT * FROM seller WHERE adminId=#{adminId}
+	</select>
+	<select id="sellernumGet" parameterType="com.ezen.seller.SellerVO" resultType="Integer">
+	     SELECT IFNULL(max(sellernum), '0') sellernum from seller where adminid=#{adminId} and adminpass=#{adminpass};
+	</select>
+</mapper> 

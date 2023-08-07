@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+
+	<title>Insert title here</title>
+
+	<style type="text/css">
+
+		header {height: 180px; background-color: yellow;}
+		footer {height: 100px; background-color: blue;}
+		#icon {text-align: right;}
+		#info {height: 100px; text-align: right;}
+		
+
+		#row {float: left; margin: 40px;}
+		#img1 {width: 200px; height: 200px;}
+		#clr {clear: left;}
+
+		#menu {
+
+				    height: 50px;				
+
+				    background: #fcc;				
+
+				}
+
+				
+
+				.main1 {				
+
+				    width: 600px;				
+
+				    height: 100%;				
+
+				    margin: 0 auto;				
+
+				}
+
+				
+
+				.main1>li {				
+
+				    float: left;				
+
+				    width: 25%;				
+
+				    line-height: 50px;				
+
+				    text-align: center;				
+
+				    position: relative;				
+
+				}
+
+
+				.main1>li:hover .main2 {
+
+				    left: 0;
+
+				}
+
+				
+
+				.main1>li a {
+
+				    display: block;
+
+				}
+
+
+				.main1>li a:hover {				
+
+				    background: #B21016;
+
+				    color: #fff;
+
+				    font-weight: bold;
+
+				}
+
+				
+
+				.main2 {
+
+				    position: absolute;
+
+				    top: 50px;
+
+				    left: -9999px;
+
+				    background: #ccc;
+
+				    width: 120%;
+
+				}
+
+				
+
+				.main2>li {
+
+				    position: relative;
+
+				}
+
+
+				.main2>li:hover .main3 {
+
+				    left: 100%;
+
+				}
+
+				
+
+				.main2>li a, .main3>li a {
+
+				    border-radius: 10px;
+
+				    margin: 10px;
+
+				}
+
+	
+				.main3 {			
+
+				    position: absolute;
+
+				    top: 0;
+
+				    background: #6BD089;
+
+				    width: 80%;
+
+				    left: -9999px;
+
+				    /*left: 100%;*/
+
+				    /*display: none;*/
+
+				}
+				
+
+				.main3>li a:hover {
+
+				    background: #085820;
+
+				    color: #fff;
+
+				}
+
+	</style>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		function test()
+		{
+			alert("aa");
+			var list = "${list}";
+			
+			for(var i=0; list.length ; i++ )
+			{
+				var v = list[i].code_first;
+				alert("v값 :"+ list[i].code_first);	
+			}
+			alert(list);
+		}
+	</script>
+
+</head>
+
+<body>
+
+	 <main>
+
+	 	<header>
+
+	 	header
+			<div id="icon">
+				[<a href="#">마이페이지</a>]
+				[<a href="#">장바구니</a>]
+			</div>
+	 		<div id="info">
+
+	 			|<a href="#">로그인</a>|<a href="#">회원가입</a>|<a href="#">고객센터</a>|
+
+	 			|<a href="#">홍길동님</a>|<a href="#">로그아웃</a>|<a href="javascript:test();">고객센터</a>|
+
+	 		</div>
+
+	 		<div id="menu">
+	 				
+			
+			    <ul class="main1">	
+
+			        <li><a href="#">메뉴1</a>
+
+			            <ul class="main2">
+
+	
+
+			                <li><a href="#">소메뉴2</a>
+
+			                    <ul class="main3">
+
+			                        <li><a href="#">2단소메뉴1</a></li>
+
+			                        <li><a href="#">2단소메뉴2</a></li>
+
+			                        <li><a href="#">2단소메뉴3</a></li>
+
+			                    </ul>
+
+			                </li>
+
+			                <li><a href="#">소메뉴3</a>
+
+			                    <ul class="main3">
+
+			                        <li><a href="#">2단소메뉴4</a></li>
+
+			                        <li><a href="#">2단소메뉴5</a></li>
+
+			                        <li><a href="#">2단소메뉴6</a></li>
+
+			                    </ul>
+
+			                </li>
+
+			                <li><a href="#">소메뉴4</a>
+
+			                    <ul class="main3">
+
+			                        <li><a href="#">2단소메뉴4</a></li>
+
+			                        <li><a href="#">2단소메뉴5</a></li>
+
+			                        <li><a href="#">2단소메뉴6</a></li>
+
+			                    </ul>
+
+			                </li>
+
+			            </ul>
+
+			        </li>
+
+			        <li><a href="#">메뉴2</a>
+
+			            <ul class="main2">
+
+			                <li><a href="#">소메뉴1</a>
+
+			                    <ul class="main3">
+
+			                        <li><a href="#">2단소메뉴7</a></li>
+
+			                        <li><a href="#">2단소메뉴8</a></li>
+
+			                        <li><a href="#">2단소메뉴9</a></li>
+
+			                    </ul>
+
+			                </li>
+
+			                <li><a href="#">소메뉴2</a>
+
+			                    <ul class="main3">
+
+			                        <li><a href="#">2단소메뉴10</a></li>
+
+			                        <li><a href="#">2단소메뉴11</a></li>
+
+			                        <li><a href="#">2단소메뉴12</a></li>
+
+			                    </ul>
+
+			                </li>
+
+			                <li><a href="#">소메뉴3</a>
+
+			                    <ul class="main3">
+
+			                        <li><a href="#">2단소메뉴13</a></li>
+
+			                        <li><a href="#">2단소메뉴14</a></li>
+
+			                        <li><a href="#">2단소메뉴15</a></li>
+
+			                    </ul>
+
+			                </li>
+
+			            </ul>
+
+			        </li>
+
+			        <li><a href="#">메뉴3</a>
+
+			            <ul class="main2">
+
+			                <li><a href="#">소메뉴1</a></li>
+
+			                <li><a href="#">소메뉴2</a>
+
+			                	<ul class="main3">
+
+			                        <li><a href="#">2단소메뉴16</a></li>
+
+			                        <li><a href="#">2단소메뉴17</a></li>
+
+			                        <li><a href="#">2단소메뉴18</a></li>
+
+			                    </ul>
+
+			                </li>
+
+			                <li><a href="#">소메뉴3</a>
+
+			                    <ul class="main3">
+
+			                        <li><a href="#">2단소메뉴16</a></li>
+
+			                        <li><a href="#">2단소메뉴17</a></li>
+
+			                        <li><a href="#">2단소메뉴18</a></li>
+
+			                    </ul>
+
+			                </li>
+
+			            </ul>
+
+			        </li>
+
+			        <li><a href="#">메뉴4</a>
+
+			            <ul class="main2">
+
+			                <li><a href="#">소메뉴1</a></li>
+
+			                <li><a href="#">소메뉴2</a></li>
+
+			                <li><a href="#">소메뉴3</a></li>
+
+			                	<ul class="main3">
+
+			                        <li><a href="#">2단소메뉴19</a></li>
+
+			                        <li><a href="#">2단소메뉴20</a></li>
+
+			                        <li><a href="#">2단소메뉴21</a></li>
+
+			                    </ul>
+
+			            </ul>
+
+			        </li>
+
+			    </ul>
+
+			</div>
+
+	 	</header>
+
+	 	
+
+	 	<div id="main">
+			<span th:each="list : ${list}">
+				<div th:text = "${list.code_first}"></div>
+			</span>
+	 		<span th:each="goods : ${goods}">
+				<div id="row">
+					<a th:href="@{'/ezen/goods/detailGoodsForm/'+${goods.Goodsno}}"><img id="img1" name="img1" alt="이미지없음" th:src="@{'/images/goods/' + ${goods.ImgFileFakeName1}}"></a>
+					<div th:text ="${goods.GoodsName}"></div>	
+					<div th:text ="${goods.GoodsSalePrice}"></div>			
+				</div>	
+			</span>
+			<div id="clr"></div>
+	 		
+	 	</div>
+
+	 	
+
+	 	<footer>
+
+	 	footer
+
+	 	</footer>
+
+	 </main>
+
+</body>
+
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>판매자 매니저 페이지</title>
+    <style>
+        .collapsible {
+            background-color: #777;
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+        }
+        .active,
+        .collapsible:hover {
+            background-color: #555;
+        }
+        .content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            background-color: #f1f1f1;
+        }
+        .collapsible:after {
+            content: '\002B';
+            color: white;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+        .active:after {
+            content: "\2212";
+        }
+        
+        header {height: 50px;}
+        aside {float: left; margin-right: 100px;}        
+        #clr {clear: left}
+        
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+	<script>
+//해당 스크립트는 사이드바 작동용 스크립트 창입니다.
+function addGoodsForm()
+{
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/addGoodsForm');
+    document.body.appendChild(f);
+    f.submit();
+}
+function goodsList()
+{
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/goodsList');
+    document.body.appendChild(f);
+    f.submit();
+}
+
+function orderList()
+{
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/orderList');
+    document.body.appendChild(f);
+    f.submit();
+}
+function shipping()
+{
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/shipping');
+    document.body.appendChild(f);
+    f.submit();
+}
+function incomechart()
+{
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/incomechart');
+    document.body.appendChild(f);
+    f.submit();
+}
+function incomelist()
+{
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/incomelist');
+    document.body.appendChild(f);
+    f.submit();
+}
+function QnAList()
+{
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/QnAList');
+    document.body.appendChild(f);
+    f.submit();
+}
+function reviewlist()
+{
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/reviewlist');
+    document.body.appendChild(f);
+    f.submit();
+}
+function selinfo()
+{
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/selinfo');
+    document.body.appendChild(f);
+    f.submit();
+}
+function withdrawal()
+{
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/withdrawal');
+    document.body.appendChild(f);
+    f.submit();
+}
+</script>
+	<script>
+	function logout()
+	{
+		location.href="/ezen/goods/main";
+	}
+	</script>
+	<script>
+	        function collapse(element) {
+	            var before = document.getElementsByClassName("active")[0]               // 기존에 활성화된 버튼
+	            if (before && document.getElementsByClassName("active")[0] != element) {  // 자신 이외에 이미 활성화된 버튼이 있으면
+	                before.nextElementSibling.style.maxHeight = null;   // 기존에 펼쳐진 내용 접고
+	                before.classList.remove("active");                  // 버튼 비활성화
+	            }
+	            element.classList.toggle("active");         // 활성화 여부 toggle
+	
+	            var content = element.nextElementSibling;
+	            if (content.style.maxHeight != 0) {         // 버튼 다음 요소가 펼쳐져 있으면
+	                content.style.maxHeight = null;         // 접기
+	            } else {
+	                content.style.maxHeight = content.scrollHeight + "px";  // 접혀있는 경우 펼치기
+	            }
+	        }
+	</script>
+
+	<script type="text/javascript">
+		function endSale(goodsno, sellerno)
+		{
+			if (!confirm("상품 판매를 중단 하시겠습니까?")) return;		
+			
+			$.ajax({ 
+				url : '/ezen/goods/endSale',
+				method  :'post',     // get , post
+				data    : {'goodsno' : goodsno},		
+				cache   : false,      //브라우저가 지금 내용은 기억하지 말라고 하는 명령
+				dataType:'json',  // text, json, html, xml
+				success:function(res)
+				{
+					alert(res.endSale ? "변경 성공" : "변경 실패");
+					location.href = "/ezen/goods/goodsList/" + sellerno;					
+				},
+				 error:function(xhr, status, err )
+				 {
+					 alert('에러:'+ status+'/'+ err);
+				 }
+			});
+			
+			
+		}
+		
+		function startSale(goodsno, sellerno)
+		{
+			if (!confirm("상품 판매를 재개 하시겠습니까?")) return;		
+			
+			$.ajax({ 
+				url : '/ezen/goods/startSale',
+				method  :'post',     // get , post
+				data    : {'goodsno' : goodsno},		
+				cache   : false,      //브라우저가 지금 내용은 기억하지 말라고 하는 명령
+				dataType:'json',  // text, json, html, xml
+				success:function(res)
+				{
+					alert(res.startSale ? "변경 성공" : "변경 실패");
+					location.href = "/ezen/goods/goodsList/" + sellerno;					
+				},
+				 error:function(xhr, status, err )
+				 {
+					 alert('에러:'+ status+'/'+ err);
+				 }
+			});
+		}
+		
+		function updateGoods(goodsno, sellerno)
+		{
+			if (!confirm("상품정보 수정를 수정 하시겠습니까?")) return;
+			
+			location.href="/ezen/goods/updateGoodsForm/" + goodsno + "/" + sellerno;
+		}
+		
+		function deleteGoods(goodsno, sellerno)
+		{
+			if (!confirm("등록 상품을 삭제 하시겠습니까?")) return;		
+			
+			$.ajax({ 
+				url : '/ezen/goods/deleteGoods',
+				method  :'post',     // get , post
+				data    : {'goodsno' : goodsno, 'sellerno' : sellerno},		
+				cache   : false,      //브라우저가 지금 내용은 기억하지 말라고 하는 명령
+				dataType:'json',  // text, json, html, xml
+				success:function(res)
+				{
+					alert(res.deleteGoods ? "삭제 성공" : "삭제 실패");
+					location.href = "/ezen/goods/goodsList/" + sellerno;					
+				},
+				 error:function(xhr, status, err )
+				 {
+					 alert('에러:'+ status+'/'+ err);
+				 }
+			});
+		}
+	</script>
+</head>
+<body>
+<main>
+	<header>
+		<h3>판매자 매니저 페이지</h3>
+	</header>
+
+	<aside>
+		<h6><button type="button" onclick="logout()">로그아웃</button></h6>
+		<button type="button" class="collapsible" onclick="collapse(this);">상품관리</button>
+	    <div class="content">
+	        <p><a th:onclick="addGoodsForm()">상품 목록/수정</a></p>
+	        <p><a th:onclick="goodsList()">상품 등록</a></p>
+	    </div>
+		<button type="button" class="collapsible" onclick="collapse(this);">주문관리</button>
+	    <div class="content"> 
+	        <!-- <p><a th:href="@{'/ezen/goods/goodsOrderList/' + ${sellernum}}">주문 목록</a></p> 팀장님이 저번에 해두신거, 임시 주석화-->
+	        <p><a th:onclick="orderList()">주문 목록</a></p>
+	        <p><a th:onclick="shipping()">발송 관리</a></p>
+	    </div>
+		<button type="button" class="collapsible" onclick="collapse(this);">정산관리</button>
+	    <div class="content">
+	   		<p><a th:onclick="incomechart())">수익 통계</a></p>
+	        <p><a th:onclick="incomelist()">입금 내역</a></p>
+	    </div>
+		<button type="button" class="collapsible" onclick="collapse(this);">고객관리</button>
+	    <div class="content">
+	    	<p><a th:onclick="QnAList()">상품문의 목록</a></p>
+	        <p><a th:onclick="reviewlist()">리뷰 관리</a></p>
+	    </div>
+	   	<button type="button" class="collapsible" onclick="collapse(this);">판매자 관리</button>
+	    <div class="content">
+	    	<p><a th:onclick="selinfo()">판매자 정보 수정</a></p>
+	        <p><a th:onclick="withdrawal()">판매자 계정 탈퇴</a></p>
+	    </div>
+	</aside>
+	
+	
+	
+	<div id="main">
+		<div>
+			<h3>등록된 상품 리스트</h3>
+			<table>
+				<tr>
+					<th>상품번호</th><th>상품명</th><th>재고수량</th><th>판매단가</th><th>등록일</th><th colspan="4">상태</th>
+				</tr>
+				
+				<span th:each="goods : ${goodsList}">
+					<tr>
+						<td th:text="${goods.Goodsno}"></td>
+						<td th:text="${goods.GoodsName}"></td>
+						<td th:text="${goods.GoodsSaleQty}"></td>
+						<td th:text="${goods.GoodsSalePrice}"></td>
+						<td th:text="${goods.GoodsRegistryDay}"></td>
+						
+											
+						<span th:switch="${goods.GoodsStatus}">
+						    <span th:case="I">
+						    	<td>상품승인심사중</td>
+						    	<td></td>
+						    	<td></td>							    
+						    </span>
+						    <span th:case="S">
+						    	<td>상품판매</td>
+						    	<td><button type="button" th:onclick="'endSale('+${goods.Goodsno} + ','+ ${sellernum} + ');'">판매중지</button></td>
+								<td><button type="button" th:onclick="'updateGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">상품정보수정</button></td>
+								<td><button type="button" th:onclick="'deleteGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">등록상품삭제</button></td>
+							</span>
+						    <span th:case="E">
+						    	<td>판매중지</td>
+						    	<td><button type="button" th:onclick="'startSale('+${goods.Goodsno} + ',' + ${sellernum} + ');'">판매시작</button></td>
+						    	<td><button type="button" th:onclick="'updateGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">상품정보수정</button></td>
+						    	<td><button type="button" th:onclick="'deleteGoods('+${goods.Goodsno}+',' + ${sellernum} + ');'">등록상품삭제</button></td>
+						    </span>
+						</span>
+											
+					</tr>
+				</span>
+						
+			</table>
+		</div>
+	</div>
+	
+	<div id="clr"></div>
+	
+	<footer>
+	  footer
+	</footer>
+		
+</main>
+</body>
+</html>

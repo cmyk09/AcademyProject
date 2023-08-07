@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>구매 내역</title>
+	<style type="text/css">
+		/* Header styles */
+		header {
+		  display: flex;
+		  justify-content: space-between;
+		  align-items: center;
+		  width: 98%;
+		  height: 100px;
+		  padding: 10px;
+		  background-color: #f0f0f0;
+		  border-bottom: 1px solid #ccc;
+		  padding-right: 20px;
+		}
+		/* Footer styles */
+		footer {
+		  position: fixed;
+		  bottom: 0;
+		  width: 98%;
+		  padding: 10px;
+		  height: 50px;
+		  background-color: #f0f0f0;
+		  border-top: 1px solid #ccc; 
+		}
+		aside {width: 200px; float: left; margin-top: 40px; padding-left: 30px;}	
+		#clr {clear: left;}
+		#img1 {width: 20px; height: 20px;}	
+		
+		div#content table {
+			width: 60%;
+			border-collapse: collapse;
+			margin-top: 40px;
+		}
+		div#content th, div#content td {
+			padding: 10px;
+			border: 1px solid #ccc;
+			text-align: center;
+		}
+		div#content th { background-color: #f0f0f0; }
+
+		div#content td input[type="text"], div#content td input[type="number"] {
+  			text-align: right;
+  			width: 80px;
+		}
+		div#content td input[type="checkbox"] { margin-right: 10px; }
+
+		div#content button[type="submit"] { float: left; margin-top: 10px; }
+		
+	</style>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		function mlogout()
+		{
+			if(!confirm('로그아웃하시겠습니까?')) return;
+			
+			$.ajax({
+				url:'/ezen/member/logout',
+				method:'get',
+				cache:false,
+				dataType:'json',
+				success:function(res){
+					if(res.isLogout) {
+						alert('로그아웃 성공');
+						location.href="/ezen/goods/main";
+					}
+				},
+				error:function(xhr,status,err){
+					alert(status +'/'+err);
+				}
+			});
+			return false;
+		}
+		
+	</script>	
+</head>
+<body>
+<main>
+		<h3>구매내역</h3>
+		<div>
+		<header>
+			header
+			<div>
+				<a href="/ezen/goods/">index</a>|
+				<a href="/ezen/goods/main">홈페이지</a>|
+			</div>
+		
+	 		<div id="info">
+				<a href="/ezen/member/memberInfo">[[${uid}]] 고객님</a>|
+				<a href="javascript:mlogout()">로그아웃</a>|<a href="javascript:test();">고객센터</a>|	
+			</div>
+		</header>
+		
+		<aside>
+			<a href="/ezen/member/memberInfo">내정보 보기</a><br>
+			<a href="/ezen/member/updateForm">내정보 수정</a><br>
+			<a href="/ezen/member/pwdCheckForm">비밀번호 변경</a><br>
+				<br>
+			<a th:href="@{'/ezen/goods/orderList/'+${uid}}">주문정보</li><br>
+			<a th:href="@{'/ezen/goods/cartList/'+${uid}}">장바구니</a><br>
+				<br>		
+			찜리스트<br>
+			1:1문의<br>
+			<br>
+			<a href="/ezen/member/mWithdrawForm">회원탈퇴</a><br>
+		</aside>
+		
+		<div id="content">
+			<form id="formdata" action="" >
+				<table>
+					<tr>
+						<th>주문일</th><th>상품명</th><th>상품가격</th><th>수량</th><th>금액</th><th>상태</th>
+					</tr>
+					<span th:each="order : ${orderList}">
+						<tr>
+							<td th:text="${order.orderRegistryDay}"></td>
+							<td th:text="${order.GoodsName}"></td>
+							<td><input type="text" th:value="${order.goodsSalePrice}"> </td>
+							<td><input type="number" id="goodsSaleQty" name="goodsSaleQty" th:value="${order.goodsSaleQty}">
+							</td>
+							<td th:text="${order.goodsSalePrice} * ${order.goodsSaleQty}"></td>
+							<td th:text="${order.OrderStatus}"></td>
+						</tr>
+					</span>
+					
+				</table>
+
+			</form>
+		</div>
+		
+		<div id="clr"></div>
+		<footer>
+		footer
+		</footer>
+		
+	</main>
+</body>
+</html>

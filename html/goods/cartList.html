@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>장바구니</title>
+	<style type="text/css">
+		/* Header styles */
+		header {
+		  display: flex;
+		  justify-content: space-between;
+		  align-items: center;
+		  width: 98%;
+		  height: 100px;
+		  padding: 10px;
+		  background-color: #f0f0f0;
+		  border-bottom: 1px solid #ccc;
+		  padding-right: 20px;
+		}
+		/* Footer styles */
+		footer {		 
+		  bottom: 0;
+		  width: 98%;
+		  padding: 10px;
+		  height: 50px;
+		  background-color: #f0f0f0;
+		  border-top: 1px solid #ccc; 
+		}
+		aside {width: 200px; float: left; margin-top: 40px; padding-left: 30px;}	
+		#clr {clear: left;}
+		#img1 {width: 20px; height: 20px;}	
+		
+		div#content table {
+			width: 60%;
+			border-collapse: collapse;
+			margin-top: 40px;
+		}
+		div#content th, div#content td {
+			padding: 10px;
+			border: 1px solid #ccc;
+			text-align: center;
+		}
+		div#content th { background-color: #f0f0f0; }
+
+		div#content td input[type="text"], div#content td input[type="number"] {
+  			text-align: right;
+  			width: 80px;
+		}
+		div#content td input[type="checkbox"] { margin-right: 10px; }
+
+		div#content button[type="submit"] { float: left; margin-top: 10px; }
+		
+	</style>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		function purchase()
+		{
+			if (!confirm("상품을 구매 하시겠습니까?")) return false;						
+			
+			//var formdata = new FormData($('#dataForm')[0]);
+			var formdata = $('#formdata').serialize();
+			var uid = document.getElementById('uid').value ;
+			
+			$.ajax({ 
+				url : '/ezen/goods/purchase',
+				method  :'post',     // get , post
+				data    : formdata,		
+				cache   : false,      //브라우저가 지금 내용은 기억하지 말라고 하는 명령
+				dataType:'json',  // text, json, html, xml
+				success:function(res)
+				{
+						alert(res.purchase ? "구매 성공" : "구매 실패");
+						location.href = "/ezen/goods/orderList/"+uid;					
+				},
+				 error:function(xhr, status, err )
+				 {
+					 alert('에러:'+ status+'/'+ err);
+				 }
+			});
+			return false;
+		}
+	</script>
+	<script type="text/javascript">
+		function mlogout()
+		{
+			if(!confirm('로그아웃하시겠습니까?')) return;
+			
+			$.ajax({
+				url:'/ezen/member/logout',
+				method:'get',
+				cache:false,
+				dataType:'json',
+				success:function(res){
+					if(res.isLogout) {
+						alert('로그아웃 성공');
+						location.href="/ezen/goods/main";
+					}
+				},
+				error:function(xhr,status,err){
+					alert(status +'/'+err);
+				}
+			});
+			return false;
+		}
+		
+	</script>
+	
+	<script type="text/javascript">
+		function changeSaleQty(cartno, num, uid)
+		{
+			var name = "goodsSaleQty" + num;
+			var qtys = document.getElementById(name).value;
+			
+			if(!confirm('변경된 수량을 적용 하시겠습니까?')) return;
+			
+			//var formdata = $('#formdata').serialize();
+			
+			$.ajax({
+				url:'/ezen/goods/changeSaleQty',
+				method:'post',
+				data : {'cartno' : cartno, 'qty' : qtys},
+				cache:false,
+				dataType:'json',
+				success:function(res){
+						alert(res.changeSaleQty ? "수량 변경 성공" : "수량 변경 실패");
+						location.href="/ezen/goods/cartList/" + uid;
+				},
+				error:function(xhr,status,err){
+					alert(status +'/'+err);
+				}
+			});
+		}
+		
+	</script>
+	
+</head>
+<body>
+<main>
+		<h3>카트</h3>
+		<header>
+			header
+			<div>
+				<a href="/ezen/goods/">index</a>|
+				<a href="/ezen/goods/main">홈페이지</a>|
+			</div>
+	 		<div id="info">
+				<a href="/ezen/member/memberInfo">[[${uid}]] 고객님</a>|
+				<a href="javascript:mlogout()">로그아웃</a>|
+				<a href="javascript:test();">고객센터</a>|
+			</div>
+		</header>
+		
+		<aside>
+			<a href="/ezen/member/memberInfo">내정보 보기</a><br>
+			<a href="/ezen/member/updateForm">내정보 수정</a><br>
+			<a href="/ezen/member/pwdCheckForm">비밀번호 변경</a><br>
+				<br>
+			<a th:href="@{'/ezen/goods/orderList/'+${uid}}">주문정보</li><br>
+			<a th:href="@{'/ezen/goods/cartList/'+${uid}}">장바구니</a><br>
+				<br>		
+			찜리스트<br>
+			1:1문의<br>
+			<br>
+			<a href="/ezen/member/mWithdrawForm">회원탈퇴</a><br>
+		</aside>
+		
+		<div id="content">
+			<div>
+				<form id="formdata" action="" onsubmit="return purchase()">
+				<input id="uid" name="uid" type="hidden" th:value="${uid}">
+					<table>
+						<tr>
+							<th></th><th colspan="2">상품명</th><th>상품가격</th><th>수량</th><th>금액</th>
+						</tr>
+						
+						<span th:each="cart, iStat : ${cart}">
+							<tr>
+								<td><input type="checkbox" id="checked" name="checked" th:value="${cart.cartno}"></td>
+								<td><img id="img1" alt="" th:src="@{'/images/goods/' + ${cart.imgFileFakeName1}}">  </td>
+								<td>[[${cart.GoodsName}]]</td>
+								<td><input type="text" th:value="${cart.goodsSalePrice}"> </td>
+								<td><input type="number" th:id="'goodsSaleQty' + ${iStat.index+1}" name="goodsSaleQty" th:value="${cart.goodsSaleQty}" >
+									<button type="button" th:onclick="'changeSaleQty('+${cart.cartno}+','+${iStat.index +1}+','+${uid}+');'">수량변경</button>
+								</td>
+								<td th:text="${cart.goodsSalePrice} * ${cart.goodsSaleQty}"></td>
+							</tr>
+						</span>
+						
+					</table>
+					<button type="submit">상품 구매</button>
+				</form>
+			</div>
+		</div>
+		<br>
+		<div id="clr"></div>
+		<footer>
+		footer
+		</footer>
+	</main>
+</body>
+</html>
