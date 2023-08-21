@@ -90,9 +90,6 @@ public class SellerController
 	@PostMapping("/orderList")
 	public String orderListLink(Model model, HttpSession session)
 	{
-		SellerVO seller = svc.getSeller(Integer.parseInt(session.getAttribute("sellernum").toString()));
-	    model.addAttribute("seller", seller);
-		
 		List<Map> order = svc.orderList(Integer.parseInt(session.getAttribute("sellernum").toString()));
 		model.addAttribute("order", order);
 		return "ezen/seller/order/orderlist";
@@ -101,9 +98,6 @@ public class SellerController
 	@PostMapping("/shipping")
 	public String shippingLink(Model model, HttpSession session)
 	{
-		SellerVO seller = svc.getSeller(Integer.parseInt(session.getAttribute("sellernum").toString()));
-	    model.addAttribute("seller", seller);
-	    
 	    List<Map> order = svc.orderList(Integer.parseInt(session.getAttribute("sellernum").toString()));
 	    model.addAttribute("order", order);
 		return "ezen/seller/order/shipping";
@@ -147,7 +141,7 @@ public class SellerController
 		SellerVO seller = svc.getSeller(Integer.parseInt(session.getAttribute("sellernum").toString()));
         model.addAttribute("seller", seller);
         
-		return "ezen/seller/customer/QnAList";
+		return "ezen/seller/custom/QnAList";
 		
 	}
 	@PostMapping("/reviewlist")
@@ -155,7 +149,7 @@ public class SellerController
 	{
 		SellerVO seller = svc.getSeller(Integer.parseInt(session.getAttribute("sellernum").toString()));
         model.addAttribute("seller", seller);
-		return "ezen/seller/customer/reviewlist";
+		return "ezen/seller/custom/reviewlist";
 		
 	}
 	//판매자 관리------------------------------------------------------------

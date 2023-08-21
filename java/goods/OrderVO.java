@@ -26,4 +26,6 @@ public class OrderVO
 	private int goodsSaleQty;
 	private java.sql.Date orderRegistryDay;
 	private String status;
+	private String postname;
+	private String shippingcode;
 }

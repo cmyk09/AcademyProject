@@ -372,7 +372,7 @@ public class GoodsMgtSVC
 		java.sql.Date inDate = new java.sql.Date(dt);
 		
 		// 3. 상태 값 만들기
-		String status = "I";
+		String status = "payCompl";
 		
 		// 4. Cart 값 orderVO에 가져오기
 		List<OrderVO> orderList = new ArrayList<>();

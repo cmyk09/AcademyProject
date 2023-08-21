@@ -172,7 +172,7 @@ function logout()
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">정산관리</button>
 	    <div class="content">
-	   		<p><a th:onclick="incomechart())">수익 통계</a></p>
+	   		<p><a th:onclick="incomechart()">수익 통계</a></p>
 	        <p><a th:onclick="incomelist()">입금 내역</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">고객관리</button>
@@ -193,20 +193,21 @@ function logout()
 		<div>
 			<table>
 				<tr>
-					<th>오더번호</th><th>상품명</th><th>수량</th><th>금액</th><th>구매일</th><th>상태</th>
+					<th>복수선택</th><th>오더번호</th><th>상품명</th><th>수량</th><th>금액</th><th>구매일</th><th>상태</th>
 				</tr>
 				
 				<span th:each="order : ${goods}">
 					<tr>
-						<td th:text="${order.orderNo}"></td>
-						<td th:text="${order.GoodsName}"></td>
-						<td th:text="${order.goodsSaleQty}"></td>
-						<td th:text="${order.goodsSalePrice}"></td>
-						<td th:text="${order.orderRegistryDay}"></td>
-						<td th:text="${order.orderStatus}"></td>
+						<td><input type="checkbox" name="selectCheck" id="selectCheck" th:checked="false"></td>
+						<td type="text" th:value="${order.orderNo}"></td>
+						<td type="text" th:value="${order.GoodsName}"></td>
+						<td type="text" th:value="${order.goodsSaleQty}"></td>
+						<td type="text" th:value="${order.goodsSalePrice}"></td>
+						<td type="text" th:value="${order.orderRegistryDay}"></td>
+						<td type="text" th:value="${order.orderStatus}"></td>
 					</tr>
 				</span>
-						
+				
 			</table>
 		</div>
 	</div>
