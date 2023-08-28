@@ -193,20 +193,22 @@ function logout()
 		<div>
 			<table>
 				<tr>
-					<th>복수선택</th><th>오더번호</th><th>상품명</th><th>수량</th><th>금액</th><th>구매일</th><th>상태</th>
+					<th>복수선택</th><th>오더번호</th><th>상품명</th><th>수량</th><th>금액</th><th>구매일</th><th>상태</th><th>주문인ID</th><th>주소</th>
 				</tr>
-				
-				<span th:each="order : ${goods}">
+				<span th:each="order : ${order}">
 					<tr>
 						<td><input type="checkbox" name="selectCheck" id="selectCheck" th:checked="false"></td>
-						<td type="text" th:value="${order.orderNo}"></td>
-						<td type="text" th:value="${order.GoodsName}"></td>
-						<td type="text" th:value="${order.goodsSaleQty}"></td>
-						<td type="text" th:value="${order.goodsSalePrice}"></td>
-						<td type="text" th:value="${order.orderRegistryDay}"></td>
-						<td type="text" th:value="${order.orderStatus}"></td>
+						<td id="orderNum" th:hidden="${order.orderNo}"></td>
+						<td th:text="${order.goodsNo}"></td>
+						<td th:text="${order.GoodsName}"></td>
+						<td th:text="${order.goodsSaleQty}"></td>
+						<td th:text="${order.goodsSalePrice}"></td>
+						<td th:text="${order.orderRegistryDay}"></td>
+						<td th:text="${order.orderStatus}"></td>
+						<td th:text="${order.mid}"></td>
+						<td th:text="${order.maddress}"></td>
 					</tr>
-				</span>
+				</span>	
 				
 			</table>
 		</div>

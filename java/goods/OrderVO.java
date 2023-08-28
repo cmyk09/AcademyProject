@@ -18,14 +18,14 @@ import lombok.ToString;
 public class OrderVO 
 {
 	private int no;
-	private int orderno;
+	private int orderNo;
 	private int memberno;
 	private int goodsno;
 	private int sellerno;
 	private int goodsSalePrice;
 	private int goodsSaleQty;
 	private java.sql.Date orderRegistryDay;
-	private String status;
+	private String orderStatus;
 	private String postname;
 	private String shippingcode;
 }

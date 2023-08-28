@@ -39,8 +39,13 @@
 			  on d.memberNo = m.mnum
 			  <!-- 테이블 3개를 가지고 온 값임. 주문정보에 다른 모든 정보도 처리해야하므로... 오더리스트(orderlist)랑 상품테이블(goods)이랑 멤버테이블(member_main) -->
 	</select>
-	<update id="shipping" parameterType="Map">
-		update orderlist set orderstatus=#{orderStatus} where num=#{orderNum}
+	<update id="changeStatus" parameterType="com.ezen.goods.OrderVO">
+		update orderlist set orderstatus=#{orderStatus} where orderNo=#{orderNo}
 	</update>
-	
+	<update id="shipinfo"
+		parameterType="com.ezen.goods.OrderVO">
+		    UPDATE orderlist 
+		    SET postname=#{postname}, shippingcode=#{shippingcode}
+		    WHERE num=#{orderNum}
+	</update>
 </mapper> 

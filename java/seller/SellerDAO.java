@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.ezen.goods.GoodsMgtMapper;
+import com.ezen.goods.OrderVO;
 
 @Repository("selldao")
 public class SellerDAO
@@ -45,9 +46,12 @@ public class SellerDAO
 		 return sellermapper.orderList(sellernum);
 	 }
 
-	 public Map shipping(Map shipInfo)
-	 {
-		 return sellermapper.shipping(shipInfo);
-	 }
+	public boolean shipinfo(OrderVO ovo) {
+		return sellermapper.shipinfo(ovo)>0;
+	}
+
+	public boolean changeStatus(OrderVO ovo) {
+		return sellermapper.changeStatus(ovo)>0;
+	}
 	 
 }

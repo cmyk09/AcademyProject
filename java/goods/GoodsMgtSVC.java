@@ -383,9 +383,9 @@ public class GoodsMgtSVC
 			map.put("userno", userno);
 			map.put("cartno", value[i]);
 			OrderVO orderVO = DAO.getCartOrderList(map);
-			orderVO.setOrderno(orderNo);
+			orderVO.setOrderNo(orderNo);
 			orderVO.setOrderRegistryDay(inDate);
-			orderVO.setStatus(status);
+			orderVO.setOrderStatus(status);
 			
 			CartVO cartVO = new CartVO();
 			cartVO.setCartno(value[i]);

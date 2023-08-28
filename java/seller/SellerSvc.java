@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.ezen.goods.OrderVO;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -47,14 +49,13 @@ public class SellerSvc
 		 return dao.orderList(sellernum);
 	 }
 
-	 public Map shipping(Map shipInfo)
-	 {
-		 return dao.shipping(shipInfo);
-	 }
+	public boolean shipinfo(OrderVO ovo) {
 
-	public List<Map> goodsList(int parseInt) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.shipinfo(ovo);
+	}
+
+	public boolean changeStatus(OrderVO ovo) {
+		return dao.changeStatus(ovo);
 	}
 
 }

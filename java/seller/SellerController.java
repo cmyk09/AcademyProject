@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.ezen.goods.GoodsMgtSVC;
+import com.ezen.goods.OrderVO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,9 @@ public class SellerController
 	
 	@Autowired
 	private GoodsMgtSVC goodsSvc;
+	
+	@Autowired
+	private OrderVO ovo;
 	
 	@Autowired
 	@Qualifier("selldao")
@@ -94,23 +98,37 @@ public class SellerController
 		model.addAttribute("order", order);
 		return "ezen/seller/order/orderlist";
 	}
-
+	
+	//shipping 메뉴 호출
 	@PostMapping("/shipping")
 	public String shippingLink(Model model, HttpSession session)
 	{
 	    List<Map> order = svc.orderList(Integer.parseInt(session.getAttribute("sellernum").toString()));
 	    model.addAttribute("order", order);
+	    System.out.println(model);
 		return "ezen/seller/order/shipping";
 	}
 	
-	/*
-	 * @GetMapping("/order/shipping/{sellernum}") public String shipping(Model
-	 * model, @PathVariable int sellernum)//발송 관리 { List<Map> goods =
-	 * svc.orderList(sellernum);
-	 * 
-	 * System.out.println("Ctl_goodsList_goods" +goods); model.addAttribute("goods",
-	 * goods); return "ezen/seller/order/shipping"; }
-	 */
+	@PostMapping("/changeStatus")
+	@ResponseBody
+	public Map<String, Object> changeStatus(@ModelAttribute OrderVO ovo)
+	{
+		boolean statup = svc.changeStatus(ovo);
+        Map<String, Object> map = new HashMap<>();
+        map.put("statup", statup);
+        return map;
+	}
+
+	//송장 정보 갱신용 맵핑
+	@PostMapping("/shipinfo")
+	@ResponseBody
+	public Map<String, Object> shipinfo(@ModelAttribute OrderVO ovo)
+	{
+		boolean sInfoupdated = svc.shipinfo(ovo);
+        Map<String, Object> map = new HashMap<>();
+        map.put("sInfoupdated", sInfoupdated);
+        return map;
+	}
 	/*
 	 * @PostMapping("/order/shipping")
 	 * 
