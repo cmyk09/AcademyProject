@@ -184,28 +184,38 @@ function changeStatus() {
 }
 </script>
 <script type="text/javascript">
-function shipinfo()
-{
-	var orderNum = document.getElementById('orderNum');
-	var postname = document.getElementById('postname');
-	var shippingcode = document.getElementById('shippingcode');
+function shipinfo(){
+    var selectedOrders = [];  // 선택된 주문의 orderNo 값을 저장할 배열
 
-	if(!confirm("배송 정보를 변경하시겠습니까?")) return false;
-	$.ajax({
-		url:'/ezen/sellerManager/shipinfo',
-		method: 'post',
-		data: {"orderNum":orderNum, "postname":postname, "shippingcode":shippingcode},
-		cache: false,
-		dataType: 'json',
-		success: function (res) {
-			alert(res.sInfoupdated ? '송장정보 등록이 완료되었습니다.':'송장정보 등록이 실패하였습니다.');
+    // 선택된 주문의 orderNo 값을 배열에 추가
+    $("input[name='selectCheck']:checked").each(function () {
+        selectedOrders.push($(this).val());
+    });
+
+    var postname = $('#postname').val();
+
+    var shippingcode = $('#shippingcode').val();
+
+    if (selectedOrders.length === 0) {
+        alert('주문을 선택하세요.');
+        return;
+    }
+    if (!confirm("배송 정보를 변경하시겠습니까?")) return false;
+	
+    $.ajax({
+    	url:'/ezen/sellerManager/shipinfo',
+        method: 'post',
+        data: {"orderNo":selectedOrders, "postname":postname, "shippingcode":shippingcode},
+        cache: false,
+        dataType: 'json',
+        success: function (res) {
+        	alert(res.sInfoupdated ? '송장정보 등록이 완료되었습니다.':'송장정보 등록이 실패하였습니다.');
 			if(res.sInfoupdated) location.reload();
-		},
-		error:function(xhr,status,err){
-			alert('에러:' + err);
-		}
-	});
-	return false;
+        },
+        error: function (xhr, status, err) {
+            alert('에러: ' + err);
+        }
+    });
 }
 </script>
 <script type="text/javascript">
@@ -277,7 +287,7 @@ $(function(){
 				<span th:each="order : ${order}">
 					<tr>
 						<td><input type="checkbox" name="selectCheck" id="selectCheck" th:value="${order.orderNo}" th:checked="false"></td>
-						<td class="orderNum" th:text="${order.orderNo}"></td>
+						<td class="orderNo" th:text="${order.orderNo}"></td>
 						<td th:text="${order.goodsNo}"></td>
 						<td th:text="${order.GoodsName}"></td>
 						<td th:text="${order.goodsSaleQty}"></td>
@@ -289,7 +299,7 @@ $(function(){
 					</tr>
 				</span>	
 			</table>
-				<label for="postname">송장정보 입력:</label>
+				<label for=shipinfo>송장정보 입력:</label>
 				   <select id="postname" name="postname">
 				       <option value="KoreaPost">우체국택배</option>
 				       <option value="CJPost">CJ대한통운</option>
@@ -304,7 +314,7 @@ $(function(){
 				   </select>
 				   <input type="text" id="postnameDirect" name="postnameDirect">
 				   송장 번호 입력: <input type="text" name="shippingcode" id="shippingcode">
-				   <button type="button" onclick="shippinginfo()">입력/변경하기</button>
+				   <button type="button" onclick="shipinfo()">입력/변경하기</button>
 		</div>
 	</div>
 	

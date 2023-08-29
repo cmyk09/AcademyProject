@@ -46,6 +46,6 @@
 		parameterType="com.ezen.goods.OrderVO">
 		    UPDATE orderlist 
 		    SET postname=#{postname}, shippingcode=#{shippingcode}
-		    WHERE num=#{orderNum}
+		    WHERE num=#{orderNo}
 	</update>
 </mapper> 
