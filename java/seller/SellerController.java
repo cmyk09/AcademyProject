@@ -74,11 +74,13 @@ public class SellerController
 	public String addGoodsFormLink(Model model, HttpSession session)
 	{
 		SellerVO seller = svc.getSeller(Integer.parseInt(session.getAttribute("sellernum").toString()));
+		
 	    model.addAttribute("seller", seller);
 		
-		List<Map> addGoodsForm = goodsSvc.getGoodsCategoryList1();
+		List<Map> list1 = goodsSvc.getGoodsCategoryList1();
+		System.out.println("goods: " + list1);
 		
-		model.addAttribute("addGoodsForm", addGoodsForm);
+		model.addAttribute("list1", list1);
 		return "ezen/goods/addGoodsForm";
 	}
 	
@@ -101,16 +103,6 @@ public class SellerController
 		List<Map> order = svc.orderList(Integer.parseInt(session.getAttribute("sellernum").toString()));
 		model.addAttribute("order", order);
 		return "ezen/seller/order/orderlist";
-	}
-	
-	//shipping 메뉴 호출
-	@PostMapping("/shipping")
-	public String shippingLink(Model model, HttpSession session)
-	{
-	    List<Map> order = svc.orderList(Integer.parseInt(session.getAttribute("sellernum").toString()));
-	    model.addAttribute("order", order);
-	    System.out.println(model);
-		return "ezen/seller/order/shipping";
 	}
 	
 	@PostMapping("/changeStatus")

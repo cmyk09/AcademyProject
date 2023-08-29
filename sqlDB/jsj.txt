@@ -1,0 +1,35 @@
+CREATE TABLE `seller` (
+  `sellernum` int NOT NULL AUTO_INCREMENT,
+  `officeName` varchar(255) NOT NULL,
+  `sellerName` varchar(255) NOT NULL,
+  `offRegiNum` varchar(255) NOT NULL,
+  `officeAdd` varchar(255) NOT NULL,
+  `busnessNum` varchar(255) NOT NULL,
+  `busnessOcc` varchar(255) NOT NULL,
+  `busnessCate` varchar(255) NOT NULL,
+  `officeEmail` varchar(255) NOT NULL,
+  `officePhone` varchar(255) NOT NULL,
+  `officeFax` varchar(255) DEFAULT NULL,
+  `adminId` varchar(255) NOT NULL,
+  `adminpass` varchar(255) NOT NULL,
+  `sellerNick` varchar(255) NOT NULL,
+  `picName` varchar(255) NOT NULL,
+  `picEmail` varchar(255) NOT NULL,
+  `pictel` varchar(255) DEFAULT NULL,
+  `picphone` varchar(255) DEFAULT NULL,
+  `csPhone` varchar(255) NOT NULL,
+  `bankName` varchar(255) NOT NULL,
+  `accountholder` varchar(255) NOT NULL,
+  `accountadd` varchar(255) NOT NULL,
+  PRIMARY KEY (`sellernum`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `withdrawalform` (
+  `no` int NOT NULL AUTO_INCREMENT,
+  `adminId` varchar(255) DEFAULT NULL,
+  `adminpass` varchar(255) DEFAULT NULL,
+  `withres` varchar(20) NOT NULL,
+  `opinion` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+

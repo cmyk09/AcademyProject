@@ -52,6 +52,7 @@ public class GoodsController
 		System.out.println("userid" + model.getAttribute("userid"));
 		model.addAttribute("list1", list1);
 		model.addAttribute("sellernum", sellernum);
+		System.out.print("리스트: "+ list1);
 		return "ezen/goods/addGoodsForm";
 	}
 	
