@@ -57,12 +57,16 @@ public class SellerController
 
 	@PostMapping("logout")
 	@ResponseBody
-	public Map logoutPost(@RequestParam String logout, SessionStatus status)
-	{	
-		status.setComplete();
-		Map map = new HashMap<>();
-		map.put("logout", true);
-		return map;
+	public Map<String, Object> logoutPost(HttpSession session, SessionStatus sessionStatus) {
+	    Map<String, Object> response = new HashMap<>();
+	    try {
+	        sessionStatus.setComplete(); // 현재 컨트롤러에서 사용하는 세션 속성 삭제
+	        session.invalidate(); // 세션 무효화
+	        response.put("success", true);
+	    } catch (Exception e) {
+	        response.put("success", false);
+	    }
+	    return response;
 	}
 	
 	//상품 관리-------------------------------------------------------------

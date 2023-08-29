@@ -39,6 +39,21 @@
         
         header {height: 50px;}
         aside {float: left; margin-right: 100px;}        
+        
+        #footer {
+        clear:both;
+        width:100%;
+        height:100px;
+        background-color: #777;
+        margin:1px 0px;
+        }
+        #footer .companyInfo {
+        padding:0.5px 5px;
+        font-size:small;
+        color:white;
+        line-height:70%;
+        }
+        
         #clr {clear: left}
          
 		 .required { color:#FF0000 }
@@ -230,6 +245,30 @@ function withdrawal()
 }
 </script>
 <script>
+//로그아웃 기능 구현
+function logout() {
+    if (!confirm("로그아웃하시겠습니까?")) return;
+    
+    $.ajax({
+        url: '/ezen/sellerManager/logout', // 로그아웃 처리 URL로 수정
+        method: 'post',
+        cache: false,
+        dataType: 'json',
+        success: function (res) {
+            if (res.success) {
+                alert("성공적으로 로그아웃하였습니다.");
+                location.href = "/ezen/goods/main"; // 로그아웃 후 이동할 페이지로 변경
+            } else {
+                alert("로그아웃에 실패하였습니다.");
+            }
+        },
+        error: function (xhr, status, err) {
+            alert('에러: ' + err);
+        }
+    });
+}
+</script>
+<script>
         function collapse(element) {
             var before = document.getElementsByClassName("active")[0]               // 기존에 활성화된 버튼
             if (before && document.getElementsByClassName("active")[0] != element) {  // 자신 이외에 이미 활성화된 버튼이 있으면
@@ -249,9 +288,11 @@ function withdrawal()
 </head>
 <body>
 <main>
-	<header>
-		<h3>판매자 매니저 페이지</h3>
-	</header>
+	<a href="/ezen/sellerManager/">
+		<header>
+			<h3>판매자 매니저 페이지</h3>
+		</header>
+	</a>
 
 	<aside>
 		<h6><button type="button" onclick="logout()">로그아웃</button></h6>
@@ -329,8 +370,13 @@ function withdrawal()
 	
 	<div id="clr"></div>
 	
-	<footer>
-	  footer
+	<footer id="footer">
+	<div class="companyInfo">
+		<p>법인명(상호) : (주)TeamProject | 대표자 : 김형욱 | 사업자등록번호 : 123-45-67890 | 통신판매업 신고 : 제2023-서울관악-0000호</p>
+		<p>전화 : 070-1234-5678 | FAX : 070-1234-5679 | 주소 : 08754 서울특별시 관악구 남부순환로 1627</p>
+		<p>이메일 : test@test.com | 팀프로젝트 인원 : 김형욱, 김성용, 박상정, 조성준, 정승재</p>
+		<p>Copyright © 2023 김형욱, 김성용, 박상정, 조성준, 정승재. All rights Reserved. </p>
+	</div>
 	</footer>
 		
 </main>
