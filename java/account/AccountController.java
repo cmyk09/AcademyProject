@@ -23,6 +23,7 @@ public class AccountController
 	@Autowired
 	private AccountSvc accsvc;
 
+	//login 파트. get 부분은 Member 폴더의 MemberLogin과 공유합니다.
 	@PostMapping("/sellerLogin")
 	@ResponseBody
 	public Map sellerLogin(SellerVO seller, HttpSession session, Model model)
@@ -39,13 +40,25 @@ public class AccountController
 		return map;
 	}
 	
-		
+	//회원가입 Get 파트
 	@GetMapping("/sellerSignUp")
 	public String sellerSignUpForm()
 	{
 		return "ezen/account/seller/sellerSignUp";
 	}
 	
+	//회원가입 Post 파트
+	@PostMapping("/sellerSignup")
+	@ResponseBody
+	public Map sellerSignup(SellerVO seller)
+	{
+		Map map = new HashMap<>();
+		boolean signedUp = accsvc.sellerSignup(seller);
+		map.put("signedUp", signedUp);
+		return map;
+	}
+	
+	//아이디 중복 체크 파트
 	@PostMapping("/signup/sellerIdDuplicate")
 	@ResponseBody
 	public Map sellerIdDuplicate(@RequestParam("adminId") String adminId)
@@ -56,13 +69,40 @@ public class AccountController
 		return map;
 	}
 	
-	@PostMapping("/sellerSignup")
+	//아이디 찾기 Get 파트
+	@GetMapping("/sellerIdFrom")
+	public String sellerIdFrom()
+	{
+		return "ezen/account/seller/sellerIdFinder";
+	}
+	
+	//아이디 찾기 Post 파트
+	@PostMapping("/sellerIdFrom")
 	@ResponseBody
-	public Map sellerSignup(SellerVO seller)
+	public Map sellerIdFrom(SellerVO seller)
 	{
 		Map map = new HashMap<>();
-		boolean signedUp = accsvc.sellerSignup(seller);
-		map.put("signedUp", signedUp);
+		String sellerIdFrom = accsvc.sellerIdFinder(seller);
+		map.put("sellerIdFrom", sellerIdFrom);
 		return map;
 	}
+	
+	//비밀번호 찾기 Get 파트
+	@GetMapping("/sellerPwdFrom")
+	public String sellerPwdFrom()
+	{
+		return "ezen/account/seller/sellerPwdFinder";
+	}
+	
+	//비밀번호 찾기 Post 파트
+	@PostMapping("/sellerPwdFrom")
+	@ResponseBody
+	public Map sellerPwdFrom(SellerVO seller)
+	{
+		Map map = new HashMap<>();
+		String sellerPwdFrom = accsvc.sellerPwdFinder(seller);
+		map.put("sellerPwdFrom", sellerPwdFrom);
+		return map;
+	}
+	
 }

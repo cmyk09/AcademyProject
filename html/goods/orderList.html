@@ -74,8 +74,35 @@
 			});
 			return false;
 		}
-		
 	</script>	
+	<script type="text/javascript">
+	function purConfirm(orderNo, orderStatus) {
+		alert("orderStatus: " + orderStatus)
+	  if (orderStatus=='deliCompl') {
+	    	 $.ajax({
+	 	        url: '/ezen/goods/purConfirm',
+	 	        method: 'POST',
+	 	        data: { "orderNo": orderNo, "orderStatus": orderStatus },
+	 	        cache: false,
+	 	        dataType: 'json',
+	 	        success: function (res) {
+	 	            if (res.purConfirm) {
+	 	                alert('구매확정에 성공하였습니다.');
+	 	                location.reload(); // 페이지 리로드
+	 	            }
+	 	        },
+	 	        error: function (xhr, status, err) {
+	 	            alert(status + '/' + err);
+	 	        }
+	 	    });
+	    }
+	  else{
+	    	alert('배송이 완료되지 않은 상품은 구매확정을 하실 수 없습니다.');
+	        return;
+	  }
+	   
+	}
+	</script>
 </head>
 <body>
 <main>
@@ -112,10 +139,11 @@
 			<form id="formdata" action="" >
 				<table>
 					<tr>
-						<th>주문일</th><th>상품명</th><th>상품가격</th><th>수량</th><th>금액</th><th>상태</th>
+						<th>주문일</th><th>상품명</th><th>상품가격</th><th>수량</th><th>금액</th><th>상태</th><th>구매확정</th>
 					</tr>
 					<span th:each="order : ${orderList}">
 						<tr>
+							<td th:hidden="${order.orderNo}"></td>
 							<td th:text="${order.orderRegistryDay}"></td>
 							<td th:text="${order.GoodsName}"></td>
 							<td><input type="text" th:value="${order.goodsSalePrice}"> </td>
@@ -123,6 +151,10 @@
 							</td>
 							<td th:text="${order.goodsSalePrice} * ${order.goodsSaleQty}"></td>
 							<td th:text="${order.OrderStatus}"></td>
+							<td>
+  							  <button type="button" th:attr="data-orderNo=${order.orderNo}, data-orderStatus=${order.OrderStatus}"
+          					  onclick="purConfirm(this.getAttribute('data-orderNo'), this.getAttribute('data-orderStatus'));">구매확정</button>
+							</td>
 						</tr>
 					</span>
 					

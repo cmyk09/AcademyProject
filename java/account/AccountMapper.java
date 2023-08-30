@@ -21,4 +21,8 @@ public interface AccountMapper
 
 	public int sellernumGet(SellerVO seller);
 
+	public String sellerIdFinder(String officeEmail, String officePhone);
+
+	public String sellerPwdFinder(String adminId, String officeEmail, String officePhone);
+
 }

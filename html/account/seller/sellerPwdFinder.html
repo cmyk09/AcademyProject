@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>회원가입</title>
+<style type="text/css">
+/* Header styles */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 98%;
+  height: 100px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  padding-right: 20px;
+}
+/* Footer styles */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 98%;
+  padding: 10px;
+  height: 50px;
+  background-color: #f0f0f0;
+  border-top: 1px solid #ccc; 
+}
+/* Clear styles */
+#clr { clear: both; }
+
+.content { display: flex; flex-direction: column; align-items: center;
+  border: 1px solid #ccc; border-radius: 10px; 
+  padding: 10px; width: 550px; margin: 50px auto; }
+
+.content h2 { margin-bottom: 20px; text-align: left; }
+
+.content div { margin-bottom: 10px; display: flex; 
+  flex-direction: row; align-items: center; justify-content: center; }
+
+.content label { font-weight: bold; margin-right: 10px; /* label과 input 사이 간격*/
+  text-align: right; width: 180px; }
+  
+.content input[type="text"],
+.content input[type="password"],
+.content textarea { padding: 5px; border: 1px solid #ccc; border-radius: 5px;
+  width: 100%; height: 25px; flex-grow: 1; }
+
+.content button[class="back"] { margin-right: 10px; background-color: gray; color: white;
+  padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 70px;
+  transition: background-color .3s ease-in-out; }
+
+.content button[type="submit"] { background-color: gray; color: white;
+  padding: 10px; border: none; border-radius: 5px; cursor: pointer;
+  transition: background-color .3s ease-in-out; }
+
+.content button[type="reset"]:hover { background-color: darkgray; }
+
+.content button[type="submit"]:hover { background-color: darkgray; }
+
+.required { color:#FF0000 }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function sellerPwdFrom() 
+{
+	var formdata = $('#sellerPwdFrom').serialize();
+	
+	$.ajax({
+		url:'/ezen/account/sellerPwdFrom',
+		method:'post',
+		data:formdata,
+		cache:false,
+		dataType:'json',
+		success:function(res) {
+			if(res.sellerPwdFrom){
+				alert("조회하신 비밀번호는 \" " + res.sellerPwdFrom + " \" 입니다. 로그인 페이지로 돌아갑니다.")
+				location.href="/ezen/member/loginForm";
+			}
+		},
+		error:function(xhr,status,err){
+			alert('에러:' + err);
+		}
+	});
+	return false;
+}
+
+function goHome()
+{
+	location.href="/ezen/member/loginForm";
+}
+</script>
+
+</head>
+<body>
+<main>
+	<header>
+			header
+			<div> 
+	 		|<a href="/ezen/goods/main">홈페이지</a>|
+	 		</div>
+	</header>
+	<div class="content">
+		<form id="sellerPwdFrom" method="post" onsubmit="return sellerPwdFrom();">
+		<h3>아이디 찾기</h3>
+		<div>
+			<label for=adminId>아이디 입력 </label>
+			<input type="text" name="adminId" id="adminId" required>
+		</div>
+		<div>
+			<label for="officeEmail">대표 이메일 </label>
+			<input type="text" name="officeEmail" id="officeEmail" required>
+		</div>
+		<div>
+			<label for="officePhone">대표 전화번호 </label>
+			<input type="text" name="officePhone" id="officePhone" required>
+		</div>
+        <div>
+            <button type="button" class="back" onclick="return goHome();">취소</button>
+            <button type="submit">비밀번호 찾기</button>
+        </div>
+    	</form>
+    </div>
+    <br>
+	<div id="clr"></div>
+	<footer>
+			footer
+	</footer>
+</main>
+</body>
+</html>

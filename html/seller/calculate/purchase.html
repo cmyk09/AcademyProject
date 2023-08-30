@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
-<title>판매자 발송 관리 페이지</title>
+<title>입금 내역 페이지</title>
     <style>
         .collapsible {
             background-color: #777;
@@ -38,7 +38,7 @@
         }
         
         header {height: 50px;}
-        aside {float: left; margin-right: 100px;}
+        aside {float: left; margin-right: 100px;}      
         
         #footer {
         clear:both;
@@ -53,7 +53,7 @@
         color:white;
         line-height:70%;
         }
-                
+          
         #clr {clear: left}
         
     </style>
@@ -167,7 +167,6 @@ function logout() {
 }
 </script>
 <script>
-//접이식 메뉴 구현
         function collapse(element) {
             var before = document.getElementsByClassName("active")[0]               // 기존에 활성화된 버튼
             if (before && document.getElementsByClassName("active")[0] != element) {  // 자신 이외에 이미 활성화된 버튼이 있으면
@@ -184,89 +183,6 @@ function logout() {
             }
         }
 </script>
-<script type="text/javascript">
-//배송상태 기능 구현
-function changeStatus() {
-    var selectedOrders = [];  // 선택된 주문의 orderNo 값을 저장할 배열
-
-    // 선택된 주문의 orderNo 값을 배열에 추가
-    $("input[name='selectCheck']:checked").each(function () {
-        selectedOrders.push($(this).val());
-    });
-
-    var orderStatus = $('#orderStatus').val();
-
-    if (selectedOrders.length === 0) {
-        alert('주문을 선택하세요.');
-        return;
-    }
-    if (!confirm("배송 정보를 변경하시겠습니까?")) return false;
-	
-    $.ajax({
-        url: '/ezen/sellerManager/changeStatus',
-        method: 'post',
-        data: { "orderNo": selectedOrders, "orderStatus": orderStatus },
-        cache: false,
-        dataType: 'json',
-        success: function (res) {
-            alert(res.statup ? '배송상태 변경 성공.' : '배송상태 변경 실패.');
-            if (res.statup) location.reload(); // 페이지 새로고침
-        },
-        error: function (xhr, status, err) {
-            alert('에러: ' + err);
-        }
-    });
-}
-</script>
-<script type="text/javascript">
-//송장 정보 입력 기능 구현
-function shipinfo(){
-    var selectedOrders = [];  // 선택된 주문의 orderNo 값을 저장할 배열
-
-    // 선택된 주문의 orderNo 값을 배열에 추가
-    $("input[name='selectCheck']:checked").each(function () {
-        selectedOrders.push($(this).val());
-    });
-
-    var postname = $('#postname').val();
-
-    var shippingcode = $('#shippingcode').val();
-
-    if (selectedOrders.length === 0) {
-        alert('주문을 선택하세요.');
-        return;
-    }
-    if (!confirm("배송 정보를 변경하시겠습니까?")) return false;
-	
-    $.ajax({
-    	url:'/ezen/sellerManager/shipinfo',
-        method: 'post',
-        data: {"orderNo":selectedOrders, "postname":postname, "shippingcode":shippingcode},
-        cache: false,
-        dataType: 'json',
-        success: function (res) {
-        	alert(res.sInfoupdated ? '송장정보 등록이 완료되었습니다.':'송장정보 등록이 실패하였습니다.');
-			if(res.sInfoupdated) location.reload();
-        },
-        error: function (xhr, status, err) {
-            alert('에러: ' + err);
-        }
-    });
-}
-</script>
-<script type="text/javascript">
-//직접쓰기 기능 평소에 닫아두는 기능 구현
-$(function(){
-	$("#postnameDirect").hide();
-	$("#postname").change(function() {
-			if($("#postname").val() == "direct") {
-				$("#postnameDirect").show();
-			}  else {
-				$("#postnameDirect").hide();
-			}
-		}) 
-});
-</script>
 </head>
 <body>
 <main>
@@ -280,19 +196,17 @@ $(function(){
 		<h6><button type="button" onclick="logout()">로그아웃</button></h6>
 		<button type="button" class="collapsible" onclick="collapse(this);">상품관리</button>
 	    <div class="content">
-	        <p><a th:onclick="addGoodsForm()">상품 목록/수정</a></p>
-	        <p><a th:onclick="goodsList()">상품 등록</a></p>
+	        <p><a th:onclick="addGoodsForm()">상품 등록</a></p>
+	        <p><a th:onclick="goodsList()">상품 목록/수정</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">주문관리</button>
 	    <div class="content"> 
-	        <!-- <p><a th:href="@{'/ezen/goods/goodsOrderList/' + ${sellernum}}">주문 목록</a></p> 팀장님이 저번에 해두신거, 임시 주석화-->
-	        <p><a th:onclick="orderList()">주문 목록</a></p>
-	        <p><a th:onclick="shipping()">발송 관리</a></p>
+	        <p><a th:onclick="orderList()">주문 관리/목록</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">정산관리</button>
 	    <div class="content">
-	   		<p><a th:onclick="incomechart()">수익 통계</a></p>
-	        <p><a th:onclick="incomelist()">입금 내역</a></p>
+	   		<p><a th:onclick="purchase()">정산 관리</a></p>
+	        <p><a th:onclick="incomelist()">판매수익 조회</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">고객관리</button>
 	    <div class="content">
@@ -307,58 +221,13 @@ $(function(){
 	</aside>
 	
 	
-	
 	<div id="main">
 		<div>
-			 <label for="orderStatus">배송상태 변경:</label>
-				   <select id="orderStatus" name="orderStatus">
-				       <option value="payCompl">결제완료</option>
-				       <option value="PreparingItem">상품준비중</option>
-				       <option value="prepShip">배송준비중</option>
-				       <option value="shipping">배송중</option>
-				       <option value="deliCompl">배송완료</option>
-				   </select>
-				   <button type="button" onclick="changeStatus()">변경하기</button>
-			<table>
-				<tr>
-					<th>복수선택</th><th>주문번호</th><th>상품번호</th><th>상품명</th><th>수량</th><th>금액</th><th>구매일</th><th>상태</th><th>주문인ID</th><th>주소</th>
-				</tr>
-				<span th:each="order : ${order}">
-					<tr>
-						<td><input type="checkbox" name="selectCheck" id="selectCheck" th:value="${order.orderNo}" th:checked="false"></td>
-						<td class="orderNo" th:text="${order.orderNo}"></td>
-						<td th:text="${order.goodsNo}"></td>
-						<td th:text="${order.GoodsName}"></td>
-						<td th:text="${order.goodsSaleQty}"></td>
-						<td th:text="${order.goodsSalePrice}"></td>
-						<td th:text="${order.orderRegistryDay}"></td>
-						<td th:text="${order.orderStatus}"></td>
-						<td th:text="${order.mid}"></td>
-						<td th:text="${order.maddress}"></td>
-					</tr>
-				</span>	
-			</table>
-				<label for=shipinfo>송장정보 입력:</label>
-				   <select id="postname" name="postname">
-				       <option value="KoreaPost">우체국택배</option>
-				       <option value="CJPost">CJ대한통운</option>
-				       <option value="LogenPost">로젠택배</option>
-				       <option value="HJPost">한진택배</option>
-				       <option value="LottePost">롯데택배</option>
-				       <option value="USPS">USPS</option>
-				       <option value="DHL">DHL</option>
-				       <option value="Fedex">Fedex</option>
-				       <option value="UPS">UPS</option>
-				       <option value="direct">직접 입력</option>
-				   </select>
-				   <input type="text" id="postnameDirect" name="postnameDirect">
-				   송장 번호 입력: <input type="text" name="shippingcode" id="shippingcode">
-				   <button type="button" onclick="shipinfo()">입력/변경하기</button>
+			<h2> 현재 준비중인 메뉴입니다.</h2>
 		</div>
 	</div>
 	
-	<div id="clr">
-	</div>
+	<div id="clr"></div>
 	
 	<footer id="footer">
 	<div class="companyInfo">

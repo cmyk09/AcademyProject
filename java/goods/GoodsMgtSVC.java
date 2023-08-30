@@ -525,4 +525,8 @@ public class GoodsMgtSVC
 		return  deleteGoods ;
 	}
 
+	public boolean purConfirm(OrderVO ovo) {
+		return DAO.purConfirm(ovo);
+	}
+
 }

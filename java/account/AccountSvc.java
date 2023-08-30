@@ -68,4 +68,27 @@ public class AccountSvc
 		return accdao.sellernumGet(seller);
 	}
 
+	public String sellerIdFinder(SellerVO seller) {
+		String officeEmail = seller.getOfficeEmail();
+		String officePhone = seller.getOfficePhone();
+		
+		String sellerIdFrom = accdao.sellerIdFinder(officeEmail, officePhone);
+		if(sellerIdFrom==null) {
+			sellerIdFrom = "검색된 정보 없음";
+		}
+		return sellerIdFrom;
+	}
+
+	public String sellerPwdFinder(SellerVO seller) {
+		String adminId = seller.getAdminId();
+		String officeEmail = seller.getOfficeEmail();
+		String officePhone = seller.getOfficePhone();
+		
+		String sellerPwdFrom = accdao.sellerPwdFinder(adminId, officeEmail, officePhone);
+		if(sellerPwdFrom==null) {
+			sellerPwdFrom = "검색된 정보 없음";
+		}
+		return sellerPwdFrom;
+	}
+	
 }

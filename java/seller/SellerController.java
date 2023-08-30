@@ -125,12 +125,6 @@ public class SellerController
         map.put("sInfoupdated", sInfoupdated);
         return map;
 	}
-	/*
-	 * @PostMapping("/order/shipping")
-	 * 
-	 * @ResponseBody public Map shippingPost(@RequestParam Map shipInfo) { Map map =
-	 * svc.shipping(shipInfo); return map; }
-	 */
 	//정산 관리-------------------------------------------------------------
 	@PostMapping("/incomechart")
 	public String incomechart(Model model, HttpSession session)

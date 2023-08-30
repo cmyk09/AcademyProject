@@ -65,4 +65,6 @@ public interface GoodsMgtMapper
 
 	int deleteGoods(Map map);
 
+	int purConfirm(OrderVO ovo);
+
 }

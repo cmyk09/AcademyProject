@@ -60,4 +60,13 @@ public class AccountDAO
 	public int sellernumGet(SellerVO seller) {
 		return amap.sellernumGet(seller);
 	}
+
+	public String sellerIdFinder(String officeEmail, String officePhone) {
+		return amap.sellerIdFinder(officeEmail, officePhone);
+	}
+
+	public String sellerPwdFinder(String adminId, String officeEmail, String officePhone) {
+		return amap.sellerPwdFinder(adminId, officeEmail, officePhone);
+	}
+
 }

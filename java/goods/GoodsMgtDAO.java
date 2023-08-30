@@ -166,4 +166,8 @@ public class GoodsMgtDAO
 		return  mapper.deleteGoods(map) ;
 	}
 
+	public boolean purConfirm(OrderVO ovo) {
+		return mapper.purConfirm(ovo)>0;
+	}
+
 }

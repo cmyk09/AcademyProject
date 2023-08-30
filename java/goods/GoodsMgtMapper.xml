@@ -349,4 +349,8 @@
 			   		GoodsDeleteDay = #{deleteDay} 
 	 		 WHERE Goodsno = #{goodsno}
 	</update>
+	
+	<update id="purConfirm" parameterType="com.ezen.goods.OrderVO">
+		update orderlist set orderstatus='purConfirm' where orderNo=#{orderNo}
+	</update>
 </mapper>

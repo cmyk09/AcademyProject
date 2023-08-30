@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -342,6 +343,17 @@ public class GoodsController
 		Map map = new HashMap<>();
 		map.put("deleteGoods", deleteGoods);
 		return map;
+	}
+	
+	// 구매 확정 버튼
+	@PostMapping("/purConfirm")
+	@ResponseBody
+	public Map<String, Object> purConfirm(@ModelAttribute OrderVO ovo)
+	{
+		boolean purConfirm = SVC.purConfirm(ovo);
+        Map<String, Object> map = new HashMap<>();
+        map.put("purConfirm", purConfirm);
+        return map;
 	}
 }
 
