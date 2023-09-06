@@ -195,11 +195,32 @@ function changeStatus() {
     });
 
     var orderStatus = $('#orderStatus').val();
-
+    
     if (selectedOrders.length === 0) {
         alert('주문을 선택하세요.');
         return;
     }
+    if (originalOrderStatus === 'purConfirm'){
+    	alert('구매 확정된 주문은 배송상태를 변경하실 수 없습니다.');
+    	return false;
+    }
+    
+
+    $.ajax({
+        url: '/ezen/sellerManager/getOrderStatus', // AJAX 요청을 처리할 URL로 수정
+        method: 'post',
+        data: { "orderNo": selectedOrders },
+        cache: false,
+        dataType: 'json',
+        success: function (res) {
+            // AJAX 요청 성공 후 현재 상태를 확인
+            if (res.getOrderStatus === 'purConfirm') {
+                alert('구매 확정된 주문은 배송상태를 변경하실 수 없습니다.');
+                return false;
+            	}
+       		}
+	});
+        
     if (!confirm("배송 정보를 변경하시겠습니까?")) return false;
 	
     $.ajax({
@@ -231,11 +252,28 @@ function shipinfo(){
     var postname = $('#postname').val();
 
     var shippingcode = $('#shippingcode').val();
+    
 
     if (selectedOrders.length === 0) {
         alert('주문을 선택하세요.');
         return;
     }
+    
+    $.ajax({
+        url: '/ezen/sellerManager/getOrderStatus', // AJAX 요청을 처리할 URL로 수정
+        method: 'post',
+        data: { "orderNo": selectedOrders },
+        cache: false,
+        dataType: 'json',
+        success: function (res) {
+            // AJAX 요청 성공 후 현재 상태를 확인
+            if (res.getOrderStatus === 'purConfirm') {
+                alert('구매 확정된 주문은 배송상태를 변경하실 수 없습니다.');
+                return false;
+            	}
+       		}
+	});
+    
     if (!confirm("배송 정보를 변경하시겠습니까?")) return false;
 	
     $.ajax({
@@ -289,8 +327,7 @@ $(function(){
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">정산관리</button>
 	    <div class="content">
-	   		<p><a th:onclick="purchase()">정산 관리</a></p>
-	        <p><a th:onclick="incomelist()">판매수익 조회</a></p>
+	        <p><a th:onclick="incomelist()">판매수익 관리</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">고객관리</button>
 	    <div class="content">

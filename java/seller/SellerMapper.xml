@@ -48,4 +48,34 @@
 		    SET postname=#{postname}, shippingcode=#{shippingcode}
 		    WHERE num=#{orderNo}
 	</update>
+	
+	<select id="getOrderStatus"
+			parameterType="com.ezen.goods.OrderVO"
+			resultType="Map">
+			select * orderStatus FROM Seller where orderNo=#{orderNo}
+	</select>
+	
+	<select id="beforeStlmn" 
+			parameterType="Integer"
+			resultType="Map">
+			select *
+			from (SELECT o.num, o.orderNo, o.memberNo, o.goodsNo, g.GoodsName, o.goodsSalePrice, o.goodsSaleQty, o.orderRegistryDay, o.orderStatus
+					FROM orderlist o left outer join goods g 
+					  on o.goodsNo = g.Goodsno
+					where o.sellerNo = #{sellerno} AND o.orderStatus = 'purConfirm'
+				) d left outer join member_main m
+			  on d.memberNo = m.mnum
+	</select>
+	
+	<select id="incomelist" 
+			parameterType="Integer"
+			resultType="Map">
+			select *
+			from (SELECT o.num, o.orderNo, o.memberNo, o.goodsNo, g.GoodsName, o.goodsSalePrice, o.goodsSaleQty, o.orderRegistryDay, o.orderStatus
+					FROM orderlist o left outer join goods g 
+					  on o.goodsNo = g.Goodsno
+					where o.sellerNo = #{sellerno} AND o.orderStatus = 'purConfirm'
+				) d left outer join member_main m
+			  on d.memberNo = m.mnum
+			  </select>
 </mapper> 

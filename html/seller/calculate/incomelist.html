@@ -205,8 +205,7 @@ function logout() {
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">정산관리</button>
 	    <div class="content">
-	   		<p><a th:onclick="purchase()">정산 관리</a></p>
-	        <p><a th:onclick="incomelist()">판매수익 조회</a></p>
+	        <p><a th:onclick="incomelist()">판매수익 관리</a></p>
 	    </div>
 		<button type="button" class="collapsible" onclick="collapse(this);">고객관리</button>
 	    <div class="content">
@@ -222,8 +221,41 @@ function logout() {
 	
 	
 	<div id="main">
+		<div id="search">
+			<form id="searchForm" action="ezen/sellerManager/iListSearch" method="post" >
+				<input type="date" id="startdate" name="startdate">
+    			~
+   				<input type="date" id="enddate" name="enddate">
+				<label>검색 카테고리</label>
+					<select id="category" name="category">
+						<option value="goodsNo">주문번호</option>
+						<option value="GoodsName">상품명</option>
+						<option value="mid">주문명ID</option>
+					</select>
+				<label>검색어</label>
+					<input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요.">
+				<button type="button" th:onclick="searching()">조회</button>
+			</form>
+		</div>
+		<h4 th:text="${'조회된 수익 합계: ' + #aggregates.sum(incomelist.![goodsSalePrice]) * #aggregates.sum(incomelist.![goodsSaleQty])}"> </h4>
 		<div>
-			<h2> 현재 준비중인 메뉴입니다.</h2>
+			<table>
+				<tr>
+					<th>주문번호</th><th>상품번호</th><th>상품명</th><th>수량</th><th>금액</th><th>구매일</th><th>주문인ID</th><th>주소</th>
+				</tr>
+				<span th:each="incomelist : ${incomelist}">
+					<tr>
+						<td class="orderNo" th:text="${incomelist.orderNo}"></td>
+						<td th:text="${incomelist.goodsNo}"></td>
+						<td th:text="${incomelist.GoodsName}"></td>
+						<td th:text="${incomelist.goodsSaleQty}"></td>
+						<td th:text="${incomelist.goodsSalePrice}"></td>
+						<td th:text="${incomelist.orderRegistryDay}"></td>
+						<td th:text="${incomelist.mid}"></td>
+						<td th:text="${incomelist.maddress}"></td>
+					</tr>
+				</span>	
+			</table>
 		</div>
 	</div>
 	

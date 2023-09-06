@@ -105,6 +105,16 @@ public class SellerController
 		return "ezen/seller/order/orderlist";
 	}
 	
+	@PostMapping("/getOrderStatus")
+	@ResponseBody
+	public Map<String, Object> getOrderStatus(Model model, HttpSession session)
+	{
+		List<Map> getOrderStatus = svc.getOrderStatus(Integer.parseInt(session.getAttribute("sellernum").toString()));
+        Map<String, Object> map = new HashMap<>();
+        map.put("getOrderStatus", getOrderStatus);
+        return map;
+	}
+	
 	@PostMapping("/changeStatus")
 	@ResponseBody
 	public Map<String, Object> changeStatus(@ModelAttribute OrderVO ovo)
@@ -126,19 +136,11 @@ public class SellerController
         return map;
 	}
 	//정산 관리-------------------------------------------------------------
-	@PostMapping("/incomechart")
-	public String incomechart(Model model, HttpSession session)
-	{
-		SellerVO seller = svc.getSeller(Integer.parseInt(session.getAttribute("sellernum").toString()));
-	    model.addAttribute("seller", seller);
-		return "ezen/seller/calculate/incomechart";
-	}
-
 	@PostMapping("/incomelist")
 	public String incomelist(Model model, HttpSession session)
 	{
-		SellerVO seller = svc.getSeller(Integer.parseInt(session.getAttribute("sellernum").toString()));
-	    model.addAttribute("seller", seller);
+		List<Map> incomelist = svc.incomelist(Integer.parseInt(session.getAttribute("sellernum").toString()));
+		model.addAttribute("incomelist", incomelist);
 		return "ezen/seller/calculate/incomelist";
 	
 	}

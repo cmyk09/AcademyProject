@@ -53,5 +53,21 @@ public class SellerDAO
 	public boolean changeStatus(OrderVO ovo) {
 		return sellermapper.changeStatus(ovo)>0;
 	}
+
+	public List<Map> beforeStlmn(int sellernum) {
+		return sellermapper.beforeStlmn(sellernum);
+	}
+
+	public boolean purchaseCompl(OrderVO ovo) {
+		return sellermapper.purchaseCompl(ovo)>0;
+	}
+
+	public List<Map> getOrderStatus(int orderNo) {
+		return sellermapper.getOrderStatus(orderNo);
+	}
+
+	public List<Map> incomelist(int sellernum) {
+		return sellermapper.incomelist(sellernum);
+	}
 	 
 }

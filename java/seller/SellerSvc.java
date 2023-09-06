@@ -58,4 +58,20 @@ public class SellerSvc
 		return dao.changeStatus(ovo);
 	}
 
+	public List<Map> beforeStlmn(int sellernum) {
+		return dao.beforeStlmn(sellernum);
+	}
+
+	public boolean purchaseCompl(OrderVO ovo) {
+		return dao.purchaseCompl(ovo);
+	}
+
+	public List<Map> getOrderStatus(int orderNo) {
+		return dao.getOrderStatus(orderNo);
+	}
+
+	public List<Map> incomelist(int sellernum) {
+		return dao.incomelist(sellernum);
+	}
+
 }

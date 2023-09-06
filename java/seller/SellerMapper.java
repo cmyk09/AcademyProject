@@ -27,4 +27,12 @@ public interface SellerMapper
 	public int shipinfo(OrderVO ovo);
 
 	public int changeStatus(OrderVO ovo);
+
+	public List<Map> beforeStlmn(int sellernum);
+
+	public int purchaseCompl(OrderVO ovo);
+
+	public List<Map> getOrderStatus(int orderNo);
+
+	public List<Map> incomelist(int sellernum);
 }
