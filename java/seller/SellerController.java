@@ -22,6 +22,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.ezen.goods.GoodsMgtSVC;
 import com.ezen.goods.OrderVO;
+import com.github.pagehelper.PageInfo;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -101,15 +102,17 @@ public class SellerController
 	public String orderListLink(Model model, HttpSession session)
 	{
 		List<Map> order = svc.orderList(Integer.parseInt(session.getAttribute("sellernum").toString()));
+		System.out.println(order);
 		model.addAttribute("order", order);
+		
 		return "ezen/seller/order/orderlist";
 	}
 	
 	@PostMapping("/getOrderStatus")
 	@ResponseBody
-	public Map<String, Object> getOrderStatus(Model model, HttpSession session)
+	public Map<String, Object> getOrderStatus(@ModelAttribute OrderVO ovo)
 	{
-		List<Map> getOrderStatus = svc.getOrderStatus(Integer.parseInt(session.getAttribute("sellernum").toString()));
+		String getOrderStatus = svc.getOrderStatus(ovo.getOrderNo());
         Map<String, Object> map = new HashMap<>();
         map.put("getOrderStatus", getOrderStatus);
         return map;
@@ -144,6 +147,23 @@ public class SellerController
 		return "ezen/seller/calculate/incomelist";
 	
 	}
+	//정산 관리내 검색 기능
+	@GetMapping("/sellerManager/incomelistSearch&c={category}&k={keyword}&pn={pageNum}&sd={startdate}&ed={enddate}")
+	public String incomelistSearch(Model model, HttpSession session, @PathVariable("category") String category, @PathVariable("startdate") String startdate, @PathVariable("enddate") String enddate,
+											@PathVariable("keyword") String keyword, @PathVariable("pageNum") int page)
+	{	
+		List<Map> incomelist = svc.incomelist(Integer.parseInt(session.getAttribute("sellernum").toString()));
+		
+		int pageNum = page;
+		int pageSize = 9;
+		
+		int sellernum = Integer.parseInt(session.getAttribute("sellernum").toString());
+		PageInfo<Map> incomelistSearch = svc.incomelistSearch(sellernum, category, startdate, enddate, keyword, pageNum, pageSize);
+
+		model.addAttribute("incomelistSearch", incomelistSearch);
+		return "ezen/seller/calculate/incomelistSearch";
+	}
+	
 	//고객 관리-------------------------------------------------------------
 	@PostMapping("/QnAList")
 	public String QnAList(Model model, HttpSession session)//상품문의 목록

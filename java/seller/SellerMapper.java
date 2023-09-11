@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import com.ezen.goods.OrderVO;
+import com.github.pagehelper.PageInfo;
 
 @Component("selmapper")
 @Mapper
@@ -32,7 +33,14 @@ public interface SellerMapper
 
 	public int purchaseCompl(OrderVO ovo);
 
-	public List<Map> getOrderStatus(int orderNo);
+	public String getOrderStatus(int orderNo);
 
 	public List<Map> incomelist(int sellernum);
+
+	public PageInfo<Map> incomelistSearchGoodsNo(Map isMap);
+
+	public PageInfo<Map> incomelistSearchGoodsName(Map isMap);
+
+	public PageInfo<Map> incomelistSearchMid(Map isMap);
+
 }

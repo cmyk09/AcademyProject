@@ -1,5 +1,6 @@
 package com.ezen.seller;
 
+import java.util.*;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.ezen.goods.GoodsMgtMapper;
 import com.ezen.goods.OrderVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Repository("selldao")
 public class SellerDAO
@@ -62,12 +65,36 @@ public class SellerDAO
 		return sellermapper.purchaseCompl(ovo)>0;
 	}
 
-	public List<Map> getOrderStatus(int orderNo) {
+	public String getOrderStatus(int orderNo) {
 		return sellermapper.getOrderStatus(orderNo);
 	}
 
 	public List<Map> incomelist(int sellernum) {
 		return sellermapper.incomelist(sellernum);
 	}
-	 
+
+	public PageInfo<Map> incomelistSearch(int sellernum, String category, String startdate, String enddate, String keyword,
+			int pageNum, int pageSize)
+	{
+		PageHelper.startPage(pageNum, pageSize);
+		
+		Map isMap = new HashMap<>();
+		isMap.put("sellernum", sellernum);
+		isMap.put("startdate", startdate);
+		isMap.put("enddate", enddate);
+		isMap.put("keyword", keyword);
+		if(category=="goodsNo")
+		{
+			return sellermapper.incomelistSearchGoodsNo(isMap);
+		}
+		else if(category=="GoodsName")
+		{
+			return sellermapper.incomelistSearchGoodsName(isMap);
+		}
+		else if(category=="mid")
+		{
+			return sellermapper.incomelistSearchMid(isMap);
+		}
+		return null;
+	}
 }

@@ -51,8 +51,8 @@
 	
 	<select id="getOrderStatus"
 			parameterType="com.ezen.goods.OrderVO"
-			resultType="Map">
-			select * orderStatus FROM Seller where orderNo=#{orderNo}
+			resultType="String">
+			select orderStatus FROM orderlist where orderNo=#{orderNo}
 	</select>
 	
 	<select id="beforeStlmn" 
@@ -78,4 +78,69 @@
 				) d left outer join member_main m
 			  on d.memberNo = m.mnum
 			  </select>
+	
+	<select id="incomelistSearchGoodsNo" 
+			parameterType="Map"
+			resultType="Map">
+			select *
+			from (SELECT o.num, o.orderNo, o.memberNo, o.goodsNo, g.GoodsName, o.goodsSalePrice, o.goodsSaleQty, o.orderRegistryDay, o.orderStatus
+					FROM orderlist o left outer join goods g 
+					  on o.goodsNo = g.Goodsno
+					where o.sellerNo = #{sellerno} AND o.orderStatus = 'purConfirm' AND o.goodsNo=#{keyword}
+					<if test="startdate != '' and enddate != ''">
+						AND o.orderRegistryDay &gt;= #{startdate} AND o.orderRegistryDay &lt;= #{enddate} 
+					</if>
+					<if test="startdate != '' and enddate == ''">
+						AND o.orderRegistryDay &gt;= #{startdate}} 
+					</if>
+					<if test="startdate == '' and enddate != ''">
+						AND o.orderRegistryDay &lt;= #{enddate} 
+					</if>
+				) d left outer join member_main m
+			  on d.memberNo = m.mnum
+	</select>
+	
+	<select id="incomelistSearchGoodsName" 
+			parameterType="Map"
+			resultType="Map">
+			select *
+			from (SELECT o.num, o.orderNo, o.memberNo, o.goodsNo, g.GoodsName, o.goodsSalePrice, o.goodsSaleQty, o.orderRegistryDay, o.orderStatus
+					FROM orderlist o left outer join goods g 
+					  on o.goodsNo = g.Goodsno
+					where o.sellerNo = #{sellerno} AND o.orderStatus = 'purConfirm' AND o.goodsName=#{keyword}
+					<if test="startdate != '' and enddate != ''">
+						AND o.orderRegistryDay &gt;= #{startdate} AND o.orderRegistryDay &lt;= #{enddate} 
+					</if>
+					<if test="startdate != '' and enddate == ''">
+						AND o.orderRegistryDay &gt;= #{startdate}} 
+					</if>
+					<if test="startdate == '' and enddate != ''">
+						AND o.orderRegistryDay &lt;= #{enddate} 
+					</if>
+				) d left outer join member_main m
+			  on d.memberNo = m.mnum
+	</select>
+
+	<select id="incomelistSearchMid" 
+			parameterType="Map"
+			resultType="Map">
+			select *
+			from (SELECT o.num, o.orderNo, o.memberNo, o.goodsNo, g.GoodsName, o.goodsSalePrice, o.goodsSaleQty, o.orderRegistryDay, o.orderStatus
+					FROM orderlist o left outer join goods g 
+					  on o.goodsNo = g.Goodsno
+					where o.sellerNo = #{sellerno} AND o.orderStatus = 'purConfirm'
+					<if test="startdate != '' and enddate != ''">
+						AND o.orderRegistryDay &gt;= #{startdate} AND o.orderRegistryDay &lt;= #{enddate} 
+					</if>
+					<if test="startdate != '' and enddate == ''">
+						AND o.orderRegistryDay &gt;= #{startdate}} 
+					</if>
+					<if test="startdate == '' and enddate != ''">
+						AND o.orderRegistryDay &lt;= #{enddate} 
+					</if>
+					AND o.memberNo IN (SELECT m.mnum FROM member_main m WHERE m.mid = #{keyword})
+				) d left outer join member_main m
+			  on d.memberNo = m.mnum
+	</select>
+
 </mapper> 

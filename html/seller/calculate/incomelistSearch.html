@@ -169,11 +169,11 @@ function logout() {
 <script>
 function searching()
 {
-    var category = document.getElementById("category").value;
+    var category = $('#category').val();
 	var keyword = document.getElementById("keyword").value;
-	var startdate = document.getElementById("startdate").value;
-	var enddate = document.getElementById("enddate").value;
-
+	var startdate = $('#startdate').val();
+	var enddate = $('#enddate').val();
+	
     location.href = "/sellerManager/incomelistSearch&c="+category+"&k="+keyword+"&pn="+pageNum+"&sd="+startdate+"&ed="+enddate;	
 }
 </script>
@@ -254,16 +254,16 @@ function searching()
 				<tr>
 					<th>주문번호</th><th>상품번호</th><th>상품명</th><th>수량</th><th>금액</th><th>구매일</th><th>주문인ID</th><th>주소</th>
 				</tr>
-				<span th:each="incomelist : ${incomelist}">
+				<span th:each="incomelistSearch : ${incomelistSearch}">
 					<tr>
-						<td class="orderNo" th:text="${incomelist.orderNo}"></td>
-						<td th:text="${incomelist.goodsNo}"></td>
-						<td th:text="${incomelist.GoodsName}"></td>
-						<td th:text="${incomelist.goodsSaleQty}"></td>
-						<td th:text="${incomelist.goodsSalePrice}"></td>
-						<td th:text="${incomelist.orderRegistryDay}"></td>
-						<td th:text="${incomelist.mid}"></td>
-						<td th:text="${incomelist.maddress}"></td>
+						<td class="orderNo" th:text="${incomelistSearch.orderNo}"></td>
+						<td th:text="${incomelistSearch.goodsNo}"></td>
+						<td th:text="${incomelistSearch.GoodsName}"></td>
+						<td th:text="${incomelistSearch.goodsSaleQty}"></td>
+						<td th:text="${incomelistSearch.goodsSalePrice}"></td>
+						<td th:text="${incomelistSearch.orderRegistryDay}"></td>
+						<td th:text="${incomelistSearch.mid}"></td>
+						<td th:text="${incomelistSearch.maddress}"></td>
 					</tr>
 				</span>	
 			</table>

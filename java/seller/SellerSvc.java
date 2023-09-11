@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.ezen.goods.GoodsVO;
 import com.ezen.goods.OrderVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,12 +69,17 @@ public class SellerSvc
 		return dao.purchaseCompl(ovo);
 	}
 
-	public List<Map> getOrderStatus(int orderNo) {
+	public String getOrderStatus(int orderNo) {
 		return dao.getOrderStatus(orderNo);
 	}
 
 	public List<Map> incomelist(int sellernum) {
 		return dao.incomelist(sellernum);
+	}
+
+	public PageInfo<Map> incomelistSearch(int sellernum, String category, String startdate, String enddate, String keyword,
+			int pageNum, int pageSize) {
+		return dao.incomelistSearch(sellernum, category, startdate, enddate, keyword, pageNum, pageSize);
 	}
 
 }

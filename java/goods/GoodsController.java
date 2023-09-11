@@ -258,8 +258,6 @@ public class GoodsController
 											@PathVariable("categoryCode") String code, @PathVariable("page") int page)
 	{
 		
-		System.out.println("Ctl_searchList_parm : keyword-" + keyword +" / lvl-" + lvl + " / code-" + code + " / page-" + page);
-		
 		List<Map> list = SVC.getGoodsCategoryListAll();
 		
 		int pageNum = page;
