@@ -79,22 +79,22 @@
 			  on d.memberNo = m.mnum
 			  </select>
 	
-	<select id="incomelistSearchGoodsNo" 
+	<select id="incomelistSearchOrderNo" 
 			parameterType="Map"
 			resultType="Map">
 			select *
 			from (SELECT o.num, o.orderNo, o.memberNo, o.goodsNo, g.GoodsName, o.goodsSalePrice, o.goodsSaleQty, o.orderRegistryDay, o.orderStatus
 					FROM orderlist o left outer join goods g 
 					  on o.goodsNo = g.Goodsno
-					where o.sellerNo = #{sellerno} AND o.orderStatus = 'purConfirm' AND o.goodsNo=#{keyword}
-					<if test="startdate != '' and enddate != ''">
-						AND o.orderRegistryDay &gt;= #{startdate} AND o.orderRegistryDay &lt;= #{enddate} 
+					where o.sellerNo = #{sellerno} AND o.orderStatus = 'purConfirm' AND o.orderNo=#{keyword}
+					<if test="startdate!=null and enddate!=null">
+						<![CDATA[ AND o.orderRegistryDay >= #{startdate} AND o.orderRegistryDay <= #{enddate} ]]>
 					</if>
-					<if test="startdate != '' and enddate == ''">
-						AND o.orderRegistryDay &gt;= #{startdate}} 
+					<if test="startdate != null and enddate == null">
+						<![CDATA[ AND o.orderRegistryDay >= #{startdate}}  ]]>
 					</if>
-					<if test="startdate == '' and enddate != ''">
-						AND o.orderRegistryDay &lt;= #{enddate} 
+					<if test="startdate == null and enddate != null">
+						<![CDATA[ AND o.orderRegistryDay <= #{enddate}  ]]>
 					</if>
 				) d left outer join member_main m
 			  on d.memberNo = m.mnum
@@ -107,40 +107,38 @@
 			from (SELECT o.num, o.orderNo, o.memberNo, o.goodsNo, g.GoodsName, o.goodsSalePrice, o.goodsSaleQty, o.orderRegistryDay, o.orderStatus
 					FROM orderlist o left outer join goods g 
 					  on o.goodsNo = g.Goodsno
-					where o.sellerNo = #{sellerno} AND o.orderStatus = 'purConfirm' AND o.goodsName=#{keyword}
-					<if test="startdate != '' and enddate != ''">
-						AND o.orderRegistryDay &gt;= #{startdate} AND o.orderRegistryDay &lt;= #{enddate} 
+					where o.sellerNo = #{sellerno} AND o.orderStatus = 'purConfirm' AND g.goodsName Like CONCAT('%',#{keyword},'%')
+					<if test="startdate!=null and enddate!=null">
+						<![CDATA[ AND o.orderRegistryDay >= #{startdate} AND o.orderRegistryDay <= #{enddate} ]]>
 					</if>
-					<if test="startdate != '' and enddate == ''">
-						AND o.orderRegistryDay &gt;= #{startdate}} 
+					<if test="startdate != null and enddate == null">
+						<![CDATA[ AND o.orderRegistryDay >= #{startdate}}  ]]>
 					</if>
-					<if test="startdate == '' and enddate != ''">
-						AND o.orderRegistryDay &lt;= #{enddate} 
+					<if test="startdate == null and enddate != null">
+						<![CDATA[ AND o.orderRegistryDay <= #{enddate}  ]]>
 					</if>
-				) d left outer join member_main m
-			  on d.memberNo = m.mnum
+				) d left outer join member_main m on d.memberNo = m.mnum
 	</select>
 
 	<select id="incomelistSearchMid" 
 			parameterType="Map"
 			resultType="Map">
-			select *
-			from (SELECT o.num, o.orderNo, o.memberNo, o.goodsNo, g.GoodsName, o.goodsSalePrice, o.goodsSaleQty, o.orderRegistryDay, o.orderStatus
-					FROM orderlist o left outer join goods g 
-					  on o.goodsNo = g.Goodsno
-					where o.sellerNo = #{sellerno} AND o.orderStatus = 'purConfirm'
-					<if test="startdate != '' and enddate != ''">
-						AND o.orderRegistryDay &gt;= #{startdate} AND o.orderRegistryDay &lt;= #{enddate} 
-					</if>
-					<if test="startdate != '' and enddate == ''">
-						AND o.orderRegistryDay &gt;= #{startdate}} 
-					</if>
-					<if test="startdate == '' and enddate != ''">
-						AND o.orderRegistryDay &lt;= #{enddate} 
-					</if>
-					AND o.memberNo IN (SELECT m.mnum FROM member_main m WHERE m.mid = #{keyword})
-				) d left outer join member_main m
-			  on d.memberNo = m.mnum
+			  SELECT * FROM (
+					    SELECT o.num, o.orderNo, o.memberNo, o.goodsNo, g.GoodsName, o.goodsSalePrice, o.goodsSaleQty, o.orderRegistryDay, o.orderStatus
+					    FROM orderlist o
+					    LEFT OUTER JOIN goods g ON o.goodsNo = g.Goodsno
+					    WHERE o.sellerNo = #{sellerno} AND o.orderStatus = 'purConfirm'
+					    <if test="startdate!=null and enddate!=null">
+							<![CDATA[ AND o.orderRegistryDay >= #{startdate} AND o.orderRegistryDay <= #{enddate} ]]>
+						</if>
+						<if test="startdate != null and enddate == null">
+							<![CDATA[ AND o.orderRegistryDay >= #{startdate}}  ]]>
+						</if>
+						<if test="startdate == null and enddate != null">
+							<![CDATA[ AND o.orderRegistryDay <= #{enddate}  ]]>
+						</if>
+					) d LEFT OUTER JOIN member_main m ON d.memberNo = m.mnum
+					WHERE m.mid = #{keyword}
 	</select>
 
 </mapper> 

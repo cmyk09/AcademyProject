@@ -170,11 +170,15 @@ function logout() {
 function searching()
 {
     var category = $('#category').val();
-	var keyword = document.getElementById("keyword").value;
+	var keyword = $('#keyword').val();
 	var startdate = $('#startdate').val();
 	var enddate = $('#enddate').val();
-	
-    location.href = "/sellerManager/incomelistSearch&c="+category+"&k="+keyword+"&pn="+pageNum+"&sd="+startdate+"&ed="+enddate;	
+
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/incomelistSearch/1/'+category+'/'+keyword+'/'+startdate+'/'+enddate);
+    document.body.appendChild(f);
+    f.submit();
 }
 </script>
 <script>
@@ -233,13 +237,13 @@ function searching()
 	
 	<div id="main">
 		<div id="search">
-			<form id="searchForm" action="ezen/sellerManager/iListSearch" method="post" >
+			<form id="searchForm">
 				<input type="date" id="startdate" name="startdate">
     			~
    				<input type="date" id="enddate" name="enddate">
 				<label>검색 카테고리</label>
 					<select id="category" name="category">
-						<option value="goodsNo">주문번호</option>
+						<option value="orderNo">주문번호</option>
 						<option value="GoodsName">상품명</option>
 						<option value="mid">주문명ID</option>
 					</select>
@@ -248,13 +252,12 @@ function searching()
 				<button type="button" th:onclick="searching()">조회</button>
 			</form>
 		</div>
-		<h4 th:text="${'조회된 수익 합계: ' + #aggregates.sum(incomelist.![goodsSalePrice * goodsSaleQty])}"> </h4>
 		<div>
 			<table>
 				<tr>
 					<th>주문번호</th><th>상품번호</th><th>상품명</th><th>수량</th><th>금액</th><th>구매일</th><th>주문인ID</th><th>주소</th>
 				</tr>
-				<span th:each="incomelistSearch : ${incomelistSearch}">
+				<span th:each="incomelistSearch : ${incomelistSearch.getList()}">
 					<tr>
 						<td class="orderNo" th:text="${incomelistSearch.orderNo}"></td>
 						<td th:text="${incomelistSearch.goodsNo}"></td>
@@ -267,11 +270,25 @@ function searching()
 					</tr>
 				</span>	
 			</table>
+			<nav id="pagination">
+				<c:forEach var="pn" items="${pageInfo.navigatepageNums}">
+					<c:choose>
+				  		<c:when test="${pn==pageInfo.pageNum}">
+				  			<span id="pageNum">${pn}</span>
+				  		</c:when>
+				  		<c:otherwise>
+				  		    <c:url value="/ezen/sellerManager/incomelistSearch/${pn}" var="pgURL">
+				  		    </c:url>
+				  		    <a href="${pgURL}">${pn}</a>
+				  		</c:otherwise>
+			    	</c:choose>
+				</c:forEach>
+			</nav>
 		</div>
 	</div>
 	
 	<div id="clr"></div>
-	
+
 	<footer id="footer">
 	<div class="companyInfo">
 		<p>법인명(상호) : (주)TeamProject | 대표자 : 김형욱 | 사업자등록번호 : 123-45-67890 | 통신판매업 신고 : 제2023-서울관악-0000호</p>

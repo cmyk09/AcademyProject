@@ -169,12 +169,16 @@ function logout() {
 <script>
 function searching()
 {
-    var category = document.getElementById("category").value;
-	var keyword = document.getElementById("keyword").value;
-	var startdate = document.getElementById("startdate").value;
-	var enddate = document.getElementById("enddate").value;
+    var category = $('#category').val();
+	var keyword = $('#keyword').val();
+	var startdate = $('#startdate').val();
+	var enddate = $('#enddate').val();
 
-    location.href = "/sellerManager/incomelistSearch&c="+category+"&k="+keyword+"&pn="+pageNum+"&sd="+startdate+"&ed="+enddate;	
+    let f = document.createElement('form');
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/ezen/sellerManager/incomelistSearch/1/'+category+'/'+keyword+'/'+startdate+'/'+enddate);
+    document.body.appendChild(f);
+    f.submit();
 }
 </script>
 <script>
@@ -233,13 +237,13 @@ function searching()
 	
 	<div id="main">
 		<div id="search">
-			<form id="searchForm" action="ezen/sellerManager/iListSearch" method="post" >
+			<form id="searchForm">
 				<input type="date" id="startdate" name="startdate">
     			~
    				<input type="date" id="enddate" name="enddate">
 				<label>검색 카테고리</label>
 					<select id="category" name="category">
-						<option value="goodsNo">주문번호</option>
+						<option value="orderNo">주문번호</option>
 						<option value="GoodsName">상품명</option>
 						<option value="mid">주문명ID</option>
 					</select>

@@ -148,19 +148,35 @@ public class SellerController
 	
 	}
 	//정산 관리내 검색 기능
-	@GetMapping("/sellerManager/incomelistSearch&c={category}&k={keyword}&pn={pageNum}&sd={startdate}&ed={enddate}")
-	public String incomelistSearch(Model model, HttpSession session, @PathVariable("category") String category, @PathVariable("startdate") String startdate, @PathVariable("enddate") String enddate,
-											@PathVariable("keyword") String keyword, @PathVariable("pageNum") int page)
-	{	
-		List<Map> incomelist = svc.incomelist(Integer.parseInt(session.getAttribute("sellernum").toString()));
+	@PostMapping("/incomelistSearch/{page}/{category}/{keyword}/{startdate}/{enddate}")
+	public String incomelistSearch(Model model, HttpSession session, @PathVariable("page") int page, @PathVariable("category") String category,
+			@PathVariable("keyword") String keyword, @PathVariable("startdate") String startdate, @PathVariable("enddate") String enddate)
+	{
+		System.out.println("page : " + page);
+		int sellerno = Integer.parseInt(session.getAttribute("sellernum").toString());
 		
 		int pageNum = page;
-		int pageSize = 9;
+		int pageSize = 10;
 		
-		int sellernum = Integer.parseInt(session.getAttribute("sellernum").toString());
-		PageInfo<Map> incomelistSearch = svc.incomelistSearch(sellernum, category, startdate, enddate, keyword, pageNum, pageSize);
-
+		System.out.println("category : " + category);
+		System.out.println("startdate : " + startdate);
+		System.out.println("enddate : " + enddate);
+		System.out.println("keyword : " + keyword);
+		System.out.println("pageNum : " + pageNum);
+		System.out.println("pageSize : " + pageSize);
+		
+		PageInfo<Map> incomelistSearch = svc.incomelistSearch(sellerno, category, startdate, enddate, keyword, pageNum, pageSize);
 		model.addAttribute("incomelistSearch", incomelistSearch);
+		
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("pageNum",pageNum);
+		model.addAttribute("category", category);
+		model.addAttribute("startdate", startdate);
+		model.addAttribute("enddate", enddate);
+		model.addAttribute("keyword", keyword);
+		
+		System.out.println("incomelistSearch : " + incomelistSearch);
+		 
 		return "ezen/seller/calculate/incomelistSearch";
 	}
 	

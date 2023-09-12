@@ -37,10 +37,10 @@ public interface SellerMapper
 
 	public List<Map> incomelist(int sellernum);
 
-	public PageInfo<Map> incomelistSearchGoodsNo(Map isMap);
+	public List<Map> incomelistSearchOrderNo(Map isMap);
 
-	public PageInfo<Map> incomelistSearchGoodsName(Map isMap);
+	public List<Map> incomelistSearchGoodsName(Map isMap);
 
-	public PageInfo<Map> incomelistSearchMid(Map isMap);
+	public List<Map> incomelistSearchMid(Map isMap);
 
 }

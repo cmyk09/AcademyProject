@@ -73,28 +73,38 @@ public class SellerDAO
 		return sellermapper.incomelist(sellernum);
 	}
 
-	public PageInfo<Map> incomelistSearch(int sellernum, String category, String startdate, String enddate, String keyword,
+	public PageInfo<Map> incomelistSearch(int sellerno, String category, String startdate, String enddate, String keyword,
 			int pageNum, int pageSize)
 	{
 		PageHelper.startPage(pageNum, pageSize);
+		PageInfo<Map> pageInfo = null;
 		
 		Map isMap = new HashMap<>();
-		isMap.put("sellernum", sellernum);
+		isMap.put("sellerno", sellerno);
 		isMap.put("startdate", startdate);
 		isMap.put("enddate", enddate);
 		isMap.put("keyword", keyword);
-		if(category=="goodsNo")
-		{
-			return sellermapper.incomelistSearchGoodsNo(isMap);
-		}
-		else if(category=="GoodsName")
-		{
-			return sellermapper.incomelistSearchGoodsName(isMap);
-		}
-		else if(category=="mid")
-		{
-			return sellermapper.incomelistSearchMid(isMap);
-		}
-		return null;
+		System.out.println("DAO까지는 옴.");
+		switch(category)
+			{
+			case "orderNo":
+				pageInfo = new PageInfo<>(sellermapper.incomelistSearchOrderNo(isMap));
+				System.out.println("orderNo mapper 들어감.");
+				System.out.println("category: " + category);
+				System.out.println("isMap: " + isMap);
+				return pageInfo;
+			case "GoodsName":
+				pageInfo = new PageInfo<>(sellermapper.incomelistSearchGoodsName(isMap));
+				System.out.println("GoodsName mapper 들어감.");
+				return pageInfo;
+			case "mid":
+				pageInfo = new PageInfo<>(sellermapper.incomelistSearchMid(isMap));
+				System.out.println("mid mapper 들어감.");
+				return pageInfo;
+			default:
+				System.out.println("값 출력 안 됨.");
+				return pageInfo;
+			}
+
 	}
 }

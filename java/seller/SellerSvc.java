@@ -77,9 +77,9 @@ public class SellerSvc
 		return dao.incomelist(sellernum);
 	}
 
-	public PageInfo<Map> incomelistSearch(int sellernum, String category, String startdate, String enddate, String keyword,
+	public PageInfo<Map> incomelistSearch(int sellerno, String category, String startdate, String enddate, String keyword,
 			int pageNum, int pageSize) {
-		return dao.incomelistSearch(sellernum, category, startdate, enddate, keyword, pageNum, pageSize);
+		return dao.incomelistSearch(sellerno, category, startdate, enddate, keyword, pageNum, pageSize);
 	}
 
 }
